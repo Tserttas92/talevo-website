@@ -1,0 +1,34 @@
+# Netlify Configuration
+
+[build]
+  publish = "."
+
+# Redirect www to non-www
+[[redirects]]
+  from = "https://www.talevo.com.tr/*"
+  to = "https://talevo.com.tr/:splat"
+  status = 301
+  force = true
+
+# Headers for security and CORS
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kariyer — Talevo</title>
+    <meta name="description" content="Talevo'da kariyer fırsatları. Açık pozisyonlarımızı inceleyin ve başvurun.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23F26522' rx='18' width='100' height='100'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>T</text></svg>">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/kariyer.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg width="36" height="36" viewBox="0 0 100 100">
+                    <rect fill="#F26522" rx="18" width="100" height="100"/>
+                    <text x="50" y="68" font-size="60" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">T</text>
+                </svg>
+                <span>Talevo</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Ana Sayfa</a>
+                <a href="index.html#services" class="nav-link">Hizmetler</a>
+                <a href="kariyer.html" class="nav-link active">Kariyer</a>
+                <a href="index.html#contact" class="nav-link">İletişim</a>
+            </div>
+            <a href="#positions" class="nav-cta">Pozisyonlara Git</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menü">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Career Hero -->
+    <section class="career-hero">
+        <div class="hero-bg">
+            <div class="hero-gradient"></div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="career-hero-content">
+            <span class="section-tag">Kariyer Fırsatları</span>
+            <h1>Talevo'da<br><em>Kariyer</em></h1>
+            <p>Müşterilerimiz için en doğru yetenekleri arıyoruz. Aşağıdaki açık pozisyonları inceleyip başvurunuzu yapabilirsiniz.</p>
+        </div>
+    </section>
+
+    <!-- Positions Section -->
+    <section class="section" id="positions">
+        <div class="container">
+            
+            <!-- Filters -->
+            <div class="positions-filters">
+                <div class="filter-group">
+                    <label>Departman</label>
+                    <select id="filterDepartment">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Lokasyon</label>
+                    <select id="filterLocation">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Deneyim Seviyesi</label>
+                    <select id="filterExperience">
+                        <option value="">Tümü</option>
+                    </select>
+                </div>
+                <div class="filter-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="filterSearch" placeholder="Pozisyon ara...">
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="positions-loading" id="positionsLoading">
+                <div class="loader"></div>
+                <p>Açık pozisyonlar yükleniyor...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="positions-empty" id="positionsEmpty" style="display:none;">
+                <i class="bi bi-briefcase"></i>
+                <h3>Şu an açık pozisyon bulunmuyor</h3>
+                <p>Yeni fırsatlardan haberdar olmak için CV'nizi bırakabilirsiniz.</p>
+                <a href="#apply-general" class="btn btn-primary">Genel Başvuru Yap</a>
+            </div>
+
+            <!-- Positions Grid -->
+            <div class="positions-grid" id="positionsGrid"></div>
+
+            <!-- Position Count -->
+            <div class="positions-count" id="positionsCount"></div>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div class="modal-overlay" id="applyModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="bi bi-x-lg"></i></button>
+            
+            <div class="modal-header">
+                <span class="section-tag">Başvuru Formu</span>
+                <h2 id="modalTitle">Pozisyon Başvurusu</h2>
+                <p id="modalSubtitle"></p>
+            </div>
+
+            <form class="application-form" id="applicationForm">
+                <input type="hidden" id="positionUuid" name="position_uuid">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appFirstName">Ad *</label>
+                        <input type="text" id="appFirstName" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appLastName">Soyad *</label>
+                        <input type="text" id="appLastName" name="last_name" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appEmail">E-Posta *</label>
+                        <input type="email" id="appEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appPhone">Telefon *</label>
+                        <input type="tel" id="appPhone" name="phone" required placeholder="05XX XXX XX XX">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appCurrentCompany">Mevcut Şirket</label>
+                        <input type="text" id="appCurrentCompany" name="current_company">
+                    </div>
+                    <div class="form-group">
+                        <label for="appCurrentTitle">Mevcut Pozisyon</label>
+                        <input type="text" id="appCurrentTitle" name="current_title">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appExperience">Deneyim (Yıl) *</label>
+                        <input type="number" id="appExperience" name="experience_years" min="0" max="40" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appSalary">Beklenen Maaş (TRY)</label>
+                        <input type="number" id="appSalary" name="expected_salary" placeholder="Opsiyonel">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="appSkills">Yetenekler</label>
+                    <input type="text" id="appSkills" name="skills" placeholder="Python, Excel, SAP... (virgülle ayırın)">
+                </div>
+
+                <div class="form-group">
+                    <label for="appCoverLetter">Ön Yazı</label>
+                    <textarea id="appCoverLetter" name="cover_letter" rows="3" placeholder="Kendinizi kısaca tanıtın..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="appCv">CV Yükle (PDF, DOCX — Max 5MB)</label>
+                    <div class="file-upload" id="fileUploadArea">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span id="fileLabel">Dosyayı sürükleyin veya seçin</span>
+                        <input type="file" id="appCv" name="cv_file" accept=".pdf,.docx,.doc">
+                    </div>
+                </div>
+
+                <div class="form-group form-checkbox">
+                    <input type="checkbox" id="appKvkk" name="kvkk_consent" required>
+                    <label for="appKvkk">
+                        <a href="https://crm.talevo.com.tr/kvkk/aydinlatma/" target="_blank">KVKK Aydınlatma Metni</a>'ni okudum, kişisel verilerimin işlenmesini kabul ediyorum. *
+                    </label>
+                </div>
+
+                <div class="form-message" id="formMessage"></div>
+
+                <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                    <span>Başvuruyu Gönder</span>
+                    <i class="bi bi-send"></i>
+                </button>
+            </form>
+
+            <!-- Success State -->
+            <div class="application-success" id="applicationSuccess" style="display:none;">
+                <div class="success-icon"><i class="bi bi-check-circle"></i></div>
+                <h3>Başvurunuz Alındı!</h3>
+                <p>Teşekkür ederiz. Başvurunuz değerlendirilecek ve size en kısa sürede dönüş yapılacaktır.</p>
+                <button class="btn btn-primary" onclick="closeModal()">Tamam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <svg width="32" height="32" viewBox="0 0 100 100">
+                            <rect fill="#F26522" rx="18" width="100" height="100"/>
+                            <text x="50" y="68" font-size="60" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">T</text>
+                        </svg>
+                        <span>Talevo</span>
+                    </a>
+                    <p>Yeni nesil insan kaynakları ekosistemi.</p>
+                    <p class="footer-slogan">HUMAN. DATA. FUTURE.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>İletişim</h5>
+                    <ul>
+                        <li><a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a></li>
+                        <li><a href="https://linkedin.com/company/talevo" target="_blank">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</p>
+                <p>Özel İstihdam Bürosu İzin Belgesi No: 1913</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/kariyer.js"></script>
+</body>
+</html>
