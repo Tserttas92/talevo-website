@@ -5,9 +5,9 @@
    =================================== */
 
 :root {
-    --navy: #0a0e27;
-    --navy-light: #141937;
-    --navy-mid: #1e2650;
+    --navy: #1e293b;
+    --navy-light: #334155;
+    --navy-mid: #475569;
     --orange: #F26522;
     --orange-light: #ff8a50;
     --orange-dark: #d94f10;
@@ -382,42 +382,39 @@ img { max-width: 100%; height: auto; display: block; }
     animation: fadeInUp 0.8s ease 0.4s both;
 }
 
-.hero-stats {
+.hero-values {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 16px;
+    flex-wrap: wrap;
     animation: fadeInUp 0.8s ease 0.5s both;
 }
 
-.stat { text-align: center; }
-
-.stat-number {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--white);
-}
-
-.stat-suffix {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--orange);
-}
-
-.stat-label {
-    display: block;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.45);
-    margin-top: 4px;
-    font-weight: 500;
-}
-
-.stat-divider {
-    width: 1px;
-    height: 40px;
+.hero-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
     background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--white);
+    transition: var(--transition);
+}
+
+.hero-value:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+.hero-value i {
+    font-size: 1.1em;
+    color: var(--orange);
 }
 
 .hero-scroll {
@@ -1147,15 +1144,15 @@ img { max-width: 100%; height: auto; display: block; }
     .footer-grid { grid-template-columns: 1fr; }
     .footer-bottom { flex-direction: column; gap: 8px; }
     
-    .hero-stats { gap: 24px; }
-    .stat-number { font-size: 1.6rem; }
+    .hero-values { gap: 12px; }
+    .hero-value { padding: 10px 20px; font-size: 0.85rem; }
     
     .hero-scroll { display: none; }
 }
 
 @media (max-width: 480px) {
-    .hero-stats { flex-direction: column; gap: 16px; }
-    .stat-divider { width: 40px; height: 1px; }
+    .hero-values { gap: 8px; }
+    .hero-value { padding: 8px 16px; font-size: 0.8rem; }
     .partners-grid { grid-template-columns: 1fr; }
     .contact-form-wrapper { padding: 24px; }
 }

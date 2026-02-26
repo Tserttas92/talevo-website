@@ -30,28 +30,6 @@ if (navToggle) {
     });
 }
 
-// Counter Animation
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-count'));
-        if (!target) return;
-        
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += step;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            counter.textContent = Math.floor(current);
-        }, 16);
-    });
-}
-
 // Intersection Observer for Animations
 const observerOptions = {
     threshold: 0.2,
@@ -62,19 +40,13 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
-            
-            // Trigger counter animation when hero stats are visible
-            if (entry.target.querySelector('.stat-number')) {
-                animateCounters();
-            }
-            
             observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
 // Observe sections
-document.querySelectorAll('.section, .hero-stats, [data-aos]').forEach(el => {
+document.querySelectorAll('.section, [data-aos]').forEach(el => {
     observer.observe(el);
 });
 
