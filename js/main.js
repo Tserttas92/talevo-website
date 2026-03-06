@@ -1,16 +1,13 @@
-// ===================================
-// TALEVO WEB — Main JS
-// ===================================
-
-// Navbar Scroll Effect
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
 
 // Mobile Menu Toggle
 const navToggle = document.getElementById('navToggle');
@@ -30,25 +27,23 @@ if (navToggle) {
     });
 }
 
-// Intersection Observer for Animations
-const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
-        }
+if ('IntersectionObserver' in window) {
+    const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll('.section, [data-aos]').forEach(el => {
+        observer.observe(el);
     });
-}, observerOptions);
-
-// Observe sections
-document.querySelectorAll('.section, [data-aos]').forEach(el => {
-    observer.observe(el);
-});
+}
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -66,21 +61,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Contact Form (basic - can connect to Netlify Forms or API)
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // For now, show a success message
         const btn = contactForm.querySelector('button[type="submit"]');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span>Gönderildi!</span> <i class="bi bi-check-lg"></i>';
-        btn.style.background = '#22c55e';
-        
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.background = '';
-            contactForm.reset();
-        }, 3000);
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = 'Gönderiliyor...';
+        }
     });
 }
