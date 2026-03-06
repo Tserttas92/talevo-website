@@ -10,6 +10,19 @@
   status = 301
   force = true
 
+# Redirect legacy careers page to CRM job board
+[[redirects]]
+  from = "/kariyer"
+  to = "https://crm.talevo.com.tr/jobs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/kariyer.html"
+  to = "https://crm.talevo.com.tr/jobs"
+  status = 301
+  force = true
+
 # Headers for security and CORS
 [[headers]]
   for = "/*"
