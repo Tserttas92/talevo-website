@@ -1,4 +1,5 @@
 :root {
+    --container-max: 1140px;
     --ink-900: #0d1626;
     --ink-800: #15243a;
     --ink-700: #22344e;
@@ -52,7 +53,7 @@ a {
 }
 
 .container {
-    width: min(1160px, calc(100% - 48px));
+    width: min(var(--container-max), calc(100% - 48px));
     margin: 0 auto;
 }
 
@@ -81,6 +82,7 @@ a {
 .btn-outline-light {
     border-color: rgba(255, 255, 255, .35);
     color: var(--white);
+    background: rgba(255, 255, 255, .05);
 }
 
 .btn-outline-light:hover {
@@ -104,7 +106,7 @@ a {
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, .86);
+    background: rgba(255, 255, 255, .94);
     border-bottom: 1px solid rgba(18, 34, 58, .08);
 }
 
@@ -113,11 +115,11 @@ a {
 }
 
 .nav-wrap {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    min-height: 82px;
-    gap: 20px;
+    min-height: 74px;
+    gap: 24px;
 }
 
 .brand {
@@ -133,6 +135,7 @@ a {
     display: flex;
     gap: 24px;
     align-items: center;
+    justify-content: center;
 }
 
 .nav-link {
@@ -164,6 +167,7 @@ a {
 .nav-actions {
     display: flex;
     gap: 10px;
+    justify-content: flex-end;
 }
 
 .nav-toggle {
@@ -183,7 +187,7 @@ a {
 .hero {
     position: relative;
     overflow: hidden;
-    padding: 74px 0 56px;
+    padding: 92px 0 86px;
     background: var(--ink-900);
 }
 
@@ -191,18 +195,26 @@ a {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 0%, rgba(242, 101, 34, .24), transparent 42%),
-        radial-gradient(circle at 100% 20%, rgba(32, 135, 255, .16), transparent 36%),
-        linear-gradient(145deg, #0a1423 0%, #132640 100%);
+        radial-gradient(circle at 18% 0%, rgba(242, 101, 34, .30), transparent 44%),
+        radial-gradient(circle at 100% 22%, rgba(32, 135, 255, .20), transparent 38%),
+        linear-gradient(145deg, #081221 0%, #11243d 52%, #162e4d 100%);
 }
 
 .hero-grid {
     position: relative;
     z-index: 2;
     display: grid;
-    gap: 36px;
-    grid-template-columns: 1.2fr .9fr;
+    gap: 52px;
+    grid-template-columns: minmax(0, 1.16fr) minmax(360px, .84fr);
     align-items: center;
+}
+
+.hero-content {
+    max-width: 680px;
+}
+
+.hero .eyebrow {
+    color: #ffb488;
 }
 
 .eyebrow {
@@ -219,12 +231,14 @@ a {
     font-size: clamp(2rem, 5vw, 3.5rem);
     color: var(--white);
     margin-bottom: 16px;
+    text-wrap: balance;
 }
 
 .hero-desc {
-    color: rgba(255, 255, 255, .78);
-    max-width: 700px;
+    color: rgba(255, 255, 255, .90);
+    max-width: 640px;
     font-size: 1.04rem;
+    font-weight: 500;
     margin-bottom: 28px;
 }
 
@@ -236,15 +250,16 @@ a {
 
 .hero-visual {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .ops-card {
-    width: min(430px, 100%);
-    background: rgba(255, 255, 255, .05);
-    border: 1px solid rgba(255, 255, 255, .14);
+    width: min(448px, 100%);
+    background: linear-gradient(180deg, rgba(20, 36, 59, .88) 0%, rgba(14, 28, 47, .86) 100%);
+    border: 1px solid rgba(255, 255, 255, .20);
     border-radius: var(--radius-lg);
-    padding: 24px;
+    padding: 26px;
+    backdrop-filter: blur(4px);
     box-shadow: var(--shadow-strong);
     color: var(--white);
 }
@@ -286,13 +301,13 @@ a {
 
 .ops-metrics span {
     font-size: .78rem;
-    color: rgba(255, 255, 255, .72);
+    color: rgba(255, 255, 255, .82);
 }
 
 .ops-pipeline p {
     font-size: .8rem;
     margin-bottom: 6px;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, .88);
 }
 
 .pipe {
@@ -312,11 +327,11 @@ a {
 
 .ops-pipeline small {
     font-size: .72rem;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, .78);
 }
 
 .section {
-    padding: 88px 0;
+    padding: 84px 0;
 }
 
 .section-alt {
@@ -325,7 +340,7 @@ a {
 
 .section-head {
     max-width: 760px;
-    margin-bottom: 34px;
+    margin-bottom: 36px;
 }
 
 .section-head h2 {
@@ -572,6 +587,12 @@ a {
 }
 
 @media (max-width: 1024px) {
+    .nav-wrap {
+        display: flex;
+        justify-content: space-between;
+        min-height: 72px;
+    }
+
     .hero-grid,
     .service-grid,
     .split,
@@ -580,7 +601,7 @@ a {
     }
 
     .hero {
-        padding-top: 56px;
+        padding: 56px 0;
     }
 
     .career-card {
@@ -600,7 +621,7 @@ a {
     .nav-links.active {
         display: flex;
         position: absolute;
-        top: 80px;
+        top: 74px;
         left: 24px;
         right: 24px;
         background: var(--white);
@@ -623,6 +644,16 @@ a {
         border-radius: 999px;
         background: var(--bg-50);
         border: 1px solid #dce5f3;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        --container-max: 1180px;
+    }
+
+    .section {
+        padding: 92px 0;
     }
 }
 
