@@ -395,25 +395,19 @@ a {
 
 .insights-section {
     padding: 82px 0;
-    background: linear-gradient(180deg, #f1f6fc 0%, #e9eff8 100%);
+    background: linear-gradient(180deg, #f5f8fc 0%, #eef3f9 100%);
 }
 
 .insights-shell {
-    padding: 34px;
-    border-radius: 28px;
-    background:
-        radial-gradient(circle at 0% 0%, rgba(242, 101, 34, .18), transparent 34%),
-        linear-gradient(145deg, #0d1a2d 0%, #13243d 52%, #173158 100%);
-    border: 1px solid rgba(255, 255, 255, .14);
-    box-shadow: 0 26px 50px rgba(11, 21, 38, .24);
+    padding: 10px 0 0;
 }
 
 .insights-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
+    align-items: center;
     gap: 20px;
-    margin-bottom: 26px;
+    margin-bottom: 28px;
 }
 
 .insights-copy {
@@ -427,17 +421,17 @@ a {
     font-weight: 700;
     letter-spacing: .1em;
     text-transform: uppercase;
-    color: #ffbc93;
+    color: var(--brand);
 }
 
 .insights-copy h2 {
-    font-size: clamp(1.75rem, 3vw, 2.45rem);
+    font-size: clamp(1.65rem, 2.9vw, 2.3rem);
     margin-bottom: 10px;
-    color: var(--white);
+    color: var(--ink-900);
 }
 
 .insights-copy p {
-    color: rgba(255, 255, 255, .82);
+    color: var(--muted-500);
     max-width: 680px;
 }
 
@@ -447,43 +441,42 @@ a {
     justify-content: center;
     border-radius: 999px;
     padding: 11px 18px;
-    border: 1px solid rgba(255, 255, 255, .30);
-    background: rgba(255, 255, 255, .08);
-    color: var(--white);
+    border: 1px solid #d5dfed;
+    background: var(--white);
+    color: var(--ink-800);
     font-size: .86rem;
     font-weight: 700;
     transition: all .2s ease;
 }
 
 .insights-link:hover {
-    border-color: rgba(255, 255, 255, .55);
-    background: rgba(255, 255, 255, .16);
+    border-color: rgba(13, 22, 38, .35);
+    background: #f8fbff;
 }
 
 .insights-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
 }
 
 .insight-card {
-    background: linear-gradient(150deg, #101f36 0%, #142840 60%, #183358 100%);
-    border: 1px solid rgba(255, 255, 255, .14);
-    border-radius: var(--radius-md);
-    padding: 24px;
-    box-shadow: 0 14px 28px rgba(7, 16, 30, .22);
+    background: var(--white);
+    border: 1px solid #dce5f2;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 10px 24px rgba(16, 35, 63, .08);
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-height: 262px;
-    color: var(--white);
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    gap: 10px;
+    min-height: 238px;
+    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
 }
 
 .insight-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, .28);
-    box-shadow: 0 22px 36px rgba(8, 17, 32, .3);
+    transform: translateY(-5px);
+    border-color: #cddcf0;
+    box-shadow: 0 18px 30px rgba(13, 31, 54, .14);
 }
 
 .insight-meta {
@@ -493,42 +486,42 @@ a {
     font-weight: 700;
     letter-spacing: .05em;
     text-transform: uppercase;
-    color: #dce9fb;
-    background: rgba(255, 255, 255, .10);
-    border: 1px solid rgba(255, 255, 255, .16);
+    color: var(--ink-700);
+    background: #eef3fa;
+    border: 1px solid #dce5f2;
     border-radius: 999px;
     padding: 4px 10px;
 }
 
-.insight-card h3 {
-    font-size: 1.16rem;
+.insight-title {
+    font-size: 1.13rem;
     line-height: 1.3;
-    color: var(--white);
+    color: var(--ink-900);
 }
 
-.insight-card p {
-    color: rgba(255, 255, 255, .83);
-    font-size: .93rem;
+.insight-desc {
+    color: var(--muted-500);
+    font-size: .92rem;
 }
 
-.insight-cta {
+.insight-card .insight-link {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: auto;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .30);
-    color: var(--white);
-    background: rgba(255, 255, 255, .06);
-    padding: 9px 16px;
+    border: 1px solid #d6e1f0;
+    color: var(--ink-800);
+    background: #f9fbff;
+    padding: 9px 14px;
     font-size: .85rem;
     font-weight: 700;
     transition: all .2s ease;
 }
 
-.insight-cta:hover {
-    border-color: rgba(255, 255, 255, .55);
-    background: rgba(255, 255, 255, .16);
+.insight-card .insight-link:hover {
+    border-color: #c2d4ec;
+    background: #f1f6fd;
 }
 
 .career-card {
