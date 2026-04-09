@@ -1,6 +1,5 @@
 /* ============================================
    TALEVO — main.js
-   Premium interactions
    ============================================ */
 
 // ── NAVBAR ──
@@ -47,7 +46,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ── SCROLL REVEAL (fade + blur) ──
+// ── SCROLL REVEAL ──
 if ('IntersectionObserver' in window) {
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -57,103 +56,33 @@ if ('IntersectionObserver' in window) {
             setTimeout(() => el.classList.add('revealed'), delay);
             revealObs.unobserve(el);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 }
 
-// ── HERO CANVAS MOUSE PARALLAX ──
-const heroCanvas = document.getElementById('heroCanvas');
-if (heroCanvas) {
-    const layers = heroCanvas.querySelectorAll('[data-depth]');
-    let raf = null;
-    let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
+// ── PROCESS TABS ──
+const processTabs = document.getElementById('processTabs');
+if (processTabs) {
+    const btns   = processTabs.querySelectorAll('.tab-btn');
+    const panels = processTabs.querySelectorAll('.tab-panel');
 
-    const LERP = 0.08;
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const idx = btn.dataset.tab;
 
-    document.addEventListener('mousemove', e => {
-        const rect = heroCanvas.getBoundingClientRect();
-        if (rect.width === 0) return;
-        // normalised -0.5 … +0.5
-        targetX = (e.clientX - rect.left - rect.width  / 2) / rect.width;
-        targetY = (e.clientY - rect.top  - rect.height / 2) / rect.height;
-    });
+            btns.forEach(b => {
+                b.classList.remove('tab-btn--active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            panels.forEach(p => p.classList.remove('tab-panel--active'));
 
-    function tick() {
-        // lerp toward target
-        currentX += (targetX - currentX) * LERP;
-        currentY += (targetY - currentY) * LERP;
+            btn.classList.add('tab-btn--active');
+            btn.setAttribute('aria-selected', 'true');
 
-        layers.forEach(layer => {
-            const depth = parseFloat(layer.dataset.depth || 0);
-            const dx = currentX * depth * 28;
-            const dy = currentY * depth * 22;
-            layer.style.transform = `translate(${dx}px, ${dy}px)`;
+            const panel = processTabs.querySelector(`.tab-panel[data-panel="${idx}"]`);
+            if (panel) panel.classList.add('tab-panel--active');
         });
-
-        raf = requestAnimationFrame(tick);
-    }
-    tick();
-
-    // Pause animation when page is hidden
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden && raf) { cancelAnimationFrame(raf); raf = null; }
-        else if (!document.hidden && !raf) tick();
-    });
-}
-
-// ── APPROACH ACCORDION ──
-const accordion = document.getElementById('accordion');
-if (accordion) {
-    accordion.addEventListener('click', e => {
-        const header = e.target.closest('.acc-header');
-        if (!header) return;
-
-        const item = header.closest('.acc-item');
-        const isOpen = item.classList.contains('acc-item--open');
-
-        // close all
-        accordion.querySelectorAll('.acc-item').forEach(i => {
-            i.classList.remove('acc-item--open');
-            i.querySelector('.acc-header').setAttribute('aria-expanded', 'false');
-        });
-
-        // open clicked (toggle off if was open)
-        if (!isOpen) {
-            item.classList.add('acc-item--open');
-            header.setAttribute('aria-expanded', 'true');
-        }
-    });
-}
-
-// ── SERVICES DRAG SCROLL ──
-const servicesOuter = document.querySelector('.services-outer');
-if (servicesOuter) {
-    let isDown = false;
-    let startX  = 0;
-    let scrollLeft = 0;
-
-    servicesOuter.addEventListener('mousedown', e => {
-        isDown = true;
-        servicesOuter.classList.add('dragging');
-        startX     = e.pageX - servicesOuter.offsetLeft;
-        scrollLeft = servicesOuter.scrollLeft;
-    });
-    servicesOuter.addEventListener('mouseleave', () => {
-        isDown = false;
-        servicesOuter.classList.remove('dragging');
-    });
-    servicesOuter.addEventListener('mouseup', () => {
-        isDown = false;
-        servicesOuter.classList.remove('dragging');
-    });
-    servicesOuter.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x    = e.pageX - servicesOuter.offsetLeft;
-        const walk = (x - startX) * 1.4;
-        servicesOuter.scrollLeft = scrollLeft - walk;
     });
 }
 

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talevo — Human. Data. Future.</title>
-    <meta name="description" content="İnsan davranışını, veriyi ve teknolojiyi tek bir karar sisteminde birleştiriyoruz.">
+    <title>Talevo — Doğru Eşleşmeyi Tasarlıyoruz</title>
+    <meta name="description" content="Yönetici işe alımından büyük ölçekli seçme ve yerleştirme projelerine kadar, işe alımı veri, metodoloji ve deneyimle yeniden tasarlıyoruz.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235A355F' rx='22' width='100' height='100'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='300'>T</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%235A355F' rx='20' width='100' height='100'/><text x='50' y='66' font-size='56' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='200'>T</text></svg>">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,16 +25,17 @@
         </a>
 
         <nav class="nav-links" id="navLinks">
-            <a href="#yaklasim" class="nav-link">Yaklaşım</a>
             <a href="#hizmetler" class="nav-link">Hizmetler</a>
-            <a href="#method" class="nav-link">Metod</a>
-            <a href="#hakkimizda" class="nav-link">Hakkımızda</a>
+            <a href="#surec" class="nav-link">Süreç</a>
+            <a href="#nasil" class="nav-link">Nasıl Çalışıyoruz</a>
+            <a href="#icerik" class="nav-link">İçerik</a>
             <a href="https://crm.talevo.com.tr/jobs" class="nav-link" target="_blank" rel="noopener">Kariyer</a>
-            <a href="#gorusme" class="nav-link mobile-only">Görüşme Planlayın</a>
+            <a href="#iletisim" class="nav-link mobile-only">İletişime Geç</a>
         </nav>
 
         <div class="nav-actions">
-            <a href="#gorusme" class="btn btn-nav">Görüşme Planlayın</a>
+            <a href="https://crm.talevo.com.tr/jobs" class="btn btn-ghost" target="_blank" rel="noopener">Açık Pozisyonlar</a>
+            <a href="#iletisim" class="btn btn-dark">İletişime Geç</a>
         </div>
 
         <button class="nav-toggle" id="navToggle" aria-label="Menü" aria-expanded="false">
@@ -50,58 +51,112 @@
     <div class="container hero-wrap">
 
         <div class="hero-text" data-reveal>
+            <div class="hero-badge">İşe Alım Danışmanlığı</div>
             <h1 class="hero-title">
-                <span>Human.</span>
-                <span>Data.</span>
-                <span class="hero-accent">Future.</span>
+                Doğru Adayı<br>Aramıyoruz.<br><em>Doğru Eşleşmeyi<br>Tasarlıyoruz.</em>
             </h1>
-            <p class="hero-desc">İnsan davranışını, veriyi ve teknolojiyi<br>tek bir karar sisteminde birleştiriyoruz.</p>
+            <p class="hero-desc">Yönetici işe alımından büyük ölçekli seçme ve yerleştirme projelerine kadar, işe alımı veri, metodoloji ve deneyimle yeniden tasarlıyoruz.</p>
             <div class="hero-cta">
-                <a href="#yaklasim" class="btn btn-outline-dark">Yaklaşımımız</a>
-                <a href="#gorusme" class="btn btn-accent">Görüşme Planlayın</a>
+                <a href="#hizmetler" class="btn btn-dark btn-lg">Hizmetleri İncele</a>
+                <a href="#iletisim" class="btn btn-outline-dark btn-lg">İletişime Geç</a>
             </div>
         </div>
 
-        <!-- Abstract visual canvas -->
-        <div class="hero-canvas" id="heroCanvas" aria-hidden="true">
-            <div class="canvas-stage" id="canvasStage">
-
-                <!-- Layered frames -->
-                <div class="c-frame c-frame--1" data-depth="0.6"></div>
-                <div class="c-frame c-frame--2" data-depth="1.2"></div>
-                <div class="c-frame c-frame--3" data-depth="2.0"></div>
-
-                <!-- Network nodes + edges -->
-                <div class="c-network" data-depth="2.8">
-                    <svg class="c-net-svg" viewBox="0 0 420 420" preserveAspectRatio="xMidYMid meet">
-                        <line x1="105" y1="140" x2="315" y2="105" class="c-edge"/>
-                        <line x1="315" y1="105" x2="340" y2="280" class="c-edge"/>
-                        <line x1="340" y1="280" x2="175" y2="330" class="c-edge"/>
-                        <line x1="175" y1="330" x2="80"  y2="255" class="c-edge"/>
-                        <line x1="80"  y1="255" x2="105" y2="140" class="c-edge"/>
-                        <line x1="105" y1="140" x2="340" y2="280" class="c-edge c-edge--faint"/>
-                        <line x1="315" y1="105" x2="175" y2="330" class="c-edge c-edge--faint"/>
-                        <circle cx="105" cy="140" r="4" class="c-node-dot"/>
-                        <circle cx="315" cy="105" r="4" class="c-node-dot"/>
-                        <circle cx="340" cy="280" r="4" class="c-node-dot"/>
-                        <circle cx="175" cy="330" r="4" class="c-node-dot"/>
-                        <circle cx="80"  cy="255" r="4" class="c-node-dot"/>
-                        <circle cx="210" cy="210" r="6" class="c-node-dot c-node-dot--core"/>
-                    </svg>
+        <!-- Candidate pipeline mock -->
+        <div class="hero-visual" data-reveal data-delay="150">
+            <div class="hv-window">
+                <div class="hv-titlebar">
+                    <div class="hv-dots">
+                        <span class="hv-dot red"></span>
+                        <span class="hv-dot yellow"></span>
+                        <span class="hv-dot green"></span>
+                    </div>
+                    <span class="hv-title">Talevo — Değerlendirme Paneli</span>
                 </div>
-
-                <!-- Floating labels -->
-                <div class="c-label" style="top:28%;left:6%" data-depth="1.6">Assessment</div>
-                <div class="c-label" style="top:15%;right:12%" data-depth="2.2">Intelligence</div>
-                <div class="c-label" style="bottom:22%;right:6%" data-depth="1.4">Selection</div>
-                <div class="c-label" style="bottom:14%;left:18%" data-depth="1.8">Modeling</div>
-
-                <!-- Pulsing core -->
-                <div class="c-core" data-depth="4">
-                    <div class="c-core-ring"></div>
-                    <div class="c-core-dot"></div>
+                <div class="hv-body">
+                    <div class="hv-col-head">
+                        <span>Aday</span>
+                        <span>Değerlendirme</span>
+                        <span>Sonuç</span>
+                    </div>
+                    <div class="hv-rows">
+                        <div class="hv-row">
+                            <div class="hv-candidate">
+                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">AK</div>
+                                <div>
+                                    <div class="hv-name">Ayşe Kaya</div>
+                                    <div class="hv-role">Bölge Yöneticisi</div>
+                                </div>
+                            </div>
+                            <div class="hv-score">
+                                <div class="hv-bar"><div class="hv-fill" style="--w:87%"></div></div>
+                                <span>87</span>
+                            </div>
+                            <div class="hv-status status-yes">Uygun</div>
+                        </div>
+                        <div class="hv-row">
+                            <div class="hv-candidate">
+                                <div class="hv-avatar" style="--c:#B8BCC420;--t:#6E737D">MÖ</div>
+                                <div>
+                                    <div class="hv-name">Mert Öztürk</div>
+                                    <div class="hv-role">Satış Uzmanı</div>
+                                </div>
+                            </div>
+                            <div class="hv-score">
+                                <div class="hv-bar"><div class="hv-fill" style="--w:74%"></div></div>
+                                <span>74</span>
+                            </div>
+                            <div class="hv-status status-wait">Bekliyor</div>
+                        </div>
+                        <div class="hv-row hv-row--active">
+                            <div class="hv-candidate">
+                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">SY</div>
+                                <div>
+                                    <div class="hv-name">Selin Yıldız</div>
+                                    <div class="hv-role">MT Adayı</div>
+                                </div>
+                            </div>
+                            <div class="hv-score">
+                                <div class="hv-bar"><div class="hv-fill" style="--w:92%"></div></div>
+                                <span>92</span>
+                            </div>
+                            <div class="hv-status status-yes">Uygun</div>
+                        </div>
+                        <div class="hv-row">
+                            <div class="hv-candidate">
+                                <div class="hv-avatar" style="--c:#B8BCC420;--t:#6E737D">ED</div>
+                                <div>
+                                    <div class="hv-name">Emre Demir</div>
+                                    <div class="hv-role">Operasyon Sp.</div>
+                                </div>
+                            </div>
+                            <div class="hv-score">
+                                <div class="hv-bar"><div class="hv-fill" style="--w:61%"></div></div>
+                                <span>61</span>
+                            </div>
+                            <div class="hv-status status-no">Uygun Değil</div>
+                        </div>
+                        <div class="hv-row">
+                            <div class="hv-candidate">
+                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">KA</div>
+                                <div>
+                                    <div class="hv-name">Kemal Arslan</div>
+                                    <div class="hv-role">Mağaza Müdürü</div>
+                                </div>
+                            </div>
+                            <div class="hv-score">
+                                <div class="hv-bar"><div class="hv-fill" style="--w:85%"></div></div>
+                                <span>85</span>
+                            </div>
+                            <div class="hv-status status-wait">Bekliyor</div>
+                        </div>
+                    </div>
+                    <div class="hv-footer">
+                        <span>12 pozisyon aktif</span>
+                        <span>248 aday işlendi</span>
+                        <span class="hv-rate">%94 yerleştirme</span>
+                    </div>
                 </div>
-
             </div>
         </div>
 
@@ -109,7 +164,7 @@
 </section>
 
 <!-- ── TAGLINE STRIP ── -->
-<div class="hero-strip">
+<div class="strip">
     <div class="container">
         <div class="strip-inner">
             <span>Strategy-Led Recruitment</span>
@@ -121,435 +176,379 @@
     </div>
 </div>
 
-<!-- ── 2. YAKLAŞIM ── -->
-<section class="section approach" id="yaklasim">
+<!-- ── 2. NE YAPIYORUZ ── -->
+<section class="section what" id="ne-yapiyoruz">
     <div class="container">
-        <div class="approach-wrap">
-
-            <div class="approach-left" data-reveal>
-                <p class="eyebrow">Yaklaşım</p>
-                <h2>Bir Süreç Değil,<br>Bir Sistem.</h2>
-                <p class="approach-desc">Biz işe alımı bağımsız bir operasyon olarak görmüyoruz. Yetkinlik modeli, değerlendirme, onboarding, eğitim ve performans aynı sistemin parçaları.</p>
+        <div class="section-head" data-reveal>
+            <p class="eyebrow">Uzmanlık</p>
+            <h2>Ne Yapıyoruz?</h2>
+        </div>
+        <div class="what-grid">
+            <div class="what-card" data-reveal>
+                <div class="what-num">01</div>
+                <h3>Toplu İşe Alım</h3>
+                <p>Yüksek hacimli işe alım projelerini hız, kalite ve tutarlılıkla yönetiyoruz.</p>
+                <a href="#surec" class="what-link">Nasıl yapıyoruz →</a>
             </div>
-
-            <div class="approach-right" data-reveal data-delay="100">
-                <div class="accordion" id="accordion">
-
-                    <div class="acc-item acc-item--open" data-index="0">
-                        <button class="acc-header" aria-expanded="true">
-                            <span class="acc-num">01</span>
-                            <span class="acc-title">Competency Modeling</span>
-                            <span class="acc-icon"></span>
-                        </button>
-                        <div class="acc-body">
-                            <div class="acc-inner">
-                                <div class="acc-content">
-                                    <p>Rol bazlı yetkinlik sözlüğü, ideal profil tasarımı ve ağırlıklandırılmış değerlendirme seti.</p>
-                                    <ul>
-                                        <li>Rol bazlı yetkinlik sözlüğü</li>
-                                        <li>İdeal profil tasarımı</li>
-                                        <li>Yetkinliklerin ağırlıklandırılması</li>
-                                        <li>Role özel soru ve değerlendirme seti</li>
-                                    </ul>
-                                </div>
-                                <div class="acc-visual av-competency">
-                                    <div class="avc-ring" style="--r:28px"></div>
-                                    <div class="avc-ring" style="--r:52px"></div>
-                                    <div class="avc-ring" style="--r:76px"></div>
-                                    <div class="avc-ring" style="--r:98px"></div>
-                                    <div class="avc-label" style="top:4%;left:42%">Davranış</div>
-                                    <div class="avc-label" style="top:42%;left:82%">Teknik</div>
-                                    <div class="avc-label" style="top:80%;left:42%">Karar</div>
-                                    <div class="avc-label" style="top:42%;left:0%">Kültür</div>
-                                    <div class="avc-core">Rol</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="acc-item" data-index="1">
-                        <button class="acc-header" aria-expanded="false">
-                            <span class="acc-num">02</span>
-                            <span class="acc-title">Assessment Design</span>
-                            <span class="acc-icon"></span>
-                        </button>
-                        <div class="acc-body">
-                            <div class="acc-inner">
-                                <div class="acc-content">
-                                    <p>AI destekli video mülakat, davranışsal ölçümleme ve yapılandırılmış değerlendirme sistemleri.</p>
-                                    <ul>
-                                        <li>AI destekli video mülakat</li>
-                                        <li>Teknik ve davranışsal ölçümleme</li>
-                                        <li>Yargı testleri</li>
-                                        <li>Yapılandırılmış mülakatlar</li>
-                                    </ul>
-                                </div>
-                                <div class="acc-visual av-assessment">
-                                    <div class="ava-panel ava-panel--1"></div>
-                                    <div class="ava-panel ava-panel--2"></div>
-                                    <div class="ava-panel ava-panel--3"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="acc-item" data-index="2">
-                        <button class="acc-header" aria-expanded="false">
-                            <span class="acc-num">03</span>
-                            <span class="acc-title">Selection Architecture</span>
-                            <span class="acc-icon"></span>
-                        </button>
-                        <div class="acc-body">
-                            <div class="acc-inner">
-                                <div class="acc-content">
-                                    <p>İnsan ve teknoloji hibriti. Saha doğrulaması, karar notları ve dijital veri transferi.</p>
-                                    <ul>
-                                        <li>İnsan + teknoloji hibriti</li>
-                                        <li>Karar notları</li>
-                                        <li>Saha doğrulaması</li>
-                                        <li>Dijital veri transferi</li>
-                                    </ul>
-                                </div>
-                                <div class="acc-visual av-selection">
-                                    <svg viewBox="0 0 220 160" class="avs-svg">
-                                        <circle cx="36"  cy="80" r="5" class="avs-node"/>
-                                        <circle cx="110" cy="32" r="5" class="avs-node"/>
-                                        <circle cx="110" cy="128" r="5" class="avs-node"/>
-                                        <circle cx="184" cy="80" r="5" class="avs-node avs-node--accent"/>
-                                        <line x1="36"  y1="80" x2="110" y2="32"  class="avs-edge"/>
-                                        <line x1="36"  y1="80" x2="110" y2="128" class="avs-edge"/>
-                                        <line x1="110" y1="32" x2="184" y2="80"  class="avs-edge"/>
-                                        <line x1="110" y1="128" x2="184" y2="80" class="avs-edge"/>
-                                        <line x1="110" y1="32" x2="110" y2="128" class="avs-edge avs-edge--faint"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="acc-item" data-index="3">
-                        <button class="acc-header" aria-expanded="false">
-                            <span class="acc-num">04</span>
-                            <span class="acc-title">Learning Loop</span>
-                            <span class="acc-icon"></span>
-                        </button>
-                        <div class="acc-body">
-                            <div class="acc-inner">
-                                <div class="acc-content">
-                                    <p>Sistem kendi üzerine kapanır. Her döngü bir sonraki kararı daha isabetli kılar.</p>
-                                    <ul>
-                                        <li>Onboarding</li>
-                                        <li>Eğitim tasarımı</li>
-                                        <li>Performans doğrulaması</li>
-                                        <li>Turnover analizi</li>
-                                        <li>Güncellenen ideal profil</li>
-                                    </ul>
-                                </div>
-                                <div class="acc-visual av-loop">
-                                    <div class="avl-ring">
-                                        <div class="avl-item" style="--i:0">Selection</div>
-                                        <div class="avl-item" style="--i:1">Onboarding</div>
-                                        <div class="avl-item" style="--i:2">Performance</div>
-                                        <div class="avl-item" style="--i:3">Turnover</div>
-                                        <div class="avl-item" style="--i:4">Profile</div>
-                                        <div class="avl-center">Loop</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="acc-item" data-index="4">
-                        <button class="acc-header" aria-expanded="false">
-                            <span class="acc-num">05</span>
-                            <span class="acc-title">Organizational Intelligence</span>
-                            <span class="acc-icon"></span>
-                        </button>
-                        <div class="acc-body">
-                            <div class="acc-inner">
-                                <div class="acc-content">
-                                    <p>Her proje bir sonraki projeyi besler. Kurumsal hafıza oluşur. Kararlar zaman içinde daha doğru hale gelir.</p>
-                                    <ul>
-                                        <li>Her proje bir sonraki projeyi besler</li>
-                                        <li>Kurumsal hafıza oluşur</li>
-                                        <li>Kararlar daha isabetli hale gelir</li>
-                                    </ul>
-                                    <p class="acc-quote">"Her döngü sistemi daha isabetli hale getirir."</p>
-                                </div>
-                                <div class="acc-visual av-org">
-                                    <div class="avo-grid"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="what-card" data-reveal data-delay="80">
+                <div class="what-num">02</div>
+                <h3>Yönetici ve Kritik Rol İşe Alımı</h3>
+                <p>Pozisyona değil, organizasyona uygun liderleri buluyoruz.</p>
+                <a href="#hizmetler" class="what-link">Daha fazla →</a>
             </div>
-
+            <div class="what-card" data-reveal data-delay="160">
+                <div class="what-num">03</div>
+                <h3>Seçme ve Yerleştirme Sistemleri</h3>
+                <p>Her işe alım süreci için role özel değerlendirme mimarisi kuruyoruz.</p>
+                <a href="#hizmetler" class="what-link">Daha fazla →</a>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── 3. HİZMETLER ── -->
+<!-- ── 3. TOPLU İŞE ALIM ── -->
+<section class="section process dark-bg" id="surec">
+    <div class="container">
+        <div class="process-head" data-reveal>
+            <p class="eyebrow eyebrow-light">Süreç</p>
+            <h2>Toplu İşe Alım,<br>Ama Standart Değil.</h2>
+            <p class="process-sub">Büyük ölçekli işe alım projelerinde sadece aday bulmuyoruz. Role özel seçim sistemi kuruyor, süreci ölçüyor ve kararı standardize ediyoruz.</p>
+        </div>
+
+        <div class="process-tabs" id="processTabs" data-reveal data-delay="100">
+            <div class="tab-nav" role="tablist">
+                <button class="tab-btn tab-btn--active" data-tab="0" role="tab" aria-selected="true">
+                    <span class="tab-num">01</span>
+                    <span>Rol ve Yetkinlik Tanımı</span>
+                </button>
+                <button class="tab-btn" data-tab="1" role="tab" aria-selected="false">
+                    <span class="tab-num">02</span>
+                    <span>Dijital Değerlendirme</span>
+                </button>
+                <button class="tab-btn" data-tab="2" role="tab" aria-selected="false">
+                    <span class="tab-num">03</span>
+                    <span>Yapılandırılmış Mülakat</span>
+                </button>
+                <button class="tab-btn" data-tab="3" role="tab" aria-selected="false">
+                    <span class="tab-num">04</span>
+                    <span>Yerleştirme ve Yedekleme</span>
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-panel tab-panel--active" data-panel="0">
+                    <div class="tp-text">
+                        <h3>Rol ve Yetkinlik Tanımı</h3>
+                        <p>Her pozisyon kendi yetkinlik dilini konuşur. Önce bu dili öğreniriz.</p>
+                        <ul>
+                            <li>Rol bazlı yetkinlik profili</li>
+                            <li>Yetkinlik sözlüğü tasarımı</li>
+                            <li>Teknik ve davranışsal kriterler</li>
+                            <li>Ağırlıklı karar çerçevesi</li>
+                        </ul>
+                    </div>
+                    <div class="tp-visual">
+                        <div class="tpv-rings">
+                            <div class="tpv-ring" style="--s:48px"></div>
+                            <div class="tpv-ring" style="--s:86px"></div>
+                            <div class="tpv-ring" style="--s:124px"></div>
+                            <div class="tpv-tag" style="top:8%;left:46%">Davranış</div>
+                            <div class="tpv-tag" style="top:46%;left:84%">Teknik</div>
+                            <div class="tpv-tag" style="bottom:8%;left:46%">Karar</div>
+                            <div class="tpv-tag" style="top:46%;left:0">Kültür</div>
+                            <div class="tpv-core">Rol</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="1">
+                    <div class="tp-text">
+                        <h3>Dijital Değerlendirme</h3>
+                        <p>Teknoloji destekli ön değerlendirme süreciyle kaliteli adayları hızla belirleriz.</p>
+                        <ul>
+                            <li>AI video mülakat</li>
+                            <li>Teknik test platformu</li>
+                            <li>Davranış envanteri</li>
+                            <li>Otomatik skorlama</li>
+                        </ul>
+                    </div>
+                    <div class="tp-visual">
+                        <div class="tpv-screen">
+                            <div class="tpv-screen-bar">
+                                <span>AI Değerlendirme</span>
+                                <span class="tpv-screen-status">Aktif</span>
+                            </div>
+                            <div class="tpv-screen-row">
+                                <span>Video Analizi</span>
+                                <div class="tpv-bar-track"><div class="tpv-bar-fill" style="--w:78%"></div></div>
+                                <span>78</span>
+                            </div>
+                            <div class="tpv-screen-row">
+                                <span>Teknik Test</span>
+                                <div class="tpv-bar-track"><div class="tpv-bar-fill" style="--w:91%"></div></div>
+                                <span>91</span>
+                            </div>
+                            <div class="tpv-screen-row">
+                                <span>Envanter</span>
+                                <div class="tpv-bar-track"><div class="tpv-bar-fill" style="--w:85%"></div></div>
+                                <span>85</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="2">
+                    <div class="tp-text">
+                        <h3>Yapılandırılmış Mülakat</h3>
+                        <p>Standart değil; role özel, ölçülebilir ve tekrarlanabilir mülakat sistemi.</p>
+                        <ul>
+                            <li>Standardize soru setleri</li>
+                            <li>Saha görüşmeleri</li>
+                            <li>Notlama sistemi</li>
+                            <li>Çok değerlendiricili yaklaşım</li>
+                        </ul>
+                    </div>
+                    <div class="tp-visual">
+                        <div class="tpv-matrix">
+                            <div class="tpv-matrix-head">
+                                <span></span><span>Q1</span><span>Q2</span><span>Q3</span>
+                            </div>
+                            <div class="tpv-matrix-row">
+                                <span>A.K.</span>
+                                <div class="tpv-cell tpv-cell--high">4</div>
+                                <div class="tpv-cell tpv-cell--high">5</div>
+                                <div class="tpv-cell tpv-cell--mid">4</div>
+                            </div>
+                            <div class="tpv-matrix-row">
+                                <span>M.Ö.</span>
+                                <div class="tpv-cell tpv-cell--mid">3</div>
+                                <div class="tpv-cell tpv-cell--low">2</div>
+                                <div class="tpv-cell tpv-cell--mid">3</div>
+                            </div>
+                            <div class="tpv-matrix-row">
+                                <span>S.Y.</span>
+                                <div class="tpv-cell tpv-cell--high">5</div>
+                                <div class="tpv-cell tpv-cell--high">5</div>
+                                <div class="tpv-cell tpv-cell--high">4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" data-panel="3">
+                    <div class="tp-text">
+                        <h3>Yerleştirme ve Yedekleme</h3>
+                        <p>Sadece asil değil, yedek aday listesiyle de sürecin sürekliliğini garanti ederiz.</p>
+                        <ul>
+                            <li>Asil ve yedek aday listesi</li>
+                            <li>Dijital veri transferi</li>
+                            <li>Onboarding desteği</li>
+                            <li>Süreç sonrası takip</li>
+                        </ul>
+                    </div>
+                    <div class="tp-visual">
+                        <div class="tpv-chain">
+                            <div class="tpv-chain-step">
+                                <div class="tpv-chain-dot tpv-chain-dot--done"></div>
+                                <span>Seçim</span>
+                            </div>
+                            <div class="tpv-chain-line tpv-chain-line--done"></div>
+                            <div class="tpv-chain-step">
+                                <div class="tpv-chain-dot tpv-chain-dot--done"></div>
+                                <span>Teklif</span>
+                            </div>
+                            <div class="tpv-chain-line tpv-chain-line--done"></div>
+                            <div class="tpv-chain-step">
+                                <div class="tpv-chain-dot tpv-chain-dot--active"></div>
+                                <span>Onboarding</span>
+                            </div>
+                            <div class="tpv-chain-line"></div>
+                            <div class="tpv-chain-step">
+                                <div class="tpv-chain-dot"></div>
+                                <span>Takip</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── 4. HİZMETLER ── -->
 <section class="section services" id="hizmetler">
     <div class="container">
         <div class="section-head" data-reveal>
             <p class="eyebrow">Hizmetler</p>
-            <h2>Uzmanlık<br>Alanlarımız</h2>
+            <h2>Uzmanlık Alanlarımız</h2>
         </div>
-    </div>
-    <div class="services-outer">
-        <div class="services-track" id="servicesTrack">
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Talent</span>
-                    <h3>İşe alım sürecini değil,<br>karar kalitesini tasarlarız.</h3>
+        <div class="services-grid">
+            <div class="svc-block" data-reveal>
+                <div class="svc-block-body">
+                    <p class="svc-tag">Talent</p>
+                    <h3>Toplu İşe Alım Projeleri</h3>
+                    <p>Büyük ölçekli seçme ve yerleştirme operasyonları. Hız, kalite ve ölçülebilirlik birlikte.</p>
                 </div>
-                <div class="svc-visual svc-visual--talent"></div>
+                <div class="svc-block-visual sv-talent"></div>
             </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Perform</span>
-                    <h3>Performansı ölçmeyiz.<br>Organizasyonun geleceğini okuruz.</h3>
+            <div class="svc-block" data-reveal data-delay="80">
+                <div class="svc-block-body">
+                    <p class="svc-tag">Executive</p>
+                    <h3>Yönetici ve Uzman İşe Alımı</h3>
+                    <p>Şirketin geleceğini taşıyacak kritik rolleri buluyoruz. Titiz, gizli ve metodolojik.</p>
                 </div>
-                <div class="svc-visual svc-visual--perform"></div>
+                <div class="svc-block-visual sv-executive"></div>
             </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Engage</span>
-                    <h3>Bağlılığı anket değil,<br>veri ile ölçeriz.</h3>
+            <div class="svc-block" data-reveal data-delay="160">
+                <div class="svc-block-body">
+                    <p class="svc-tag">Assessment</p>
+                    <h3>Değerlendirme Merkezi</h3>
+                    <p>Yetkinlik, potansiyel ve rol uyumunu birlikte ölçüyoruz. Standart değil, size özel.</p>
                 </div>
-                <div class="svc-visual svc-visual--engage"></div>
+                <div class="svc-block-visual sv-assessment"></div>
             </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Propozi</span>
-                    <h3>Ücretlendirmeyi sezgiyle değil,<br>veriyle yönetiriz.</h3>
+            <div class="svc-block" data-reveal data-delay="240">
+                <div class="svc-block-body">
+                    <p class="svc-tag">Design</p>
+                    <h3>İşe Alım Süreci Tasarımı</h3>
+                    <p>Şirketiniz için size özel işe alım sistemi kuruyoruz. Süreç, araç ve metodoloji birlikte.</p>
                 </div>
-                <div class="svc-visual svc-visual--propozi"></div>
+                <div class="svc-block-visual sv-design"></div>
             </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Consult</span>
-                    <h3>Strateji değil,<br>karar mimarisi tasarlarız.</h3>
-                </div>
-                <div class="svc-visual svc-visual--consult"></div>
-            </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Academy</span>
-                    <h3>Eğitim içeriği değil,<br>öğrenen organizasyon kurarız.</h3>
-                </div>
-                <div class="svc-visual svc-visual--academy"></div>
-            </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Digital</span>
-                    <h3>İK süreçlerini dijitalleştirmeyiz.<br>Yeniden tasarlarız.</h3>
-                </div>
-                <div class="svc-visual svc-visual--digital"></div>
-            </div>
-
-            <div class="svc-card">
-                <div class="svc-body">
-                    <span class="svc-tag">Payroll</span>
-                    <h3>Bordroyu yönetmeyiz.<br>Optimize ederiz.</h3>
-                </div>
-                <div class="svc-visual svc-visual--payroll"></div>
-            </div>
-
         </div>
     </div>
 </section>
 
-<!-- ── 4. METHOD IN PRACTICE ── -->
-<section class="section method" id="method">
+<!-- ── 5. NASIL ÇALIŞIYORUZ ── -->
+<section class="section how" id="nasil">
     <div class="container">
         <div class="section-head" data-reveal>
-            <p class="eyebrow">Method in Practice</p>
-            <h2>Nasıl çalıştığımızı anlatmanın<br>en iyi yolu sistemi göstermek.</h2>
+            <p class="eyebrow">Metod</p>
+            <h2>Nasıl Çalışıyoruz?</h2>
         </div>
-
-        <div class="method-items">
-
-            <div class="method-item" data-reveal>
-                <div class="method-text">
-                    <span class="method-num">01</span>
-                    <h3>Önce rolü çözüyoruz.</h3>
-                    <p>Pozisyonun yetkinlik haritası çıkarılır. Davranış, teknik bilgi, karar kalitesi ve kültür uyumu katmanlarına ayrılır.</p>
-                </div>
-                <div class="method-visual mv-map">
-                    <div class="mvm-ring" style="--s:60px"></div>
-                    <div class="mvm-ring" style="--s:110px"></div>
-                    <div class="mvm-ring" style="--s:160px"></div>
-                    <div class="mvm-ring" style="--s:210px"></div>
-                    <div class="mvm-label" style="top:5%;left:44%">Davranış</div>
-                    <div class="mvm-label" style="top:44%;left:84%">Teknik</div>
-                    <div class="mvm-label" style="bottom:5%;left:44%">Karar</div>
-                    <div class="mvm-label" style="top:44%;left:0">Kültür</div>
-                    <div class="mvm-center">Rol</div>
-                </div>
+        <div class="steps-row" data-reveal>
+            <div class="step">
+                <div class="step-badge">01</div>
+                <div class="step-connector"></div>
+                <h4>Anlıyoruz</h4>
+                <p>Organizasyonu, pozisyonu ve beklentileri derinlemesine öğreniriz.</p>
             </div>
-
-            <div class="method-item method-item--rev" data-reveal>
-                <div class="method-text">
-                    <span class="method-num">02</span>
-                    <h3>Sonra değerlendirmeyi tasarlıyoruz.</h3>
-                    <p>AI mülakat, envanter ve saha notlarının üst üste geldiği çok katmanlı değerlendirme sistemi devreye girer.</p>
-                </div>
-                <div class="method-visual mv-screens">
-                    <div class="mvs-panel mvs-panel--1">
-                        <div class="mvs-bar" style="--w:80%"></div>
-                        <div class="mvs-bar" style="--w:65%"></div>
-                        <div class="mvs-bar" style="--w:90%"></div>
-                    </div>
-                    <div class="mvs-panel mvs-panel--2">
-                        <div class="mvs-bar" style="--w:70%"></div>
-                        <div class="mvs-bar" style="--w:85%"></div>
-                    </div>
-                    <div class="mvs-panel mvs-panel--3">
-                        <div class="mvs-dot"></div>
-                        <div class="mvs-dot"></div>
-                        <div class="mvs-dot mvs-dot--accent"></div>
-                    </div>
-                </div>
+            <div class="step">
+                <div class="step-badge">02</div>
+                <div class="step-connector"></div>
+                <h4>Tasarlıyoruz</h4>
+                <p>Role özel değerlendirme mimarisi ve süreç haritası oluştururuz.</p>
             </div>
-
-            <div class="method-item" data-reveal>
-                <div class="method-text">
-                    <span class="method-num">03</span>
-                    <h3>Kararı tek bir görüşmeye bırakmıyoruz.</h3>
-                    <p>Her aday çok boyutlu veriyle değerlendirilir. Karar, sezgiyle değil sistemle alınır.</p>
-                </div>
-                <div class="method-visual mv-matrix">
-                    <div class="mvc-table">
-                        <div class="mvc-head">
-                            <div></div>
-                            <div>Yetkinlik</div>
-                            <div>Kültür</div>
-                            <div>AI</div>
-                        </div>
-                        <div class="mvc-row">
-                            <div class="mvc-name">A.K.</div>
-                            <div class="mvc-bar" style="--v:87%"><span>87</span></div>
-                            <div class="mvc-bar" style="--v:91%"><span>91</span></div>
-                            <div class="mvc-check mvc-check--yes">✓</div>
-                        </div>
-                        <div class="mvc-row">
-                            <div class="mvc-name">M.Ö.</div>
-                            <div class="mvc-bar" style="--v:74%"><span>74</span></div>
-                            <div class="mvc-bar" style="--v:69%"><span>69</span></div>
-                            <div class="mvc-check">—</div>
-                        </div>
-                        <div class="mvc-row">
-                            <div class="mvc-name">S.Y.</div>
-                            <div class="mvc-bar" style="--v:93%"><span>93</span></div>
-                            <div class="mvc-bar" style="--v:88%"><span>88</span></div>
-                            <div class="mvc-check mvc-check--yes">✓</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="step">
+                <div class="step-badge">03</div>
+                <div class="step-connector"></div>
+                <h4>Değerlendiriyoruz</h4>
+                <p>Çok katmanlı ve ölçülebilir değerlendirme sürecini yürütürüz.</p>
             </div>
-
-            <div class="method-item method-item--rev" data-reveal>
-                <div class="method-text">
-                    <span class="method-num">04</span>
-                    <h3>Süreç bittiğinde sistem öğrenmeye devam ediyor.</h3>
-                    <p>Her proje, bir sonrakini daha doğru hale getirir.</p>
-                </div>
-                <div class="method-visual mv-loop">
-                    <div class="mvl-chain">
-                        <div class="mvl-step">Selection</div>
-                        <div class="mvl-arrow">→</div>
-                        <div class="mvl-step">Onboarding</div>
-                        <div class="mvl-arrow">→</div>
-                        <div class="mvl-step">Performance</div>
-                        <div class="mvl-arrow">→</div>
-                        <div class="mvl-step">Turnover</div>
-                    </div>
-                    <div class="mvl-return">
-                        <div class="mvl-line"></div>
-                        <div class="mvl-step mvl-step--accent">Updated Profile</div>
-                    </div>
-                </div>
+            <div class="step">
+                <div class="step-badge">04</div>
+                <div class="step-connector"></div>
+                <h4>Karar Veriyoruz</h4>
+                <p>Veri ve metodolojiye dayalı, şeffaf ve gerekçeli öneri sunarız.</p>
             </div>
-
+            <div class="step step--last">
+                <div class="step-badge step-badge--accent">05</div>
+                <h4>Geliştiriyoruz</h4>
+                <p>Her proje bir sonrakini daha iyi hale getirecek öğrenimler üretir.</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── 5. İÇGÖRÜLER ── -->
-<section class="section insights dark-section" id="insights">
+<!-- ── 6. GÜVEN BÖLÜMÜ ── -->
+<section class="section trust" id="guven">
     <div class="container">
         <div class="section-head" data-reveal>
-            <p class="eyebrow">Düşünce</p>
-            <h2>Human. Data. Future.</h2>
+            <p class="eyebrow">Yaklaşım</p>
+            <h2>Farklı Olan Ne?</h2>
         </div>
-        <div class="insights-grid">
-            <article class="insight-card" data-reveal>
-                <span class="insight-cat">Liderlik</span>
-                <h3>Neden En İyi Çalışanlar Yönetici Olmak İstemiyor?</h3>
-                <a href="#" class="insight-link">Okuyun →</a>
-            </article>
-            <article class="insight-card" data-reveal data-delay="80">
-                <span class="insight-cat">Seçme &amp; Yerleştirme</span>
-                <h3>CV'ler Neden Hâlâ Yanlış İnsanları Seçiyor?</h3>
-                <a href="#" class="insight-link">Okuyun →</a>
-            </article>
-            <article class="insight-card" data-reveal data-delay="160">
-                <span class="insight-cat">Teknoloji</span>
-                <h3>İşe Alımda Yapay Zeka Ne Zaman Gerçekten İşe Yarıyor?</h3>
-                <a href="#" class="insight-link">Okuyun →</a>
-            </article>
-            <article class="insight-card" data-reveal data-delay="240">
-                <span class="insight-cat">Performans</span>
-                <h3>Yüksek Performans ile Kalıcı Başarı Aynı Şey Değil.</h3>
-                <a href="#" class="insight-link">Okuyun →</a>
-            </article>
+        <div class="trust-grid">
+            <div class="trust-item" data-reveal>
+                <div class="trust-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 2L12.4 7.5H18L13.5 11L15.5 16.5L10 13L4.5 16.5L6.5 11L2 7.5H7.6L10 2Z" stroke="#5A355F" stroke-width="1.2" fill="none"/>
+                    </svg>
+                </div>
+                <h4>Sektöre özgü, çok katmanlı değerlendirme</h4>
+                <p>Her sektörün kendi yetkinlik dili vardır. Biz o dili konuşuruz.</p>
+            </div>
+            <div class="trust-item" data-reveal data-delay="80">
+                <div class="trust-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="7" stroke="#5A355F" stroke-width="1.2"/>
+                        <path d="M7 10L9 12L13 8" stroke="#5A355F" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h4>Yapılandırılmış ve ölçülebilir karar sistemi</h4>
+                <p>Sezgiyle değil, veriye dayalı ve tekrarlanabilir kararlar alırız.</p>
+            </div>
+            <div class="trust-item" data-reveal data-delay="160">
+                <div class="trust-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="3" y="3" width="14" height="14" rx="3" stroke="#5A355F" stroke-width="1.2"/>
+                        <path d="M7 10H13M10 7V13" stroke="#5A355F" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h4>İşe alım sonrası da devam eden süreç</h4>
+                <p>Yerleştirme bir son değil, takip ve öğrenme sürecinin başlangıcıdır.</p>
+            </div>
+            <div class="trust-item" data-reveal data-delay="240">
+                <div class="trust-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10C4 6.7 6.7 4 10 4s6 2.7 6 6-2.7 6-6 6" stroke="#5A355F" stroke-width="1.2" stroke-linecap="round"/>
+                        <path d="M4 10L6 8M4 10L6 12" stroke="#5A355F" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h4>Her proje kurumsal hafızaya dönüşür</h4>
+                <p>Geçmiş projelerden gelen veriler, yeni kararları daha isabetli kılar.</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ── 6. HAKKIMIZDA ── -->
-<section class="section about" id="hakkimizda">
+<!-- ── 7. İÇERİK ── -->
+<section class="section content-section" id="icerik">
     <div class="container">
-        <div class="about-head" data-reveal>
-            <h2>Biz CV Gönderen Bir<br>Danışmanlık Şirketi Değiliz.</h2>
+        <div class="section-head" data-reveal>
+            <p class="eyebrow">Okuma</p>
+            <h2>İşe Alım Üzerine</h2>
         </div>
-        <div class="about-cols">
-            <div class="about-col" data-reveal>
-                <h4>Human</h4>
-                <p>İnsan davranışı, kültür, deneyim</p>
-            </div>
-            <div class="about-col" data-reveal data-delay="100">
-                <h4>Data</h4>
-                <p>Analitik, ölçümleme, karar sistemleri</p>
-            </div>
-            <div class="about-col" data-reveal data-delay="200">
-                <h4>Future</h4>
-                <p>AI, teknoloji, organizasyon tasarımı</p>
-            </div>
-        </div>
-        <div class="about-closing" data-reveal>
-            <p>"İnsan kaynaklarını değil,<br>organizasyonun geleceğini tasarlıyoruz."</p>
+        <div class="content-grid">
+            <article class="content-card" data-reveal>
+                <span class="content-cat">Seçme &amp; Yerleştirme</span>
+                <h3>CV'ler Neden En Doğru Kişiyi Bulamıyor?</h3>
+                <a href="#" class="content-link">Okuyun →</a>
+            </article>
+            <article class="content-card" data-reveal data-delay="100">
+                <span class="content-cat">Toplu İşe Alım</span>
+                <h3>Toplu İşe Alımda En Büyük Hata: Herkesi Aynı Şekilde Değerlendirmek</h3>
+                <a href="#" class="content-link">Okuyun →</a>
+            </article>
+            <article class="content-card" data-reveal data-delay="200">
+                <span class="content-cat">Metodoloji</span>
+                <h3>İyi Bir Mülakat Karar Vermeyi Gerçekten Kolaylaştırıyor mu?</h3>
+                <a href="#" class="content-link">Okuyun →</a>
+            </article>
         </div>
     </div>
 </section>
 
-<!-- ── CONTACT ── -->
-<section class="section contact" id="gorusme">
+<!-- ── İLETİŞİM ── -->
+<section class="section contact" id="iletisim">
     <div class="container contact-wrap">
         <div class="contact-copy" data-reveal>
             <p class="eyebrow">İletişim</p>
-            <h2>Sistemi birlikte kuralım.</h2>
-            <p>Organizasyonunuz için doğru yaklaşımı belirlemek üzere bir görüşme planlayın.</p>
+            <h2>İşe alım sürecinizi birlikte tasarlayalım.</h2>
+            <p>Projenizi, ihtiyacınızı ve beklentilerinizi paylaşın. En kısa sürede dönüş yaparız.</p>
+            <div class="contact-meta">
+                <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a>
+                <a href="https://www.linkedin.com/company/talevo_official/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
         </div>
         <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal data-delay="100">
             <input type="hidden" name="form-name" value="contact">
@@ -557,22 +556,22 @@
             <div class="form-row">
                 <div class="field">
                     <label for="name">Ad Soyad</label>
-                    <input id="name" name="name" type="text" required>
+                    <input id="name" name="name" type="text" placeholder="Adınız" required>
                 </div>
                 <div class="field">
                     <label for="email">E-posta</label>
-                    <input id="email" name="email" type="email" required>
+                    <input id="email" name="email" type="email" placeholder="sirket@domain.com" required>
                 </div>
             </div>
             <div class="field">
                 <label for="company">Şirket</label>
-                <input id="company" name="company" type="text">
+                <input id="company" name="company" type="text" placeholder="Şirket adı">
             </div>
             <div class="field">
-                <label for="message">Bize ulaşma amacınız</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
+                <label for="message">İhtiyacınız nedir?</label>
+                <textarea id="message" name="message" rows="4" placeholder="İşe alım projenizi kısaca anlatın..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-accent">Görüşme Planlayın</button>
+            <button type="submit" class="btn btn-dark btn-full">Gönder</button>
             <p class="form-note">24 saat içinde dönüş yaparız.</p>
         </form>
     </div>
@@ -593,11 +592,21 @@
             </a>
             <p class="footer-legal">Türkiye İş Kurumu Özel İstihdam Bürosu — İzin Belgesi No: 1913</p>
         </div>
-        <div class="footer-links">
+        <nav class="footer-nav">
+            <a href="#hizmetler">Hizmetler</a>
+            <a href="#surec">Süreç</a>
+            <a href="#nasil">Nasıl Çalışıyoruz</a>
+            <a href="https://crm.talevo.com.tr/jobs" target="_blank" rel="noopener">Kariyer</a>
+        </nav>
+        <div class="footer-contact">
             <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a>
             <a href="https://www.linkedin.com/company/talevo_official/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
-        <p class="footer-copy">&copy; 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</p>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>&copy; 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</p>
+        </div>
     </div>
 </footer>
 
