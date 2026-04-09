@@ -89,21 +89,41 @@ if (contactForm) {
 }
 
 // ── ANIMATE SCORE BARS (trigger on visibility) ──
+// .mock-bar-fill uses inline width="X%"
+// .score-fill and .oa-bar-fill use CSS custom property --w
 if ('IntersectionObserver' in window) {
     const barObs = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
-            entry.target.querySelectorAll('.mock-bar-fill, .score-fill, .oa-bar-fill').forEach(bar => {
-                const w = bar.style.width || getComputedStyle(bar).getPropertyValue('--w');
+
+            // bars with direct inline width
+            entry.target.querySelectorAll('.mock-bar-fill').forEach(bar => {
+                const target = bar.style.width || '0%';
                 bar.style.width = '0';
                 requestAnimationFrame(() => {
                     bar.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)';
-                    bar.style.width = w;
+                    bar.style.width = target;
                 });
             });
+
+            // bars driven by CSS custom property --w
+            entry.target.querySelectorAll('.score-fill, .oa-bar-fill').forEach(bar => {
+                const raw = (getComputedStyle(bar).getPropertyValue('--w') || '').trim();
+                if (!raw) return;
+                // briefly set inline width to 0%, then let CSS var take over via transition
+                bar.style.setProperty('--w', '0%');
+                requestAnimationFrame(() => {
+                    bar.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)';
+                    // restore the original value from the inline style attribute
+                    const original = bar.getAttribute('style').match(/--w\s*:\s*([^;]+)/);
+                    const restored = original ? original[1].trim() : raw;
+                    bar.style.setProperty('--w', restored);
+                });
+            });
+
             barObs.unobserve(entry.target);
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.25 });
 
     document.querySelectorAll('.mockup-body, .score-chips, .oa-scores').forEach(el => barObs.observe(el));
 }
