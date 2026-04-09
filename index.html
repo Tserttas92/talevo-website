@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talevo - İnsan Kaynakları Danışmanlığı</title>
-    <meta name="description" content="Talevo, işe alım danışmanlığı ve İK süreç desteğini teknoloji ile birleştirir. Uçtan uca daha hızlı, daha görünür ve daha düzenli işe alım akışları sunar.">
+    <title>Talevo — İK'da Teknolojik Dönüşüm ve Stratejik Derinlik</title>
+    <meta name="description" content="Veri odaklı çözümler ve insan odaklı yaklaşımla organizasyonun görünmez dinamiklerini yönetiyoruz.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23F26522' rx='18' width='100' height='100'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>T</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%237C3AED' rx='22' width='100' height='100'/><text x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>T</text></svg>">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+    <!-- NAVBAR -->
     <header class="site-header" id="navbar">
         <div class="container nav-wrap">
             <a href="#" class="brand">
-                <svg width="36" height="36" viewBox="0 0 100 100" aria-hidden="true">
-                    <rect fill="#F26522" rx="18" width="100" height="100"/>
+                <svg width="32" height="32" viewBox="0 0 100 100" aria-hidden="true">
+                    <rect fill="#7C3AED" rx="22" width="100" height="100"/>
                     <text x="50" y="68" font-size="60" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">T</text>
                 </svg>
                 <span>Talevo</span>
             </a>
 
             <nav class="nav-links" id="navLinks">
-                <a href="#hizmetler" class="nav-link">Hizmetler</a>
-                <a href="#neden-talevo" class="nav-link">Neden Talevo</a>
                 <a href="#surec" class="nav-link">Süreç</a>
+                <a href="#teknoloji" class="nav-link">Teknoloji</a>
+                <a href="#operasyon" class="nav-link">Operasyon</a>
+                <a href="#vizyon" class="nav-link">Vizyon</a>
                 <a href="https://crm.talevo.com.tr/jobs" class="nav-link" target="_blank" rel="noopener">Kariyer</a>
-                <a href="#iletisim" class="nav-link">İletişim</a>
-                <a href="https://crm.talevo.com.tr/jobs" class="nav-link mobile-only" target="_blank" rel="noopener">Açık Pozisyonlar</a>
-                <a href="#iletisim" class="nav-link mobile-only">Ücretsiz Görüşme</a>
+                <a href="#iletisim" class="nav-link mobile-only">Demo İste</a>
             </nav>
 
             <div class="nav-actions">
-                <a href="https://crm.talevo.com.tr/jobs" class="btn btn-ghost-dark" target="_blank" rel="noopener">Açık Pozisyonlar</a>
-                <a href="#iletisim" class="btn btn-primary">Ücretsiz Görüşme</a>
+                <a href="https://crm.talevo.com.tr/jobs" class="btn btn-ghost" target="_blank" rel="noopener">Açık Pozisyonlar</a>
+                <a href="#iletisim" class="btn btn-primary">Demo İste</a>
             </div>
 
             <button class="nav-toggle" id="navToggle" aria-label="Menü">
@@ -46,106 +46,461 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="hero-bg"></div>
-            <div class="container hero-grid">
-                <div class="hero-content">
+
+        <!-- 1. HERO -->
+        <section class="hero" id="hero">
+            <div class="container hero-inner">
+                <div class="hero-content" data-reveal>
                     <p class="eyebrow">İnsan Kaynakları Danışmanlığı</p>
-                    <h1>İşe alım süreçlerinizi daha hızlı, daha düzenli ve daha görünür yönetin.</h1>
-                    <p class="hero-desc">Talevo, insan kaynakları danışmanlığını teknolojiyle birleştirir. Müşteri ihtiyacından aday yerleştirmeye kadar tüm işe alım akışını daha net, daha ölçülebilir ve daha etkili hale getirir.</p>
+                    <h1>İK'da Teknolojik Dönüşüm ve Stratejik Derinlik.</h1>
+                    <p class="hero-desc">Veri odaklı çözümler ve insan odaklı yaklaşımla organizasyonun görünmez dinamiklerini yönetiyoruz.</p>
                     <div class="hero-actions">
-                        <a href="#iletisim" class="btn btn-primary">Demo Talep Et</a>
-                        <a href="#hizmetler" class="btn btn-outline-light">Hizmetleri İncele</a>
+                        <a href="#iletisim" class="btn btn-primary btn-lg">Demo İste</a>
+                        <a href="#surec" class="btn btn-outline btn-lg">Çözümleri İncele</a>
+                    </div>
+                </div>
+                <div class="hero-mockup" data-reveal data-delay="200">
+                    <div class="mockup-window">
+                        <div class="mockup-bar">
+                            <span></span><span></span><span></span>
+                            <div class="mockup-url">talevo.crm — Dashboard</div>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mock-stat-row">
+                                <div class="mock-stat">
+                                    <div class="mock-stat-val">248</div>
+                                    <div class="mock-stat-lbl">Aktif Aday</div>
+                                    <div class="mock-stat-badge up">+14%</div>
+                                </div>
+                                <div class="mock-stat">
+                                    <div class="mock-stat-val">94%</div>
+                                    <div class="mock-stat-lbl">Yerleştirme Oranı</div>
+                                    <div class="mock-stat-badge up">+6%</div>
+                                </div>
+                                <div class="mock-stat">
+                                    <div class="mock-stat-val">12</div>
+                                    <div class="mock-stat-lbl">Açık Pozisyon</div>
+                                    <div class="mock-stat-badge neutral">Aktif</div>
+                                </div>
+                            </div>
+                            <div class="mock-pipeline">
+                                <div class="mock-pipeline-label">Aday Pipeline</div>
+                                <div class="mock-bars">
+                                    <div class="mock-bar-item">
+                                        <div class="mock-bar-label">Tarama</div>
+                                        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:85%"></div></div>
+                                        <div class="mock-bar-num">85</div>
+                                    </div>
+                                    <div class="mock-bar-item">
+                                        <div class="mock-bar-label">Mülakat</div>
+                                        <div class="mock-bar-track"><div class="mock-bar-fill orange" style="width:62%"></div></div>
+                                        <div class="mock-bar-num">62</div>
+                                    </div>
+                                    <div class="mock-bar-item">
+                                        <div class="mock-bar-label">Değerlendirme</div>
+                                        <div class="mock-bar-track"><div class="mock-bar-fill" style="width:41%"></div></div>
+                                        <div class="mock-bar-num">41</div>
+                                    </div>
+                                    <div class="mock-bar-item">
+                                        <div class="mock-bar-label">Teklif</div>
+                                        <div class="mock-bar-track"><div class="mock-bar-fill green" style="width:28%"></div></div>
+                                        <div class="mock-bar-num">28</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="hizmetler">
-            <div class="container">
-                <div class="section-head">
-                    <p class="eyebrow">Hizmetler</p>
-                    <h2>İK ihtiyaçlarınız için net, uygulanabilir ve ölçülebilir çözümler</h2>
-                </div>
-                <div class="service-grid">
-                    <article class="service-card">
-                        <i class="bi bi-people"></i>
-                        <h3>Seçme & Yerleştirme</h3>
-                        <p>Pozisyon ihtiyacından aday yerleştirmeye kadar tüm işe alım sürecini planlı, şeffaf ve hız odaklı yönetiyoruz.</p>
-                    </article>
-                    <article class="service-card">
-                        <i class="bi bi-diagram-3"></i>
-                        <h3>İK Süreç Tasarımı</h3>
-                        <p>Kurumsal yapınıza uygun işe alım, değerlendirme ve karar süreçlerini sadeleştiriyor; operasyonel disiplini güçlendiriyoruz.</p>
-                    </article>
-                    <article class="service-card">
-                        <i class="bi bi-cpu"></i>
-                        <h3>Teknoloji Destekli Operasyon</h3>
-                        <p>Tekrarlayan işleri azaltan, görünürlüğü artıran ve ekip koordinasyonunu hızlandıran teknoloji odaklı çalışma modeli kuruyoruz.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section-alt" id="neden-talevo">
-            <div class="container split">
-                <div>
-                    <p class="eyebrow">Neden Talevo</p>
-                    <h2>Danışmanlığı operasyon disipliniyle birleştiriyoruz</h2>
-                    <p>Birçok ekipte sorun araç eksikliği değil, süreç görünürlüğünün zayıf olmasıdır. Talevo, danışmanlık bakışıyla operasyonu aynı zeminde toplar.</p>
-                </div>
-                <ul class="benefits">
-                    <li>
-                        <h4>Danışmanlık + Operasyon Disiplini</h4>
-                        <p>Stratejiyi sahada uygulanabilir hale getiren net çalışma modeli.</p>
-                    </li>
-                    <li>
-                        <h4>Görünürlük ve Ölçülebilirlik</h4>
-                        <p>Hangi pozisyonda ne durumda olduğunuzu her an izlenebilir kılan akış.</p>
-                    </li>
-                    <li>
-                        <h4>Hız ve Süreç Netliği</h4>
-                        <p>Karar gecikmelerini azaltan, ekiplerin aynı doğrultuda ilerlediği yapı.</p>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
+        <!-- 2. SÜREÇ STEPPER -->
         <section class="section" id="surec">
             <div class="container">
-                <div class="section-head">
-                    <p class="eyebrow">Süreç</p>
-                    <h2>Talevo ile uçtan uca işe alım akışı</h2>
+                <div class="section-head" data-reveal>
+                    <p class="eyebrow">Adaydan Yeteneğe</p>
+                    <h2>Dört adımda kusursuz seçme &amp; yerleştirme</h2>
+                    <p class="section-sub">Her aşama ölçülür, izlenebilir ve raporlanabilir.</p>
                 </div>
-                <ol class="process-steps">
-                    <li><span>1</span><p>İhtiyacı analiz ediyoruz</p></li>
-                    <li><span>2</span><p>Pozisyon ve aday stratejisini netleştiriyoruz</p></li>
-                    <li><span>3</span><p>Uygun adayları sürece alıyoruz</p></li>
-                    <li><span>4</span><p>Mülakat ve değerlendirme akışını yönetiyoruz</p></li>
-                    <li><span>5</span><p>Yerleştirme ve sonrası takibi tamamlıyoruz</p></li>
-                </ol>
+                <div class="stepper">
+                    <div class="stepper-line"></div>
+                    <div class="stepper-item" data-reveal data-delay="0">
+                        <div class="stepper-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div class="stepper-content">
+                            <span class="stepper-num">01</span>
+                            <h3>Analiz</h3>
+                            <p>Pozisyon gereksinimleri, organizasyon kültürü ve yetkinlik haritası çıkarılır. İşe alım stratejisi müşteri DNA'sına göre şekillendirilir.</p>
+                        </div>
+                    </div>
+                    <div class="stepper-item" data-reveal data-delay="100">
+                        <div class="stepper-icon">
+                            <i class="bi bi-funnel"></i>
+                        </div>
+                        <div class="stepper-content">
+                            <span class="stepper-num">02</span>
+                            <h3>Tarama</h3>
+                            <p>Geniş havuz ve saha operasyonu ile aday taraması gerçekleştirilir. AI destekli ön eleme, bölgeden bölgeye yüksek hacimli akışı yönetir.</p>
+                        </div>
+                    </div>
+                    <div class="stepper-item" data-reveal data-delay="200">
+                        <div class="stepper-icon">
+                            <i class="bi bi-layers"></i>
+                        </div>
+                        <div class="stepper-content">
+                            <span class="stepper-num">03</span>
+                            <h3>Çok Boyutlu Değerlendirme</h3>
+                            <p>Envanter, saha notu ve AI skoru üçlemesiyle ön yargısız, veri destekli karar mekanizması devreye girer.</p>
+                        </div>
+                    </div>
+                    <div class="stepper-item" data-reveal data-delay="300">
+                        <div class="stepper-icon">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+                        <div class="stepper-content">
+                            <span class="stepper-num">04</span>
+                            <h3>Analitik Raporlama</h3>
+                            <p>Süreç metrikleri, yetkinlik skorları ve başarı oranları müşteriye anlık raporlanır. Veriye dayalı sürekli iyileştirme döngüsü kurulur.</p>
+                            <div class="score-chips">
+                                <div class="score-chip">
+                                    <div class="score-label">Yetkinlik Skoru</div>
+                                    <div class="score-bar"><div class="score-fill" style="--w:87%"></div></div>
+                                    <div class="score-val">87</div>
+                                </div>
+                                <div class="score-chip">
+                                    <div class="score-label">Kültür Uyumu</div>
+                                    <div class="score-bar"><div class="score-fill orange" style="--w:92%"></div></div>
+                                    <div class="score-val">92</div>
+                                </div>
+                                <div class="score-chip">
+                                    <div class="score-label">Liderlik Potansiyeli</div>
+                                    <div class="score-bar"><div class="score-fill" style="--w:74%"></div></div>
+                                    <div class="score-val">74</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="section section-career">
-            <div class="container career-card">
-                <div>
-                    <p class="eyebrow">Kariyer</p>
-                    <h2>Açık pozisyonları tek ekranda inceleyin</h2>
-                    <p>Güncel iş ilanları ve başvuru süreci CRM altyapımız üzerinden anlık olarak yönetilmektedir.</p>
+        <!-- 3. OPERASYONİL GÜÇ KARTLARI -->
+        <section class="section section-alt" id="operasyonel-guc">
+            <div class="container">
+                <div class="section-head" data-reveal>
+                    <p class="eyebrow">Uzmanlık Alanları</p>
+                    <h2>Her ölçekte, her sektörde</h2>
                 </div>
-                <a href="https://crm.talevo.com.tr/jobs" class="btn btn-primary" target="_blank" rel="noopener">Açık Pozisyonları Gör</a>
+                <div class="power-cards">
+                    <div class="power-card" data-reveal data-delay="0">
+                        <div class="power-card-tag">Operasyonel Güç</div>
+                        <h3>Saha'dan Yönetime, Kitlesel İşe Alım</h3>
+                        <p>Mavi yaka, saha ve toplu işe alım operasyonlarında hız ve ölçek kaybetmeden süreç disiplini kuruyoruz.</p>
+                        <ul class="power-list">
+                            <li><i class="bi bi-check2"></i> Mavi Yaka &amp; Saha Tarama</li>
+                            <li><i class="bi bi-check2"></i> Toplu İşe Alım Yönetimi</li>
+                            <li><i class="bi bi-check2"></i> Çok Bölgeli Operasyon Koordinasyonu</li>
+                            <li><i class="bi bi-check2"></i> Hızlı Replacement Desteği</li>
+                        </ul>
+                        <div class="power-card-stat">
+                            <span class="stat-big">500+</span>
+                            <span class="stat-lbl">yıllık yerleştirme kapasitesi</span>
+                        </div>
+                    </div>
+                    <div class="power-card accent" data-reveal data-delay="150">
+                        <div class="power-card-tag">Gelecek Tasarımı</div>
+                        <h3>Yönetici Geliştirme &amp; MT Programları</h3>
+                        <p>Organizasyonel dönüşümün taşıyıcılarını yetiştiren yönetici adayı programlarında 10+ başarılı deneyim.</p>
+                        <ul class="power-list">
+                            <li><i class="bi bi-check2"></i> 10+ Başarılı MT Programı</li>
+                            <li><i class="bi bi-check2"></i> Yetkinlik Bazlı Tasarım</li>
+                            <li><i class="bi bi-check2"></i> Liderlik Potansiyeli Haritalama</li>
+                            <li><i class="bi bi-check2"></i> Kariyer Hızlandırma Modeli</li>
+                        </ul>
+                        <div class="power-card-stat">
+                            <span class="stat-big">10+</span>
+                            <span class="stat-lbl">başarılı MT programı deneyimi</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- 4. TEKNOLOJİ DESTEKLİ HİBRİT MODEL -->
+        <section class="section" id="teknoloji">
+            <div class="container">
+                <div class="section-head center" data-reveal>
+                    <p class="eyebrow">Yaklaşım</p>
+                    <h2>Tech-Enabled Hybrid Model</h2>
+                    <p class="section-sub">İnsan uzmanlığı ile teknolojinin kesiştiği yerde; daha hızlı, daha isabetli, daha ölçülebilir kararlar.</p>
+                </div>
+                <div class="pillars" data-reveal data-delay="100">
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-arrows-expand"></i></div>
+                        <h4>Ölçek</h4>
+                        <p>Yüksek hacimli operasyonlarda kaliteden ödün vermeden büyüme.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-shield-check"></i></div>
+                        <h4>Kanıta Dayalı Karar</h4>
+                        <p>Her yerleştirme kararı veri ve metodoloji ile desteklenir.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-database"></i></div>
+                        <h4>Veri Değeri</h4>
+                        <p>Aday verisinin kurumsal öğrenmeye dönüştürülmesi.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-person-check"></i></div>
+                        <h4>Rehberlik</h4>
+                        <p>Uzman danışmanlık desteğiyle stratejik yol haritası.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                        <h4>Kurumsal Öğrenme</h4>
+                        <p>Her döngüden elde edilen içgörü süreçlere geri beslenir.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-lightning-charge"></i></div>
+                        <h4>Hızlı Replacement</h4>
+                        <p>Kritik pozisyonlarda hız ve doğruluktan ödün verilmez.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon"><i class="bi bi-sliders2"></i></div>
+                        <h4>Dinamik Profilleme</h4>
+                        <p>Değişen ihtiyaçlara göre gerçek zamanlı aday profili güncellemesi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. TALEVO LIVE -->
+        <section class="section section-live" id="live">
+            <div class="container">
+                <div class="live-grid">
+                    <div class="live-copy" data-reveal>
+                        <p class="eyebrow live-eyebrow"><span class="live-dot"></span>Talevo Live</p>
+                        <h2>Operasyonel Şeffaflık</h2>
+                        <p>Süreç bizim için bir kara kutu değil, anlık izlenebilir bir veri setidir. Müşterilerimiz her aşamayı gerçek zamanlı takip eder.</p>
+                        <ul class="live-features">
+                            <li><i class="bi bi-dot"></i>Aday sayısı ve pipeline durumu</li>
+                            <li><i class="bi bi-dot"></i>Mülakat takvimi ve sonuçları</li>
+                            <li><i class="bi bi-dot"></i>Başarı oranları ve metrikler</li>
+                            <li><i class="bi bi-dot"></i>Anlık bildirimler ve raporlar</li>
+                        </ul>
+                    </div>
+                    <div class="live-device" data-reveal data-delay="150">
+                        <div class="device-frame">
+                            <div class="device-notch"></div>
+                            <div class="device-screen">
+                                <div class="ds-header">
+                                    <span class="ds-title">Talevo Live</span>
+                                    <span class="ds-live-badge"><span class="live-dot sm"></span>Canlı</span>
+                                </div>
+                                <div class="ds-metrics">
+                                    <div class="ds-metric">
+                                        <span class="ds-metric-val">248</span>
+                                        <span class="ds-metric-lbl">Toplam Aday</span>
+                                    </div>
+                                    <div class="ds-metric">
+                                        <span class="ds-metric-val orange">31</span>
+                                        <span class="ds-metric-lbl">Mülakat</span>
+                                    </div>
+                                    <div class="ds-metric">
+                                        <span class="ds-metric-val green">94%</span>
+                                        <span class="ds-metric-lbl">Başarı</span>
+                                    </div>
+                                </div>
+                                <div class="ds-list">
+                                    <div class="ds-row">
+                                        <div class="ds-avatar" style="background:#7C3AED20;color:#7C3AED">AK</div>
+                                        <div class="ds-info">
+                                            <div class="ds-name">Ayşe Kaya</div>
+                                            <div class="ds-pos">Bölge Yöneticisi</div>
+                                        </div>
+                                        <div class="ds-badge purple">Değerlendirme</div>
+                                    </div>
+                                    <div class="ds-row">
+                                        <div class="ds-avatar" style="background:#F2652220;color:#F26522">MO</div>
+                                        <div class="ds-info">
+                                            <div class="ds-name">Mert Öztürk</div>
+                                            <div class="ds-pos">Satış Uzmanı</div>
+                                        </div>
+                                        <div class="ds-badge orange">Mülakat</div>
+                                    </div>
+                                    <div class="ds-row">
+                                        <div class="ds-avatar" style="background:#10B98120;color:#10B981">SY</div>
+                                        <div class="ds-info">
+                                            <div class="ds-name">Selin Yıldız</div>
+                                            <div class="ds-pos">MT Adayı</div>
+                                        </div>
+                                        <div class="ds-badge green">Teklif</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. BÜYÜK ÖLÇEKLİ OPERASYON -->
+        <section class="section" id="operasyon">
+            <div class="container">
+                <div class="section-head" data-reveal>
+                    <p class="eyebrow">Büyük Ölçekli Operasyon</p>
+                    <h2>Büyük Ölçekli Operasyonlarda Teknoloji ve Strateji Mimarisi.</h2>
+                    <p class="section-sub">Karmaşık ve yüksek hacimli işe alım süreçlerini, dijital varlıklar ve veri odaklı metodolojilerle kusursuz bir operasyona dönüştürüyoruz.</p>
+                </div>
+                <div class="timeline-scroll-wrap">
+                    <div class="timeline">
+                        <div class="timeline-item" data-reveal data-delay="0">
+                            <div class="timeline-week">0 – 2. Hafta</div>
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="bi bi-tools"></i></div>
+                                <h4>Mimari Kurulum</h4>
+                                <p>İşe alım mimarisi kurulur. Araçlar, ekip rolleri ve süreç haritası belirlenir. CRM ve raporlama altyapısı devreye alınır.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-reveal data-delay="100">
+                            <div class="timeline-week">3 – 8. Hafta</div>
+                            <div class="timeline-card">
+                                <div class="timeline-icon orange"><i class="bi bi-geo-alt"></i></div>
+                                <h4>Hibrit Saha Operasyonu</h4>
+                                <p>Saha ekipleri aktive edilir. Çok bölgeli aday taraması başlar. Gerçek zamanlı veri akışı ve günlük raporlama süreci kurulur.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-reveal data-delay="200">
+                            <div class="timeline-week">9 – 14. Hafta</div>
+                            <div class="timeline-card">
+                                <div class="timeline-icon"><i class="bi bi-cpu"></i></div>
+                                <h4>AI Destekli Çok Boyutlu Eleme</h4>
+                                <p>Envanter, saha notu ve AI skoru birleştirilerek yetkinlik bazlı eleme yapılır. Değerlendirme panelleri ve mülakat akışları yönetilir.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-reveal data-delay="300">
+                            <div class="timeline-week">15 – 20. Hafta</div>
+                            <div class="timeline-card">
+                                <div class="timeline-icon green"><i class="bi bi-bar-chart"></i></div>
+                                <h4>Analitik Raporlama ve Yerleştirme</h4>
+                                <p>Süreç verileri konsolide edilir. Başarı oranları, maliyet ve zaman metrikleri raporlanır. Yerleştirme ve takip süreci tamamlanır.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. VİZYON -->
+        <section class="section section-vision" id="vizyon">
+            <div class="container">
+                <div class="vision-hero" data-reveal>
+                    <h2 class="vision-trilogy">
+                        <span>Human.</span>
+                        <span class="accent">Data.</span>
+                        <span>Future.</span>
+                    </h2>
+                    <p class="vision-sub">Organizasyonların görünmez dinamiklerini veri ve insan uzmanlığıyla yüzeye taşıyoruz.</p>
+                </div>
+                <div class="vision-cards" data-reveal data-delay="150">
+                    <div class="vision-card">
+                        <div class="vision-card-icon"><i class="bi bi-diagram-3"></i></div>
+                        <h4>The Invisible Organization</h4>
+                        <p>Resmi hiyerarşinin ötesinde, organizasyonun gerçek güç ve etki ağını haritalayan metodoloji.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-card-icon"><i class="bi bi-share"></i></div>
+                        <h4>Organizasyonel Ağ Analizi</h4>
+                        <p>İletişim akışları, bilgi transferi ve karar noktalarının görünür kılınarak stratejik içgörülere dönüştürülmesi.</p>
+                    </div>
+                    <div class="vision-card">
+                        <div class="vision-card-icon"><i class="bi bi-arrow-repeat"></i></div>
+                        <h4>Kültür Dönüşümü</h4>
+                        <p>Veri destekli kültürel tanılama ve değişim yönetimiyle organizasyonel dönüşüm süreçlerinin tasarlanması.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. ADAYLAR -->
+        <section class="section section-alt" id="adaylar">
+            <div class="container">
+                <div class="candidate-wrap">
+                    <div class="candidate-copy" data-reveal>
+                        <p class="eyebrow">Adaylar İçin</p>
+                        <h2>Eşit ve Objektif Değerlendirme</h2>
+                        <p>Talevo'da hiçbir aday sezgisel yargılarla elenmez. Her değerlendirme üç bağımsız veri katmanıyla desteklenir.</p>
+                        <div class="eval-chips">
+                            <div class="eval-chip">
+                                <i class="bi bi-clipboard-data"></i>
+                                <div>
+                                    <strong>Envanter Skoru</strong>
+                                    <span>Standartlaştırılmış yetkinlik ölçümü</span>
+                                </div>
+                            </div>
+                            <div class="eval-chip">
+                                <i class="bi bi-person-lines-fill"></i>
+                                <div>
+                                    <strong>Saha Notu</strong>
+                                    <span>Yapılandırılmış görüşme değerlendirmesi</span>
+                                </div>
+                            </div>
+                            <div class="eval-chip">
+                                <i class="bi bi-cpu"></i>
+                                <div>
+                                    <strong>AI Skoru</strong>
+                                    <span>Veri destekli objektif analiz</span>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://crm.talevo.com.tr/jobs" class="btn btn-primary" target="_blank" rel="noopener">Açık Pozisyonları İncele</a>
+                    </div>
+                    <div class="candidate-visual" data-reveal data-delay="150">
+                        <div class="oa-card">
+                            <div class="oa-header">
+                                <div class="oa-avatar">AK</div>
+                                <div>
+                                    <div class="oa-name">Aday Değerlendirme Raporu</div>
+                                    <div class="oa-pos">Bölge Yöneticisi — İstanbul</div>
+                                </div>
+                            </div>
+                            <div class="oa-scores">
+                                <div class="oa-score-row">
+                                    <span>Envanter</span>
+                                    <div class="oa-bar"><div class="oa-bar-fill" style="--w:87%"></div></div>
+                                    <strong>87</strong>
+                                </div>
+                                <div class="oa-score-row">
+                                    <span>Saha Notu</span>
+                                    <div class="oa-bar"><div class="oa-bar-fill orange" style="--w:91%"></div></div>
+                                    <strong>91</strong>
+                                </div>
+                                <div class="oa-score-row">
+                                    <span>AI Skoru</span>
+                                    <div class="oa-bar"><div class="oa-bar-fill green" style="--w:89%"></div></div>
+                                    <strong>89</strong>
+                                </div>
+                            </div>
+                            <div class="oa-verdict">
+                                <i class="bi bi-patch-check-fill"></i>
+                                Güçlü Aday — Değerlendirme Tamamlandı
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
         <section class="section" id="iletisim">
             <div class="container contact-wrap">
-                <div class="contact-copy">
+                <div class="contact-copy" data-reveal>
                     <p class="eyebrow">İletişim</p>
-                    <h2>İK ihtiyaçlarınızı birlikte netleştirelim</h2>
-                    <p>Operasyonunuzu hızlandıracak danışmanlık modeli için bize ulaşın.</p>
+                    <h2>Projenizi birlikte konuşalım</h2>
+                    <p>Demo talebi ve danışmanlık görüşmesi için formu doldurun, ekibimiz 24 saat içinde dönüş yapar.</p>
                 </div>
-                <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal data-delay="100">
                     <input type="hidden" name="form-name" value="contact">
                     <input type="hidden" name="bot-field">
                     <div class="grid-2">
@@ -166,20 +521,34 @@
                         <label for="message">İhtiyacınızı kısaca paylaşın</label>
                         <textarea id="message" name="message" rows="4" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Talep Gönder</button>
+                    <button type="submit" class="btn btn-primary">Demo İste</button>
                     <p class="form-note">Gönderim sonrası ekibimiz en kısa sürede dönüş yapar.</p>
                 </form>
             </div>
         </section>
+
     </main>
 
+    <!-- FOOTER -->
     <footer class="site-footer">
         <div class="container footer-wrap">
-            <p>&copy; 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</p>
+            <div class="footer-brand">
+                <a href="#" class="brand">
+                    <svg width="28" height="28" viewBox="0 0 100 100">
+                        <rect fill="#7C3AED" rx="22" width="100" height="100"/>
+                        <text x="50" y="68" font-size="60" text-anchor="middle" fill="white" font-family="sans-serif" font-weight="bold">T</text>
+                    </svg>
+                    <span>Talevo</span>
+                </a>
+                <p class="footer-legal">Türkiye İş Kurumu Özel İstihdam Bürosu — İzin Belgesi No: 1913</p>
+            </div>
             <div class="footer-links">
                 <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a>
-                <a href="https://www.linkedin.com/company/talevo_official/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://www.linkedin.com/company/talevo_official/" target="_blank" rel="noopener">
+                    <i class="bi bi-linkedin"></i> LinkedIn
+                </a>
             </div>
+            <p class="footer-copy">&copy; 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</p>
         </div>
     </footer>
 
