@@ -1,9 +1,14 @@
-// ── NAVBAR SCROLL ──
+/* ============================================
+   TALEVO — main.js
+   Premium interactions
+   ============================================ */
+
+// ── NAVBAR ──
 const navbar = document.getElementById('navbar');
 if (navbar) {
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
+    const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 30);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 }
 
 // ── MOBILE MENU ──
@@ -12,57 +17,20 @@ const navLinks  = document.getElementById('navLinks');
 if (navToggle && navLinks) {
     navToggle.addEventListener('click', () => {
         const open = navLinks.classList.toggle('active');
-        navToggle.setAttribute('aria-expanded', open);
+        navToggle.setAttribute('aria-expanded', String(open));
     });
-    document.querySelectorAll('.nav-link').forEach(link => {
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
             navToggle.setAttribute('aria-expanded', 'false');
         });
     });
-    // close on outside click
     document.addEventListener('click', e => {
         if (!navbar.contains(e.target)) {
             navLinks.classList.remove('active');
             navToggle.setAttribute('aria-expanded', 'false');
         }
     });
-}
-
-// ── REVEAL ON SCROLL (Intersection Observer) ──
-if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            const el    = entry.target;
-            const delay = parseInt(el.dataset.delay || '0', 10);
-            setTimeout(() => el.classList.add('revealed'), delay);
-            revealObserver.unobserve(el);
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
-}
-
-// ── STEPPER HIGHLIGHT ON SCROLL ──
-const stepperItems = document.querySelectorAll('.stepper-item');
-if (stepperItems.length && 'IntersectionObserver' in window) {
-    const stepObs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            const icon = entry.target.querySelector('.stepper-icon');
-            if (!icon) return;
-            if (entry.isIntersecting) {
-                icon.style.background = 'var(--purple)';
-                icon.style.color      = '#fff';
-                icon.style.borderColor = 'var(--purple)';
-            } else {
-                icon.style.background  = 'var(--surface)';
-                icon.style.color       = 'var(--purple)';
-                icon.style.borderColor = 'var(--purple-lt)';
-            }
-        });
-    }, { threshold: 0.6 });
-    stepperItems.forEach(item => stepObs.observe(item));
 }
 
 // ── SMOOTH SCROLL ──
@@ -79,6 +47,116 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// ── SCROLL REVEAL (fade + blur) ──
+if ('IntersectionObserver' in window) {
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el    = entry.target;
+            const delay = parseInt(el.dataset.delay || '0', 10);
+            setTimeout(() => el.classList.add('revealed'), delay);
+            revealObs.unobserve(el);
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+}
+
+// ── HERO CANVAS MOUSE PARALLAX ──
+const heroCanvas = document.getElementById('heroCanvas');
+if (heroCanvas) {
+    const layers = heroCanvas.querySelectorAll('[data-depth]');
+    let raf = null;
+    let targetX = 0, targetY = 0;
+    let currentX = 0, currentY = 0;
+
+    const LERP = 0.08;
+
+    document.addEventListener('mousemove', e => {
+        const rect = heroCanvas.getBoundingClientRect();
+        if (rect.width === 0) return;
+        // normalised -0.5 … +0.5
+        targetX = (e.clientX - rect.left - rect.width  / 2) / rect.width;
+        targetY = (e.clientY - rect.top  - rect.height / 2) / rect.height;
+    });
+
+    function tick() {
+        // lerp toward target
+        currentX += (targetX - currentX) * LERP;
+        currentY += (targetY - currentY) * LERP;
+
+        layers.forEach(layer => {
+            const depth = parseFloat(layer.dataset.depth || 0);
+            const dx = currentX * depth * 28;
+            const dy = currentY * depth * 22;
+            layer.style.transform = `translate(${dx}px, ${dy}px)`;
+        });
+
+        raf = requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Pause animation when page is hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && raf) { cancelAnimationFrame(raf); raf = null; }
+        else if (!document.hidden && !raf) tick();
+    });
+}
+
+// ── APPROACH ACCORDION ──
+const accordion = document.getElementById('accordion');
+if (accordion) {
+    accordion.addEventListener('click', e => {
+        const header = e.target.closest('.acc-header');
+        if (!header) return;
+
+        const item = header.closest('.acc-item');
+        const isOpen = item.classList.contains('acc-item--open');
+
+        // close all
+        accordion.querySelectorAll('.acc-item').forEach(i => {
+            i.classList.remove('acc-item--open');
+            i.querySelector('.acc-header').setAttribute('aria-expanded', 'false');
+        });
+
+        // open clicked (toggle off if was open)
+        if (!isOpen) {
+            item.classList.add('acc-item--open');
+            header.setAttribute('aria-expanded', 'true');
+        }
+    });
+}
+
+// ── SERVICES DRAG SCROLL ──
+const servicesOuter = document.querySelector('.services-outer');
+if (servicesOuter) {
+    let isDown = false;
+    let startX  = 0;
+    let scrollLeft = 0;
+
+    servicesOuter.addEventListener('mousedown', e => {
+        isDown = true;
+        servicesOuter.classList.add('dragging');
+        startX     = e.pageX - servicesOuter.offsetLeft;
+        scrollLeft = servicesOuter.scrollLeft;
+    });
+    servicesOuter.addEventListener('mouseleave', () => {
+        isDown = false;
+        servicesOuter.classList.remove('dragging');
+    });
+    servicesOuter.addEventListener('mouseup', () => {
+        isDown = false;
+        servicesOuter.classList.remove('dragging');
+    });
+    servicesOuter.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x    = e.pageX - servicesOuter.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        servicesOuter.scrollLeft = scrollLeft - walk;
+    });
+}
+
 // ── CONTACT FORM ──
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
@@ -86,44 +164,4 @@ if (contactForm) {
         const btn = contactForm.querySelector('button[type="submit"]');
         if (btn) { btn.disabled = true; btn.textContent = 'Gönderiliyor…'; }
     });
-}
-
-// ── ANIMATE SCORE BARS (trigger on visibility) ──
-// .mock-bar-fill uses inline width="X%"
-// .score-fill and .oa-bar-fill use CSS custom property --w
-if ('IntersectionObserver' in window) {
-    const barObs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-
-            // bars with direct inline width
-            entry.target.querySelectorAll('.mock-bar-fill').forEach(bar => {
-                const target = bar.style.width || '0%';
-                bar.style.width = '0';
-                requestAnimationFrame(() => {
-                    bar.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)';
-                    bar.style.width = target;
-                });
-            });
-
-            // bars driven by CSS custom property --w
-            entry.target.querySelectorAll('.score-fill, .oa-bar-fill').forEach(bar => {
-                const raw = (getComputedStyle(bar).getPropertyValue('--w') || '').trim();
-                if (!raw) return;
-                // briefly set inline width to 0%, then let CSS var take over via transition
-                bar.style.setProperty('--w', '0%');
-                requestAnimationFrame(() => {
-                    bar.style.transition = 'width .9s cubic-bezier(.4,0,.2,1)';
-                    // restore the original value from the inline style attribute
-                    const original = bar.getAttribute('style').match(/--w\s*:\s*([^;]+)/);
-                    const restored = original ? original[1].trim() : raw;
-                    bar.style.setProperty('--w', restored);
-                });
-            });
-
-            barObs.unobserve(entry.target);
-        });
-    }, { threshold: 0.25 });
-
-    document.querySelectorAll('.mockup-body, .score-chips, .oa-scores').forEach(el => barObs.observe(el));
 }
