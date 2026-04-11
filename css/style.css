@@ -1113,6 +1113,25 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     max-width: 280px;
 }
 
+.footer-logos {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 4px;
+}
+.footer-logo-talevo {
+    height: 40px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+.footer-logo-iskur {
+    height: 60px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .footer-nav,
 .footer-contact {
     display: flex;
