@@ -1104,56 +1104,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     padding: 56px 0;
 }
 
-.footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.footer-brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.brand-icon {
-    width: 28px;
-    height: 28px;
-    background: #5A355F;
-    border-radius: 7px;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.footer-brand-logo span {
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(255,255,255,.85);
-    letter-spacing: -.01em;
-}
-
-.footer-iskur-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.footer-logo-iskur {
-    height: 28px;
-    width: auto;
-    display: block;
-    object-fit: contain;
-    opacity: .85;
-    flex-shrink: 0;
-}
-.footer-iskur-label {
-    font-size: 11px;
-    color: #888;
-    white-space: nowrap;
-    line-height: 1;
-}
+.footer-left { display: flex; flex-direction: column; gap: 16px; }
+.footer-brand { display: flex; align-items: center; gap: 10px; }
+.footer-brand .brand-icon { background: #7C3AED; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.footer-brand .brand-text { color: white; font-size: 18px; font-weight: 600; }
+.footer-iskur { display: flex; align-items: center; gap: 12px; }
+.footer-iskur img { height: 32px; width: auto; }
+.footer-iskur span { color: #888; font-size: 11px; }
 
 .footer-nav,
 .footer-contact {
@@ -1203,7 +1160,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
 
     .footer-wrap { grid-template-columns: 1fr 1fr; }
-    .footer-brand { grid-column: 1 / -1; }
+    .footer-left { grid-column: 1 / -1; }
 }
 
 @media (max-width: 700px) {
