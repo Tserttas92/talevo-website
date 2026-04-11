@@ -1116,7 +1116,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .footer-logos {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 32px;
+}
+
+.footer-logo-talevo {
+    height: 32px;
+    width: auto;
+    display: block;
+    object-fit: contain;
 }
 
 .footer-iskur-wrap {
