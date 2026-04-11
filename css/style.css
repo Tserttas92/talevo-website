@@ -1094,7 +1094,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 /* ── FOOTER ── */
-.site-footer { background: #7C3AED; }
+.site-footer { background: #111; }
 
 .footer-wrap {
     display: grid;
@@ -1106,11 +1106,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 .footer-left { display: flex; flex-direction: column; gap: 16px; }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
-.footer-brand .brand-icon { background: rgba(255,255,255,.2); color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.footer-brand .brand-icon { background: #7C3AED; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
 .footer-brand .brand-text { color: white; font-size: 18px; font-weight: 600; }
-.footer-iskur { display: flex; align-items: center; gap: 12px; }
-.footer-iskur img { height: 32px; width: auto; }
-.footer-iskur span { color: rgba(255,255,255,.65); font-size: 11px; }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,.35); line-height: 1.5; }
 
 .footer-nav,
 .footer-contact {
