@@ -1227,6 +1227,254 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     color: rgba(255,255,255,.45);
 }
 
+/* ── SVC SECTION (Ne Yapıyoruz — 6 kart) ── */
+.svc-section {
+    background: #F7F7F5;
+    padding: 140px 100px;
+}
+
+.svc-wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.svc-head {
+    margin-bottom: 64px;
+}
+
+.svc-h2 {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.svc-lead {
+    max-width: 760px;
+    font-size: clamp(16px, 2vw, 24px);
+    line-height: 1.6;
+    color: #5F6672;
+}
+
+.svc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.svc-card {
+    min-height: 320px;
+    padding: 38px;
+    border-radius: 28px;
+    background: white;
+    border: 1px solid rgba(17,17,17,0.06);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.svc-card:hover {
+    transform: translateY(-8px);
+    border-color: #6B4C7B;
+    box-shadow: 0 16px 48px rgba(107,76,123,0.12), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.svc-card:hover .svc-arr {
+    transform: translateX(4px);
+}
+
+.svc-num {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #9B8FAE;
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+}
+
+.svc-card h3 {
+    font-size: clamp(20px, 2.2vw, 32px);
+    font-weight: 600;
+    color: #111111;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.svc-card > p {
+    font-size: clamp(14px, 1.3vw, 18px);
+    line-height: 1.7;
+    color: #5F6672;
+    flex: 1;
+    margin-bottom: 24px;
+}
+
+.svc-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.svc-pill {
+    background: rgba(107,76,123,0.08);
+    color: #6B4C7B;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 14px;
+}
+
+.svc-arr {
+    font-size: 18px;
+    color: #9B8FAE;
+    transition: transform 250ms ease;
+    line-height: 1;
+}
+
+/* ── SYSTEM SECTION (İki kolonlu premium blok) ── */
+.system-section {
+    background: white;
+    padding: 120px 100px;
+}
+
+.system-wrap {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 48fr 52fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.system-h2 {
+    font-size: clamp(28px, 4vw, 60px);
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 24px;
+}
+
+.system-em { color: #6B4C7B; }
+
+.system-desc {
+    font-size: clamp(15px, 1.3vw, 18px);
+    color: #5F6672;
+    line-height: 1.7;
+    margin-bottom: 40px;
+}
+
+.system-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.system-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1px solid rgba(17,17,17,0.07);
+    border-radius: 16px;
+    background: #F7F7F5;
+    font-size: 14px;
+    color: #3A3A3C;
+    line-height: 1.5;
+}
+
+.feat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.feat-dot--purple { background: #6B4C7B; }
+.feat-dot--orange { background: #F28A2E; }
+
+.system-right {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sys-network {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sys-card {
+    position: absolute;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid rgba(17,17,17,0.08);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+    padding: 24px 28px;
+    width: 300px;
+}
+
+.sys-front { z-index: 3; transform: translate(0,0);                         animation: sysfloat1 8s ease-in-out infinite; }
+.sys-mid   { z-index: 2; transform: translate(-40px,60px) rotate(-4deg);    opacity: 0.75; animation: sysfloat2 8s ease-in-out infinite; }
+.sys-back  { z-index: 1; transform: translate(50px,-50px) rotate(5deg);     opacity: 0.45; filter: blur(2px); animation: sysfloat3 8s ease-in-out infinite; }
+
+.sys-card-badge {
+    display: inline-block;
+    background: rgba(107,76,123,0.1);
+    color: #6B4C7B;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+}
+
+.sys-card-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1D1D1F;
+    margin-bottom: 14px;
+}
+
+.sys-bars { display: flex; flex-direction: column; gap: 8px; }
+
+.sys-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #6E6E73;
+}
+.sys-bar-row span { min-width: 90px; }
+
+.sys-bar-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(107,76,123,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.sys-bar-fill {
+    height: 100%;
+    background: #6B4C7B;
+    border-radius: 3px;
+}
+
+@keyframes sysfloat1 { 0%,100% { transform: translate(0,0); }                                   50% { transform: translate(0,-8px); } }
+@keyframes sysfloat2 { 0%,100% { transform: translate(-40px,60px) rotate(-4deg); }              50% { transform: translate(-40px,52px) rotate(-4deg); } }
+@keyframes sysfloat3 { 0%,100% { transform: translate(50px,-50px) rotate(5deg); }               50% { transform: translate(50px,-58px) rotate(5deg); } }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 960px) {
     .hero-wrap { grid-template-columns: 1fr; gap: 48px; }
@@ -1237,6 +1485,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     .what-grid { grid-template-columns: 1fr; }
     .what-card { border-right: none; border-bottom: 1px solid var(--line); }
     .what-card:last-child { border-bottom: none; }
+
+    .svc-section { padding: 80px 40px; }
+    .svc-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .system-section { padding: 80px 40px; }
+    .system-wrap { grid-template-columns: 1fr; gap: 60px; }
+    .system-right { min-height: 420px; }
 
     .tab-nav { grid-template-columns: repeat(2, 1fr); }
     .tab-panel { grid-template-columns: 1fr; gap: 32px; }
@@ -1255,6 +1510,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 @media (max-width: 700px) {
     .section { padding: 64px 0; }
+    .svc-section { padding: 64px 24px; }
+    .svc-grid { grid-template-columns: 1fr; }
+    .svc-card { min-height: auto; padding: 28px; }
+    .system-section { padding: 64px 24px; }
+    .system-features { grid-template-columns: 1fr; }
 
     .nav-links {
         display: none;
