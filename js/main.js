@@ -86,6 +86,19 @@ if (processTabs) {
     });
 }
 
+// ── HERO CARDS PARALLAX ──
+document.querySelector('.hero-cards')?.addEventListener('mousemove', (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left  - rect.width  / 2) / rect.width;
+    const y = (e.clientY - rect.top   - rect.height / 2) / rect.height;
+    const front = document.querySelector('.card-front');
+    const mid   = document.querySelector('.card-mid');
+    const back  = document.querySelector('.card-back');
+    if (front) front.style.transform = `translate(${x*5}px, ${y*5}px)`;
+    if (mid)   mid.style.transform   = `translate(${-60+x*3}px, ${40+y*3}px) rotate(-6deg)`;
+    if (back)  back.style.transform  = `translate(${70+x*2}px, ${-30+y*2}px) rotate(8deg)`;
+});
+
 // ── CONTACT FORM ──
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {

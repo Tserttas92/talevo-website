@@ -61,102 +61,76 @@
             </div>
         </div>
 
-        <!-- Candidate pipeline mock -->
-        <div class="hero-visual" data-reveal data-delay="150">
-            <div class="hv-window">
-                <div class="hv-titlebar">
-                    <div class="hv-dots">
-                        <span class="hv-dot red"></span>
-                        <span class="hv-dot yellow"></span>
-                        <span class="hv-dot green"></span>
+        <!-- Floating match cards -->
+        <div class="hero-cards" data-reveal data-delay="150">
+
+            <!-- Background network -->
+            <svg class="cards-network" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+                <line x1="80" y1="120" x2="240" y2="200" stroke="#6B4C7B" stroke-width="1"/>
+                <line x1="240" y1="200" x2="380" y2="140" stroke="#6B4C7B" stroke-width="1"/>
+                <line x1="240" y1="200" x2="300" y2="360" stroke="#6B4C7B" stroke-width="1"/>
+                <line x1="80" y1="120" x2="160" y2="320" stroke="#6B4C7B" stroke-width="1"/>
+                <line x1="380" y1="140" x2="300" y2="360" stroke="#6B4C7B" stroke-width="1"/>
+                <circle cx="80"  cy="120" r="4" fill="#6B4C7B"/>
+                <circle cx="240" cy="200" r="5" fill="#6B4C7B"/>
+                <circle cx="380" cy="140" r="3" fill="#6B4C7B"/>
+                <circle cx="160" cy="320" r="4" fill="#F28A2E"/>
+                <circle cx="300" cy="360" r="5" fill="#F28A2E"/>
+                <circle cx="420" cy="300" r="3" fill="#6B4C7B"/>
+            </svg>
+
+            <!-- Card 3 — en arkada -->
+            <div class="match-card card-back">
+                <div class="card-title">Satış Müdürü</div>
+                <div class="card-bars">
+                    <div class="bar-row">
+                        <span>Satış Yetkinliği</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:71%"></div><span class="bar-dot"></span></div>
                     </div>
-                    <span class="hv-title">Talevo — Değerlendirme Paneli</span>
-                </div>
-                <div class="hv-body">
-                    <div class="hv-col-head">
-                        <span>Aday</span>
-                        <span>Değerlendirme</span>
-                        <span>Sonuç</span>
-                    </div>
-                    <div class="hv-rows">
-                        <div class="hv-row">
-                            <div class="hv-candidate">
-                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">AK</div>
-                                <div>
-                                    <div class="hv-name">Ayşe Kaya</div>
-                                    <div class="hv-role">Bölge Yöneticisi</div>
-                                </div>
-                            </div>
-                            <div class="hv-score">
-                                <div class="hv-bar"><div class="hv-fill" style="--w:87%"></div></div>
-                                <span>87</span>
-                            </div>
-                            <div class="hv-status status-yes">Uygun</div>
-                        </div>
-                        <div class="hv-row">
-                            <div class="hv-candidate">
-                                <div class="hv-avatar" style="--c:#B8BCC420;--t:#6E737D">MÖ</div>
-                                <div>
-                                    <div class="hv-name">Mert Öztürk</div>
-                                    <div class="hv-role">Satış Uzmanı</div>
-                                </div>
-                            </div>
-                            <div class="hv-score">
-                                <div class="hv-bar"><div class="hv-fill" style="--w:74%"></div></div>
-                                <span>74</span>
-                            </div>
-                            <div class="hv-status status-wait">Bekliyor</div>
-                        </div>
-                        <div class="hv-row hv-row--active">
-                            <div class="hv-candidate">
-                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">SY</div>
-                                <div>
-                                    <div class="hv-name">Selin Yıldız</div>
-                                    <div class="hv-role">MT Adayı</div>
-                                </div>
-                            </div>
-                            <div class="hv-score">
-                                <div class="hv-bar"><div class="hv-fill" style="--w:92%"></div></div>
-                                <span>92</span>
-                            </div>
-                            <div class="hv-status status-yes">Uygun</div>
-                        </div>
-                        <div class="hv-row">
-                            <div class="hv-candidate">
-                                <div class="hv-avatar" style="--c:#B8BCC420;--t:#6E737D">ED</div>
-                                <div>
-                                    <div class="hv-name">Emre Demir</div>
-                                    <div class="hv-role">Operasyon Sp.</div>
-                                </div>
-                            </div>
-                            <div class="hv-score">
-                                <div class="hv-bar"><div class="hv-fill" style="--w:61%"></div></div>
-                                <span>61</span>
-                            </div>
-                            <div class="hv-status status-no">Uygun Değil</div>
-                        </div>
-                        <div class="hv-row">
-                            <div class="hv-candidate">
-                                <div class="hv-avatar" style="--c:#5A355F20;--t:#5A355F">KA</div>
-                                <div>
-                                    <div class="hv-name">Kemal Arslan</div>
-                                    <div class="hv-role">Mağaza Müdürü</div>
-                                </div>
-                            </div>
-                            <div class="hv-score">
-                                <div class="hv-bar"><div class="hv-fill" style="--w:85%"></div></div>
-                                <span>85</span>
-                            </div>
-                            <div class="hv-status status-wait">Bekliyor</div>
-                        </div>
-                    </div>
-                    <div class="hv-footer">
-                        <span>12 pozisyon aktif</span>
-                        <span>248 aday işlendi</span>
-                        <span class="hv-rate">%94 yerleştirme</span>
+                    <div class="bar-row">
+                        <span>Liderlik</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:65%"></div><span class="bar-dot"></span></div>
                     </div>
                 </div>
             </div>
+
+            <!-- Card 2 -->
+            <div class="match-card card-mid">
+                <div class="card-title">Operasyon Yöneticisi</div>
+                <div class="card-bars">
+                    <div class="bar-row">
+                        <span>Süreç Yönetimi</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:80%"></div><span class="bar-dot"></span></div>
+                    </div>
+                    <div class="bar-row">
+                        <span>Kültür Uyumu</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:74%"></div><span class="bar-dot"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ön kart -->
+            <div class="match-card card-front">
+                <div class="card-badge">Önerilen Eşleşme</div>
+                <div class="card-title">Bölge Müdürü</div>
+                <div class="card-desc">Liderlik ve kültür uyumu açısından en güçlü eşleşme</div>
+                <div class="card-bars">
+                    <div class="bar-row">
+                        <span>Liderlik Uyumu</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:88%"></div><span class="bar-dot"></span></div>
+                    </div>
+                    <div class="bar-row">
+                        <span>Ticari Yetkinlik</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:75%"></div><span class="bar-dot"></span></div>
+                    </div>
+                    <div class="bar-row">
+                        <span>Kültür Eşleşmesi</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:92%"></div><span class="bar-dot"></span></div>
+                    </div>
+                </div>
+                <div class="card-footer">Çoklu değerlendirme modeli ile önerildi</div>
+            </div>
+
         </div>
 
     </div>
