@@ -154,6 +154,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     flex-shrink: 0;
 }
 
+.navbar-logo { height: 36px; width: auto; display: block; }
+
 .nav-links {
     display: flex;
     align-items: center;
@@ -1197,10 +1199,10 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .footer-left { display: flex; flex-direction: column; gap: 16px; }
-.footer-brand { display: flex; align-items: center; gap: 10px; }
-.footer-brand .brand-icon { background: #7C3AED; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
-.footer-brand .brand-text { color: white; font-size: 18px; font-weight: 600; }
-.footer-legal { font-size: 11px; color: rgba(255,255,255,.35); line-height: 1.5; }
+.footer-logo { height: 32px; width: auto; display: block; }
+.footer-iskur { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.iskur-logo { height: 40px; width: auto; }
+.footer-iskur span { color: #aaa; font-size: 12px; }
 
 .footer-nav,
 .footer-contact {
