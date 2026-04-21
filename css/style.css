@@ -154,8 +154,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     flex-shrink: 0;
 }
 
-.navbar-logo { height: 36px; width: auto; display: block; }
-
 .nav-links {
     display: flex;
     align-items: center;
@@ -1199,7 +1197,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .footer-left { display: flex; flex-direction: column; gap: 16px; }
-.footer-logo { height: 32px; width: auto; display: block; }
+.footer-brand-link { color: white; }
 .footer-iskur { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
 .iskur-logo { height: 40px; width: auto; }
 .footer-iskur span { color: #aaa; font-size: 12px; }
