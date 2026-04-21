@@ -1197,7 +1197,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .footer-left { display: flex; flex-direction: column; gap: 16px; }
-.footer-brand-link { color: white; }
+.footer-brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.footer-brand-link .brand-icon { background: #5A355F; color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.footer-brand-link .brand-name { color: white; font-size: 18px; font-weight: 600; }
 .footer-iskur { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
 .iskur-logo { height: 40px; width: auto; }
 .footer-iskur span { color: #aaa; font-size: 12px; }
