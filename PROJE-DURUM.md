@@ -20,23 +20,23 @@ Commit 6ce9453 push edildi, Netlify yayınladı. Push engelleri çözüldü: col
 - [x] Open Graph + Twitter Card etiketleri eklendi (og:image için talevo-logo.png'den 1200x630 og-image.png üretildi)
 - [x] JSON-LD Organization şeması eklendi
 
-### Paket 2 — KISMEN TAMAMLANDI 🟡
+### Paket 2 — TAMAMEN TAMAMLANDI ✅
 
-**TAMAMLANDI VE CANLIDA ✅ (ölü dosya silme):**
+**Ölü dosya silme (canlıda):**
 Commit 5f7576a push edildi, 843 satır ölü kod temizlendi. Silinenler: js/kariyer.js, css/kariyer.css, kariyer.html.
 Canlıda doğrulandı: talevo.com.tr/kariyer hâlâ CRM'e yönlendiriyor — yönlendirme netlify.toml'da yaşadığı için dosya silme yönlendirmeyi bozmadı.
 
-**KALAN İŞ (style.css cerrahi temizliği):**
-style.css'teki 43 kullanılmayan sınıf temizlenecek. Bu daha riskli/uzun bir iş çünkü ölü kurallar canlı kuralların arasına sıkışmış (örn. .hero-badge, .hero-visual canlı hero kurallarının arasında) ve mobil (media query) bloklarında tekrar ediyor (satır ~1484-1501, 1593).
-- SİLİNECEK ölü sınıflar: hv-* (tüm eski aday penceresi), what-*, services + services-grid, svc-block* + svc-tag, sv-* (c'siz: sv-talent/sv-executive/sv-assessment/sv-design), ayrıca sadece bunlara bağlı red/green/yellow ve status-yes/wait/no.
-- KORUNACAK canlı sınıflar (benzer isimli, KARIŞTIRMA): svc-section, svc-grid, svc-card, svc-num, svc-pill, svc-arr, svc-head, svc-h2, svc-lead, svc-card-footer.
-- Claude Code'un detaylı sınıf-bazlı analizi mevcut; silme kural bloğu bazında cerrahi yapılmalı, toplu bul-değiştir YAPILMAMALI.
+**style.css cerrahi temizliği (canlıda):**
+Commit 8227588. 43 kullanılmayan sınıf, 299 satır silindi; dosya 35.532 → 29.320 bayt (%17 küçüldü). Ölü kurallar (hv-*, what-*, services/services-grid, svc-block*, svc-tag, sv-*, ve bunlara bağlı red/green/yellow + status-yes/wait/no) blok blok cerrahi çıkarıldı; canlı svc-section/svc-card vb. korundu. Canlıda doğrulandı, site sorunsuz.
+
+**Paket 2 toplam temizlik: 1142 satır ölü kod silindi** (843 satır ölü dosya + 299 satır ölü CSS).
 
 **talevo-logo.png kararı — SİLİNMEDİ, TUTULDU:**
 JSON-LD şemasında Google'ın beklediği kurumsal (kare) logo olarak duruyor; og-image afişi bu iş için uygun değil. Boyut optimizasyonu (295 KB) yenilemeye bırakıldı.
 
 ### Yenileme sırasında çözülecekler (şimdi dokunma, not):
 - og-image.png marka kalitesinde değil; tasarım yenilemesinde markanın yeni görünümüyle uyumlu hale getirilecek
+- :root içindeki --green, --yellow, --red renk değişkenleri artık kullanılmıyor olabilir (bunları kullanan .hv-rate silindi); tasarım yenilemesinde renk paleti elden geçirilirken değerlendirilecek
 - --muted (#8A8F9A) ve #999 kontrast düşük (WCAG AA altı)
 - Başlık hiyerarşisi: h2'den h4'e atlayan bölümler var
 - Sekmelerde aria-controls/tabpanel/klavye desteği eksik
@@ -51,17 +51,16 @@ JSON-LD şemasında Google'ın beklediği kurumsal (kare) logo olarak duruyor; o
 - WebP dönüşümü, font self-hosting, CSP başlığı, minify
 
 ## Açık Maddeler
-- [~] Paket 2 — ölü dosya silme bitti; style.css cerrahi temizliği KALDI (bkz. Paket 2)
+- [x] Paket 2 — ölü dosya + kullanılmayan CSS temizliği tamamlandı (bkz. Paket 2)
 - [ ] Kavramsal/konumlandırma dokümanı bulunacak ve sohbete getirilecek (şu an elde yok)
 - [ ] Mobilde hero kartları kontrolü: telefondan talevo.com.tr'ye bakılacak, kartlar taşıyor mu?
 - [ ] Benchmark çalışması yapılacak (teknoloji odaklı işe alım şirketi siteleri)
 - [x] Site sahibi ilk git add/commit/push pratiğini yaptı (Paket 1 gönderiminde öğrendi)
 
 ## Sıradaki Oturum
-İki seçenekten biriyle başlanabilir:
-- (a) style.css cerrahi temizliğini yapıp Paket 2'yi bitir, VEYA
-- (b) Talevo'nun konumlandırmasını konuş.
-Önemli: Tasarım yenilemesine geçmeden önce konumlandırma netleşmeli.
+Teknik zemin hazır (Paket 1 + Paket 2 tamam, canlıda).
+Sıradaki iş: Talevo'nun konumlandırması — tasarım yenilemesinin önündeki tek engel bu.
+Benchmark ve tasarım kararları konumlandırma netleştikten sonra gelecek.
 
 ## Çalışma Şekli
 Strateji ve planlama Claude.ai sohbetinde, uygulama bu klasörde Claude Code ile yapılıyor. Commit/push adımlarını site sahibi elle yapıyor (öğrenme amaçlı).
