@@ -139,7 +139,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 /* ============ NAV ============ */
 .nav{position:fixed;inset:0 0 auto 0;z-index:90;backdrop-filter:blur(16px);
-  background:rgba(18,18,26,.92);border-bottom:1px solid var(--border-dark);
+  background:rgba(18,18,26,.6);border-bottom:1px solid var(--border-dark);
   transition:transform .35s ease, opacity .35s ease}
 /* Kapanış sahnesinde header yumuşakça gizlenir (JS ile toggle) */
 .nav.nav-hidden{transform:translateY(-100%);opacity:0;pointer-events:none}
@@ -149,24 +149,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .nav-cta{font-size:.9rem;font-weight:700;color:#fff;background:var(--brand-purple);
   padding:9px 20px;border-radius:99px;transition:background .2s,transform .2s}
 .nav-cta:hover{background:#57279F;transform:translateY(-1px)}
-
-/* ============ BAŞA DÖN butonu ============ */
-/* z-index 120: nav(90) ve progress(100) üstünde, modal(200) altında (modal öncelikli) */
-.to-top{position:fixed;right:24px;bottom:24px;z-index:120;
-  width:48px;height:48px;padding:0;border:none;border-radius:50%;cursor:pointer;
-  background:var(--brand-purple);color:#fff;
-  box-shadow:0 6px 20px rgba(72,33,142,.5), 0 2px 6px rgba(0,0,0,.32);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .4s ease, visibility .4s ease, background .2s ease, box-shadow .2s ease;
-  animation:toTopBob 2.4s ease-in-out infinite}
-.to-top.visible{opacity:1;visibility:visible;pointer-events:auto}
-.to-top:hover{background:#5A2BA8;box-shadow:0 9px 26px rgba(72,33,142,.62), 0 2px 8px rgba(0,0,0,.36)}
-.to-top:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.to-top svg{width:22px;height:22px;display:block}
-/* Çok hafif nefes/salınım: genlik 4px, yavaş, yumuşak */
-@keyframes toTopBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@media(prefers-reduced-motion:reduce){.to-top{animation:none}}
 
 /* ============ SAHNE YARDIMCILARI ============ */
 .scene{position:relative}
@@ -1220,13 +1202,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 </main>
 
-<!-- ============ BAŞA DÖN ============ -->
-<button class="to-top" id="toTop" type="button" aria-label="Başa dön">
-  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
-    <path d="M12 19 V5 M6 11 L12 5 L18 11" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
-
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <div class="wrap">
@@ -1846,22 +1821,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     new IntersectionObserver(es=>{
       es.forEach(e=>navEl.classList.toggle('nav-hidden', e.isIntersecting));
     },{threshold:0.2}).observe(closingEl);
-  }
-
-  /* ---- Başa dön butonu: ilk sahne (#openingScene) görünürken gizli, dışında görünür ---- */
-  const toTop = document.getElementById('toTop');
-  if(toTop){
-    const firstScene = document.getElementById('openingScene');
-    if(firstScene && 'IntersectionObserver' in window){
-      new IntersectionObserver(es=>{
-        es.forEach(e=>toTop.classList.toggle('visible', !e.isIntersecting));
-      },{threshold:0}).observe(firstScene);
-    } else {
-      toTop.classList.add('visible');   // güvenli geri dönüş: her zaman görünür
-    }
-    toTop.addEventListener('click',()=>{
-      window.scrollTo({top:0, behavior: reduced ? 'auto' : 'smooth'});
-    });
   }
 })();
 </script>
