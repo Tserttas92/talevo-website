@@ -552,6 +552,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cta-done-close{display:inline-block;width:auto;min-width:150px;border:none;cursor:pointer}
 .cta-error{margin:12px 0 0;font-size:.85rem;color:#F0A18F;line-height:1.5}
 .cta-error a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
+.cta-field-err{margin:6px 0 0;font-size:.78rem;color:#F0A18F;line-height:1.4}
 .cta-alt{margin:16px 0 0;font-size:.82rem;color:var(--text-on-dark-muted);text-align:center}
 .cta-alt a{color:rgba(255,255,255,.78);text-decoration:underline;text-underline-offset:2px}
 .cta-alt a:hover{color:#fff}
@@ -1226,9 +1227,20 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <input id="cf-email" name="email" type="email" placeholder="sirket@domain.com" required>
         </div>
       </div>
+      <div class="cta-row">
+        <div class="cta-field">
+          <label for="cf-phone">Telefon</label>
+          <input id="cf-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
+          <p class="cta-field-err" id="phoneErr" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
+        </div>
+        <div class="cta-field">
+          <label for="cf-company">Şirket</label>
+          <input id="cf-company" name="company" type="text" placeholder="Şirket adı">
+        </div>
+      </div>
       <div class="cta-field">
-        <label for="cf-company">Şirket</label>
-        <input id="cf-company" name="company" type="text" placeholder="Şirket adı">
+        <label for="cf-position">Pozisyonunuz</label>
+        <input id="cf-position" name="position" type="text" autocomplete="organization-title" placeholder="İK Direktörü">
       </div>
       <div class="cta-field">
         <label for="cf-message">İhtiyacınız nedir?</label>
@@ -1880,14 +1892,48 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       const title=cModal.querySelector('.modal-title'), btn=cForm.querySelector('.cta-submit');
       if(done)done.hidden=true;
       if(err)err.hidden=true;
+      const pErr=document.getElementById('phoneErr'); if(pErr)pErr.hidden=true;
       cForm.hidden=false;
       if(title)title.hidden=false;
       if(btn){btn.disabled=false;btn.textContent='Gönder';}
       cForm.reset();
     }
     if(cForm){
+      /* ---- Türkçe-doğru metin düzeltme (blur'da; toLocale*Case('tr-TR')) ---- */
+      const trTitle=s=>String(s).trim().replace(/\s+/g,' ').split(' ')
+        .map(w=>w?w.charAt(0).toLocaleUpperCase('tr-TR')+w.slice(1).toLocaleLowerCase('tr-TR'):w).join(' ');
+      const smartTitle=s=>{const t=String(s).trim().replace(/\s+/g,' ');
+        return (t && t===t.toLocaleLowerCase('tr-TR')) ? trTitle(t) : t;};   // metinde büyük harf varsa DOKUNMA
+      const nameEl=cForm.querySelector('[name="name"]');
+      if(nameEl)nameEl.addEventListener('blur',()=>{nameEl.value=trTitle(nameEl.value);});
+      cForm.querySelectorAll('[name="company"],[name="position"]').forEach(el=>
+        el.addEventListener('blur',()=>{el.value=smartTitle(el.value);}));
+
+      /* ---- Telefon maskesi: 0(5xx)/0(2xx) 123 45 67 ---- */
+      const phDigits=v=>{let d=String(v).replace(/\D/g,'');
+        if(d.startsWith('90')&&d.length>10)d=d.slice(2); if(d.startsWith('0'))d=d.slice(1); return d.slice(0,10);};
+      const phFormat=v=>{const d=phDigits(v); if(!d)return ''; let o='0('+d.slice(0,3);
+        if(d.length>=3)o+=')'; if(d.length>3)o+=' '+d.slice(3,6); if(d.length>6)o+=' '+d.slice(6,8); if(d.length>8)o+=' '+d.slice(8,10); return o;};
+      const phoneEl=cForm.querySelector('[name="phone"]');
+      const phErr=document.getElementById('phoneErr');
+      if(phoneEl){
+        phoneEl.addEventListener('input',()=>{
+          const raw=phoneEl.value, caret=phoneEl.selectionStart||0;
+          const dLeft=phDigits(raw.slice(0,caret)).length;         // imlecin solundaki anlamlı rakam sayısı
+          phoneEl.value=phFormat(raw);
+          let pos=phoneEl.value.length, seen=0;
+          if(dLeft<=0){pos=phoneEl.value?2:0;}                     // "0(" hemen sonrası
+          else{for(let i=2;i<phoneEl.value.length;i++){if(/\d/.test(phoneEl.value[i])){seen++; if(seen===dLeft){pos=i+1;break;}}}}
+          try{phoneEl.setSelectionRange(pos,pos);}catch(e){}       // imleç zıplamasın
+        });
+        phoneEl.addEventListener('blur',()=>{ if(phErr)phErr.hidden=!(phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10); });
+      }
+
       cForm.addEventListener('submit',ev=>{
         ev.preventDefault();                               // JS varsa AJAX gönder
+        if(phoneEl && phoneEl.value.trim() && phDigits(phoneEl.value).length!==10){  // opsiyonel ama girildiyse 10 hane
+          if(phErr)phErr.hidden=false; phoneEl.focus(); return;
+        }
         const err=document.getElementById('ctaError'), btn=cForm.querySelector('.cta-submit');
         if(err)err.hidden=true;
         if(btn){btn.disabled=true;btn.textContent='Gönderiliyor…';}
