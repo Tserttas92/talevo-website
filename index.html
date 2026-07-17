@@ -541,6 +541,17 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cta-kvkk{font-size:12px;line-height:1.5;color:rgba(255,255,255,.5);margin:0 0 14px}
 .cta-kvkk a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
 .cta-kvkk a:hover{color:#B79BF0}
+/* Gönderim sonucu: teşekkür ekranı + hata mesajı */
+.cta-done{text-align:center;padding:14px 0 6px}
+.cta-done-icon{width:56px;height:56px;margin:0 auto 18px;border-radius:50%;
+  background:rgba(72,33,142,.18);border:1px solid rgba(159,123,234,.45);
+  display:flex;align-items:center;justify-content:center}
+.cta-done-icon svg{width:28px;height:28px;display:block}
+.cta-done-title{font-size:1.35rem;font-weight:800;color:#fff;margin:0 0 8px;letter-spacing:-.01em}
+.cta-done-sub{color:var(--text-on-dark-muted);font-size:.95rem;margin:0 0 26px}
+.cta-done-close{display:inline-block;width:auto;min-width:150px;border:none;cursor:pointer}
+.cta-error{margin:12px 0 0;font-size:.85rem;color:#F0A18F;line-height:1.5}
+.cta-error a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
 .cta-alt{margin:16px 0 0;font-size:.82rem;color:var(--text-on-dark-muted);text-align:center}
 .cta-alt a{color:rgba(255,255,255,.78);text-decoration:underline;text-underline-offset:2px}
 .cta-alt a:hover{color:#fff}
@@ -1225,7 +1236,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       </div>
       <p class="cta-kvkk">Kişisel verileriniz <a href="/kvkk-iletisim-formu" target="_blank" rel="noopener">İletişim Formu Aydınlatma Metni</a> kapsamında işlenmektedir.</p>
       <button type="submit" class="btn-primary cta-submit">Gönder</button>
+      <p class="cta-error" id="ctaError" role="alert" hidden>Gönderilemedi. Lütfen tekrar deneyin ya da <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a> adresine yazın.</p>
     </form>
+    <div class="cta-done" id="ctaDone" hidden>
+      <div class="cta-done-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#9F7BEA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3 class="cta-done-title">Mesajınızı aldık.</h3>
+      <p class="cta-done-sub">En kısa sürede size dönüş yapacağız.</p>
+      <button type="button" class="btn-primary cta-done-close" data-close>Kapat</button>
+    </div>
   </div>
 </div>
 
@@ -1830,6 +1848,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       if(e&&e.preventDefault)e.preventDefault();             // çapa/kaydırma yok — doğrudan modal
       lastFocus=(e&&e.currentTarget)||document.activeElement; // hangi butondan açıldıysa o
       cModal.hidden=false;
+      resetContactForm();                                  // her açılışta form temiz + baştan
       document.body.style.overflow='hidden';               // arka plan kaydırma kilidi
       requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
     }
@@ -1852,6 +1871,40 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
       }
     });
+
+    /* ---- İletişim formu: AJAX gönderim (progressive enhancement — JS yoksa normal HTML submit çalışır) ---- */
+    const cForm=document.getElementById('talep-form');
+    function resetContactForm(){                            // fonksiyon bildirimi: openM'den önce çağrılabilir (hoisting)
+      if(!cForm)return;
+      const done=document.getElementById('ctaDone'), err=document.getElementById('ctaError');
+      const title=cModal.querySelector('.modal-title'), btn=cForm.querySelector('.cta-submit');
+      if(done)done.hidden=true;
+      if(err)err.hidden=true;
+      cForm.hidden=false;
+      if(title)title.hidden=false;
+      if(btn){btn.disabled=false;btn.textContent='Gönder';}
+      cForm.reset();
+    }
+    if(cForm){
+      cForm.addEventListener('submit',ev=>{
+        ev.preventDefault();                               // JS varsa AJAX gönder
+        const err=document.getElementById('ctaError'), btn=cForm.querySelector('.cta-submit');
+        if(err)err.hidden=true;
+        if(btn){btn.disabled=true;btn.textContent='Gönderiliyor…';}
+        const bodyData=new URLSearchParams(new FormData(cForm)).toString();  // form-name + honeypot dahil TÜM alanlar
+        fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:bodyData})
+          .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status);
+            cForm.hidden=true;                             // başarı: formu gizle, teşekkür göster (sayfa değişmez)
+            const title=cModal.querySelector('.modal-title'); if(title)title.hidden=true;
+            const done=document.getElementById('ctaDone'); if(done)done.hidden=false;
+            requestAnimationFrame(()=>{const c=done&&done.querySelector('.cta-done-close'); if(c)c.focus();});
+          })
+          .catch(()=>{                                     // hata: form kalır, mesaj göster, buton geri aktif
+            if(err)err.hidden=false;
+            if(btn){btn.disabled=false;btn.textContent='Gönder';}
+          });
+      });
+    }
   }
 
   /* ---- Kapanış (#talep) görünürken header'ı yumuşakça gizle, dışında geri getir ---- */
