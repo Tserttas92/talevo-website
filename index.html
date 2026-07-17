@@ -1219,28 +1219,34 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <input type="hidden" name="bot-field">
       <div class="cta-row">
         <div class="cta-field">
-          <label for="cf-name">Ad Soyad</label>
-          <input id="cf-name" name="name" type="text" placeholder="Adınız" required>
+          <label for="cf-first">Ad</label>
+          <input id="cf-first" name="first_name" type="text" placeholder="Adınız" autocomplete="given-name" required>
         </div>
+        <div class="cta-field">
+          <label for="cf-last">Soyad</label>
+          <input id="cf-last" name="last_name" type="text" placeholder="Soyadınız" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="cta-row">
         <div class="cta-field">
           <label for="cf-email">E-posta</label>
           <input id="cf-email" name="email" type="email" placeholder="sirket@domain.com" required>
         </div>
-      </div>
-      <div class="cta-row">
         <div class="cta-field">
           <label for="cf-phone">Telefon</label>
           <input id="cf-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
           <p class="cta-field-err" id="phoneErr" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
         </div>
+      </div>
+      <div class="cta-row">
         <div class="cta-field">
           <label for="cf-company">Şirket</label>
           <input id="cf-company" name="company" type="text" placeholder="Şirket adı">
         </div>
-      </div>
-      <div class="cta-field">
-        <label for="cf-position">Pozisyonunuz</label>
-        <input id="cf-position" name="position" type="text" autocomplete="organization-title" placeholder="İK Direktörü">
+        <div class="cta-field">
+          <label for="cf-position">Pozisyonunuz</label>
+          <input id="cf-position" name="position" type="text" autocomplete="organization-title" placeholder="İK Direktörü">
+        </div>
       </div>
       <div class="cta-field">
         <label for="cf-message">İhtiyacınız nedir?</label>
@@ -1904,8 +1910,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         .map(w=>w?w.charAt(0).toLocaleUpperCase('tr-TR')+w.slice(1).toLocaleLowerCase('tr-TR'):w).join(' ');
       const smartTitle=s=>{const t=String(s).trim().replace(/\s+/g,' ');
         return (t && t===t.toLocaleLowerCase('tr-TR')) ? trTitle(t) : t;};   // metinde büyük harf varsa DOKUNMA
-      const nameEl=cForm.querySelector('[name="name"]');
-      if(nameEl)nameEl.addEventListener('blur',()=>{nameEl.value=trTitle(nameEl.value);});
+      cForm.querySelectorAll('[name="first_name"],[name="last_name"]').forEach(el=>
+        el.addEventListener('blur',()=>{el.value=trTitle(el.value);}));
       cForm.querySelectorAll('[name="company"],[name="position"]').forEach(el=>
         el.addEventListener('blur',()=>{el.value=smartTitle(el.value);}));
 
