@@ -537,6 +537,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cta-form input:focus,.cta-form textarea:focus{outline:none;border-color:#8B6FE0;background:rgba(255,255,255,.08)}
 .cta-form textarea{resize:vertical;min-height:100px}
 .cta-submit{width:100%;margin-top:4px;border:none;cursor:pointer}
+/* KVKK aydınlatma bilgilendirmesi — gönder butonunun üstünde, sessiz */
+.cta-kvkk{font-size:12px;line-height:1.5;color:rgba(255,255,255,.5);margin:0 0 14px}
+.cta-kvkk a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
+.cta-kvkk a:hover{color:#B79BF0}
 .cta-alt{margin:16px 0 0;font-size:.82rem;color:var(--text-on-dark-muted);text-align:center}
 .cta-alt a{color:rgba(255,255,255,.78);text-decoration:underline;text-underline-offset:2px}
 .cta-alt a:hover{color:#fff}
@@ -581,7 +585,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .footer-iskur .permit{font-size:.78rem;color:var(--text-on-dark-muted);line-height:1.5}
 .footer-iskur .permit b{color:#fff;font-weight:700}
 .footer-bottom{margin-top:40px;padding-top:24px;border-top:1px solid var(--border-dark);
-  font-size:.78rem;color:var(--text-on-dark-muted)}
+  font-size:.78rem;color:var(--text-on-dark-muted);
+  display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;align-items:center}
+.footer-bottom a{color:var(--text-on-dark-muted);text-decoration:underline;text-underline-offset:2px}
+.footer-bottom a:hover{color:#fff}
 
 /* ============ DUYARLI (mobil) ============ */
 @media(max-width:900px){
@@ -1216,6 +1223,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <label for="cf-message">İhtiyacınız nedir?</label>
         <textarea id="cf-message" name="message" rows="4" placeholder="İşe alım ihtiyacınızı kısaca anlatın..." required></textarea>
       </div>
+      <p class="cta-kvkk">Kişisel verileriniz <a href="/kvkk-iletisim-formu" target="_blank" rel="noopener">İletişim Formu Aydınlatma Metni</a> kapsamında işlenmektedir.</p>
       <button type="submit" class="btn-primary cta-submit">Gönder</button>
     </form>
   </div>
@@ -1272,7 +1280,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       </div>
     </div>
     <div class="footer-bottom">
-      © 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.
+      <span>© 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</span>
+      <a href="/kvkk-iletisim-formu">İletişim Formu Aydınlatma Metni</a>
     </div>
   </div>
 </footer>

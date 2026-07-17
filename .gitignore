@@ -11,3 +11,7 @@
 
 # Logs
 *.log
+_kaynak/
+
+# Yerel yedekler — yayında/git'te olmamalı (eski sürüm ifşası riski)
+index-eski-yedek*.html
