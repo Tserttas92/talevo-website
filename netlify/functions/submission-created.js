@@ -66,11 +66,24 @@ exports.handler = async (event) => {
         const fileRes = await fetch(cvUrl);
         if (fileRes.ok) {
           const buf = Buffer.from(await fileRes.arrayBuffer());
+          // TEŞHİS: ilk gerçek gönderimde ek yapısını loglardan görebilmek için
+          // (indirmenin content-type'ı çoğu zaman genel 'octet-stream' döner — bu yüzden
+          //  türü asıl baytlardan / uzantıdan saptıyoruz, indirme başlığından DEĞİL).
+          console.log(
+            '[aday-mail] CV indi:',
+            'bayt=' + buf.length,
+            '| dl-content-type=' + (fileRes.headers.get('content-type') || '-'),
+            '| dl-content-disposition=' + (fileRes.headers.get('content-disposition') || '-'),
+            '| url-son=' + lastPathSegment(cvUrl),
+            '| magic=' + (extFromMagic(buf) || '-')
+          );
           if (buf.length <= 3 * 1024 * 1024) {
+            const meta = attachmentMeta(cvUrl, fileRes, buf, d);
+            console.log('[aday-mail] Ek adı=' + meta.name + ' | contentType=' + meta.contentType);
             attachments.push({
               '@odata.type': '#microsoft.graph.fileAttachment',
-              name: fileName(cvUrl, fileRes, d),
-              contentType: fileRes.headers.get('content-type') || 'application/octet-stream',
+              name: meta.name,
+              contentType: meta.contentType,
               contentBytes: buf.toString('base64'),
             });
           } else {
@@ -143,18 +156,75 @@ exports.handler = async (event) => {
   }
 };
 
-// CV dosya adını content-disposition / content-type / URL'den türet
-function fileName(url, res, d) {
-  const cd = res.headers.get('content-disposition') || '';
-  const m = cd.match(/filename\*?=(?:UTF-8'')?"?([^";]+)"?/i);
-  if (m && m[1]) { try { return decodeURIComponent(m[1]); } catch (_) { return m[1]; } }
-  const ct = res.headers.get('content-type') || '';
-  let ext = '';
-  if (/pdf/i.test(ct)) ext = '.pdf';
-  else if (/word|docx|officedocument/i.test(ct)) ext = '.docx';
-  else { const u = String(url).match(/\.(pdf|docx?|)(?:$|\?)/i); if (u && u[1]) ext = '.' + u[1].toLowerCase(); }
-  const base = ('ozgecmis-' + (d.first_name || '') + '-' + (d.last_name || '')).trim().replace(/\s+/g, '-').replace(/-+$/,'') || 'ozgecmis';
-  return base + ext;
+// Uzantı → DOĞRU MIME tipi (Outlook'un eki tanıması bu tipe bağlıdır)
+const MIME_BY_EXT = {
+  '.pdf': 'application/pdf',
+  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  '.doc': 'application/msword',
+};
+
+// EN GÜVENİLİR yöntem: dosyanın ilk baytlarından (magic bytes) gerçek türü sapta.
+// Netlify indirme yanıtının content-type'ı ve URL'i çoğu zaman genel/uzantısızdır;
+// baytlar ise dosyanın gerçek türünü kesin söyler.
+function extFromMagic(buf) {
+  if (!buf || buf.length < 4) return '';
+  // "%PDF" → PDF
+  if (buf[0] === 0x25 && buf[1] === 0x50 && buf[2] === 0x44 && buf[3] === 0x46) return '.pdf';
+  // "PK.." (ZIP) → OOXML; form yalnız pdf/doc/docx kabul ettiğinden = .docx
+  if (buf[0] === 0x50 && buf[1] === 0x4b && (buf[2] === 0x03 || buf[2] === 0x05 || buf[2] === 0x07)) return '.docx';
+  // OLE2 (eski Word .doc): D0 CF 11 E0
+  if (buf[0] === 0xd0 && buf[1] === 0xcf && buf[2] === 0x11 && buf[3] === 0xe0) return '.doc';
+  return '';
+}
+
+// URL'nin son yol parçası (dosya adı olabilir), sorgu/hash arındırılmış
+function lastPathSegment(url) {
+  try {
+    const p = decodeURIComponent(String(url).split('?')[0].split('#')[0]);
+    return p.substring(p.lastIndexOf('/') + 1) || '';
+  } catch (_) { return ''; }
+}
+
+// Yalnız kabul edilen uzantılardan birini döndür (.pdf/.doc/.docx), yoksa ''
+function knownExt(name) {
+  const m = String(name || '').toLowerCase().match(/\.(pdf|docx|doc)(?:$|\?)/);
+  return m ? '.' + m[1] : '';
+}
+
+// content-disposition başlığından orijinal dosya adını çıkar
+function nameFromDisposition(res) {
+  const cd = (res && res.headers.get('content-disposition')) || '';
+  let m = cd.match(/filename\*=(?:UTF-8'')?([^;]+)/i);
+  if (m && m[1]) { const v = m[1].trim().replace(/^"|"$/g, ''); try { return decodeURIComponent(v); } catch (_) { return v; } }
+  m = cd.match(/filename="?([^";]+)"?/i);
+  return m && m[1] ? m[1].trim() : '';
+}
+
+// Ek için doğru { name, contentType } üret.
+// Uzantı önceliği: MAGIC BAYTLAR → orijinal ad uzantısı → indirme content-type → URL uzantısı.
+// contentType HER ZAMAN saptanan uzantıdan türetilir (indirme başlığından değil).
+function attachmentMeta(url, res, buf, d) {
+  const orig = nameFromDisposition(res) || lastPathSegment(url);
+  const dlCt = (res && res.headers.get('content-type')) || '';
+  let extCt = '';
+  if (/pdf/i.test(dlCt)) extCt = '.pdf';
+  else if (/wordprocessingml|officedocument\.word/i.test(dlCt)) extCt = '.docx';
+  else if (/msword/i.test(dlCt)) extCt = '.doc';
+
+  const ext = extFromMagic(buf) || knownExt(orig) || extCt || knownExt(url) || '';
+  const contentType = MIME_BY_EXT[ext] || 'application/octet-stream';
+
+  // Ad tabanı: orijinal ad varsa onu (uzantısız) kullan, yoksa aday adından üret
+  let base = '';
+  if (orig) {
+    const cleaned = orig.replace(/\.(pdf|docx|doc)$/i, '').replace(/[\\/:*?"<>|]+/g, ' ').trim();
+    if (cleaned) base = cleaned;
+  }
+  if (!base) {
+    base = ('ozgecmis-' + (d.first_name || '') + '-' + (d.last_name || '')).trim()
+      .replace(/\s+/g, '-').replace(/-+$/, '') || 'ozgecmis';
+  }
+  return { name: base + ext, contentType };
 }
 
 async function safeText(res) { try { return (await res.text()).slice(0, 300); } catch (_) { return ''; } }
