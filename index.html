@@ -647,6 +647,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .footer-bottom a:hover{color:#fff}
 .footer-legal-links{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
 .footer-sep{color:rgba(255,255,255,.3);text-decoration:none}
+/* Sayfa sonu · aday CTA (footer üstü) */
+.aday-cta{background:linear-gradient(180deg,#1A1228 0%,#13101C 100%);
+  border-top:1px solid rgba(159,123,234,.18);padding:56px 24px;text-align:center}
+.aday-cta .aday-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#9F7BEA;margin:0 0 12px}
+.aday-cta .aday-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.02em;color:#fff;margin:0 0 26px;line-height:1.12}
+.aday-cta-btn{display:inline-flex;align-items:center;gap:10px}
+.aday-cta-btn svg{width:20px;height:20px}
+@media(max-width:600px){.aday-cta{padding:44px 24px}}
 
 /* ============ DUYARLI (mobil) ============ */
 @media(max-width:900px){
@@ -696,9 +704,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   .footer-brandcol{flex-direction:column;gap:26px}
 }
 
-/* ============ HAREKET AZALTMA ============
-   Animasyonlar kapanır, tüm içerik son halinde ve tam görünür. */
-@media(prefers-reduced-motion:reduce){
+/* ============ SAHNE DÜZLEŞTİRME (mobil ≤900px VEYA hareket-azaltma) ============
+   Scroll-driven scenes statikleşir: yapışkan pin yok, svh yükseklik yok, absolute perde yok.
+   Mobilde (reduced-motion kapalı olsa da) ve hareket-azaltma açıkken tüm içerik dikey yığın,
+   son halinde ve tam görünür. Masaüstünde (>900px + reduced-motion kapalı) hiçbir koşul eşleşmez
+   → scroll-driven deneyim ESKİSİ GİBİ çalışır. */
+@media(max-width:900px),(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .scene{height:auto!important}
   .pin{position:static;height:auto;padding:90px 0}
@@ -1409,6 +1420,16 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 </button>
 
 <!-- ============ FOOTER ============ -->
+<!-- ============ SAYFA SONU · ADAY CTA (footer üstü) ============ -->
+<section class="aday-cta" aria-label="İş arayanlar için">
+  <p class="aday-eyebrow">İş arayanlar için</p>
+  <h2 class="aday-title">Özgeçmişinizi gönderin</h2>
+  <button class="btn-primary aday-cta-btn" type="button" id="adayCta" aria-haspopup="dialog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+    Özgeçmişinizi gönderin
+  </button>
+</section>
+
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
@@ -2106,10 +2127,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     const resetAday=setupForm(document.getElementById('aday-form'));
     function resetModal(){ resetEmp(); resetAday(); showView(viewChoice); }
 
-    function openM(e){
+    function openM(e, target){
       if(e&&e.preventDefault)e.preventDefault();
       lastFocus=(e&&e.currentTarget)||document.activeElement;
-      cModal.hidden=false; resetModal();                   // her açılışta AYRIM ekranından başla, formlar temiz
+      cModal.hidden=false; resetModal();                   // formlar temiz (varsayılan: AYRIM ekranı)
+      if(target==='candidate') showView(viewCandidate);    // sayfa sonu butonu → doğrudan ADAY formu (ayrımı atla)
+      else if(target==='employer') showView(viewEmployer);
       document.body.style.overflow='hidden';
       requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
     }
@@ -2117,6 +2140,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
     if(ctaOpen)ctaOpen.addEventListener('click',openM);
     if(navCta)navCta.addEventListener('click',openM);
+    const adayCta=document.getElementById('adayCta');    // sayfa sonu "Özgeçmişinizi gönderin" → doğrudan aday formu
+    if(adayCta)adayCta.addEventListener('click',e=>openM(e,'candidate'));
     cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeM));
     cModal.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{
       showView(b.getAttribute('data-goto')==='employer'?viewEmployer:viewCandidate);
