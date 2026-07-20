@@ -60,23 +60,39 @@ exports.handler = async (event) => {
     }
 
     // --- 1) CV'yi indir (≤3 MB ise ek yap) ---
+    // Netlify Forms'a yüklenen dosyanın URL'i KORUMALIDIR: token'sız indirilirse dosya
+    // yerine HTML giriş/hata sayfası döner (magic boş → ek bozuk). Bu yüzden indirmede
+    // Netlify access token'ı Authorization header ile göndeririz.
+    const NETLIFY_TOKEN = process.env.NETLIFY_ACCESS_TOKEN;
+    if (!NETLIFY_TOKEN) {
+      console.error('[aday-mail] NETLIFY_ACCESS_TOKEN eksik — korumalı CV URL\'i token\'sız indirilecek, dosya bozuk gelebilir. (Sessiz kayıp koruması devrede: ek olmazsa link gövdeye düşer.)');
+    }
     const attachments = [];
     if (cvUrl) {
       try {
-        const fileRes = await fetch(cvUrl);
+        const fileRes = await fetch(cvUrl, NETLIFY_TOKEN
+          ? { headers: { Authorization: 'Bearer ' + NETLIFY_TOKEN } }
+          : undefined);
         if (fileRes.ok) {
           const buf = Buffer.from(await fileRes.arrayBuffer());
           // TEŞHİS: ilk gerçek gönderimde ek yapısını loglardan görebilmek için
           // (indirmenin content-type'ı çoğu zaman genel 'octet-stream' döner — bu yüzden
           //  türü asıl baytlardan / uzantıdan saptıyoruz, indirme başlığından DEĞİL).
+          const dlCt = fileRes.headers.get('content-type') || '-';
+          const magicExt = extFromMagic(buf);
           console.log(
             '[aday-mail] CV indi:',
             'bayt=' + buf.length,
-            '| dl-content-type=' + (fileRes.headers.get('content-type') || '-'),
+            '| dl-content-type=' + dlCt,
             '| dl-content-disposition=' + (fileRes.headers.get('content-disposition') || '-'),
             '| url-son=' + lastPathSegment(cvUrl),
-            '| magic=' + (extFromMagic(buf) || '-')
+            '| magic=' + (magicExt || '-')
           );
+          // İndirilen içerik beklenen dosya değil de HTML/hata sayfası ise (magic boş +
+          // content-type text/html): büyük olasılıkla yetkilendirme sorunu — açıkça uyar.
+          if (!magicExt && /text\/html/i.test(dlCt)) {
+            console.error('[aday-mail] UYARI: indirilen dosya beklenen türde değil (HTML), muhtemelen yetkilendirme sorunu — NETLIFY_ACCESS_TOKEN geçerli mi kontrol et.');
+          }
           if (buf.length <= 3 * 1024 * 1024) {
             const meta = attachmentMeta(cvUrl, fileRes, buf, d);
             console.log('[aday-mail] Ek adı=' + meta.name + ' | contentType=' + meta.contentType);
