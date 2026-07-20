@@ -13,5 +13,9 @@
 *.log
 _kaynak/
 
+# Ortam değişkenleri / secret'lar (asla commit'lenmez)
+.env
+.env.*
+
 # Yerel yedekler — yayında/git'te olmamalı (eski sürüm ifşası riski)
 index-eski-yedek*.html

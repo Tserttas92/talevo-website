@@ -3,6 +3,12 @@
 [build]
   publish = "."
 
+# Serverless fonksiyonlar (aday başvurusunda CV'yi ek yaparak mail atan submission-created)
+# Node 18+ (global fetch); secret'lar Netlify panel ortam değişkenlerinde tutulur.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Redirect www to non-www
 [[redirects]]
   from = "https://www.talevo.com.tr/*"

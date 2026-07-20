@@ -553,6 +553,50 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cta-error{margin:12px 0 0;font-size:.85rem;color:#F0A18F;line-height:1.5}
 .cta-error a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
 .cta-field-err{margin:6px 0 0;font-size:.78rem;color:#F0A18F;line-height:1.4}
+/* Modal görünümleri: ayrım / işveren / aday */
+.modal-view[hidden]{display:none}
+.modal-back{background:none;border:none;color:var(--text-on-dark-muted);font:inherit;font-size:.85rem;
+  cursor:pointer;padding:0;margin:0 0 14px;display:inline-flex;align-items:center;gap:6px}
+.modal-back:hover{color:#fff}
+/* Ayrım kartları */
+.choice-list{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.choice-card{display:flex;align-items:center;gap:16px;width:100%;text-align:left;cursor:pointer;font:inherit;
+  background:rgba(255,255,255,.03);border:1px solid var(--border-dark);border-radius:14px;padding:18px 20px;color:#fff;
+  transition:background .2s,border-color .2s,transform .1s}
+.choice-card:hover{background:rgba(255,255,255,.06);transform:translateY(-1px)}
+.choice-primary{background:rgba(72,33,142,.12);border-color:rgba(159,123,234,.4)}
+.choice-primary:hover{background:rgba(72,33,142,.2)}
+.choice-ico{flex-shrink:0;width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  background:rgba(159,123,234,.14);color:#9F7BEA}
+.choice-card:not(.choice-primary) .choice-ico{color:#C7B3F0;background:rgba(255,255,255,.05)}
+.choice-ico svg{width:22px;height:22px}
+.choice-name{flex:1;font-size:1.02rem;font-weight:700}
+.choice-arrow{flex-shrink:0;color:#9F7BEA;display:flex}
+.choice-card:not(.choice-primary) .choice-arrow{color:rgba(255,255,255,.35)}
+.choice-arrow svg{width:20px;height:20px}
+/* CV yükleme alanı */
+.cv-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+.cv-drop{position:relative;border:1.5px dashed rgba(159,123,234,.5);border-radius:12px;
+  background:rgba(72,33,142,.06);padding:22px 18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.cv-drop:hover,.cv-drop.drag{border-color:rgba(159,123,234,.85);background:rgba(72,33,142,.12)}
+.cv-drop.has-file{border-style:solid;cursor:default}
+.cv-drop:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px}
+.cv-idle svg{width:30px;height:30px;color:#9F7BEA;margin-bottom:8px;display:inline-block}
+.cv-text{font-size:.9rem;color:var(--text-on-dark)}
+.cv-pick{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
+.cv-hint{font-size:.75rem;color:var(--text-on-dark-muted);margin-top:6px}
+.cv-chosen{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.cv-chosen[hidden]{display:none}
+.cv-name{font-size:.88rem;font-weight:700;color:#fff;word-break:break-all}
+.cv-size{font-size:.78rem;color:var(--text-on-dark-muted)}
+.cv-remove{flex-shrink:0;background:rgba(255,255,255,.08);border:none;color:#fff;cursor:pointer;
+  width:24px;height:24px;border-radius:50%;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+.cv-remove:hover{background:rgba(240,120,120,.35)}
+/* KVKK onay kutusu */
+.cta-check{display:flex;gap:10px;align-items:flex-start;margin:2px 0 6px;cursor:pointer;
+  font-size:.78rem;line-height:1.5;color:var(--text-on-dark-muted)}
+.cta-check input{flex-shrink:0;width:17px;height:17px;margin-top:1px;accent-color:#48218E;cursor:pointer}
+.cta-check a{color:#9F7BEA;text-decoration:underline;text-underline-offset:2px}
 .cta-alt{margin:16px 0 0;font-size:.82rem;color:var(--text-on-dark-muted);text-align:center}
 .cta-alt a{color:rgba(255,255,255,.78);text-decoration:underline;text-underline-offset:2px}
 .cta-alt a:hover{color:#fff}
@@ -601,6 +645,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;align-items:center}
 .footer-bottom a{color:var(--text-on-dark-muted);text-decoration:underline;text-underline-offset:2px}
 .footer-bottom a:hover{color:#fff}
+.footer-legal-links{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.footer-sep{color:rgba(255,255,255,.3);text-decoration:none}
 
 /* ============ DUYARLI (mobil) ============ */
 @media(max-width:900px){
@@ -1212,9 +1258,30 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   <div class="modal-overlay" data-close></div>
   <div class="modal-card" tabindex="-1">
     <button class="modal-x" type="button" data-close aria-label="Kapat">&times;</button>
-    <h3 class="modal-title">İletişime Geç</h3>
-    <!-- Netlify iletişim formu (canlı index.html ile birebir kurulum: name=contact, data-netlify, honeypot) -->
-    <form class="cta-form" id="talep-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+
+    <!-- Görünüm 1: AYRIM ekranı -->
+    <div class="modal-view" id="viewChoice">
+      <h3 class="modal-title">İletişime geçin</h3>
+      <div class="choice-list">
+        <button type="button" class="choice-card choice-primary" data-goto="employer">
+          <span class="choice-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 21V9h3a1 1 0 0 1 1 1v11M8 7h2M8 11h2M8 15h2"/></svg></span>
+          <span class="choice-name">İşverenler</span>
+          <span class="choice-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+        <button type="button" class="choice-card" data-goto="candidate">
+          <span class="choice-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M4 20c0-3.3 2.7-6 6-6 1.2 0 2.3.3 3.2.9"/><circle cx="17.5" cy="17.5" r="2.5"/><path d="M21 21l-1.7-1.7"/></svg></span>
+          <span class="choice-name">İş arayanlar</span>
+          <span class="choice-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Görünüm 2: İŞVEREN formu -->
+    <div class="modal-view" id="viewEmployer" hidden>
+      <button type="button" class="modal-back" data-back>← Geri</button>
+      <h3 class="modal-title">İletişime Geç</h3>
+      <!-- Netlify iletişim formu (name=contact, data-netlify, honeypot) -->
+      <form class="cta-form" id="talep-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
       <input type="hidden" name="bot-field">
       <div class="cta-row">
@@ -1235,7 +1302,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <div class="cta-field">
           <label for="cf-phone">Telefon</label>
           <input id="cf-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
-          <p class="cta-field-err" id="phoneErr" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
+          <p class="cta-field-err phone-err" id="phoneErr" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
         </div>
       </div>
       <div class="cta-row">
@@ -1256,12 +1323,79 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <button type="submit" class="btn-primary cta-submit">Gönder</button>
       <p class="cta-error" id="ctaError" role="alert" hidden>Gönderilemedi. Lütfen tekrar deneyin ya da <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a> adresine yazın.</p>
     </form>
-    <div class="cta-done" id="ctaDone" hidden>
-      <div class="cta-done-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#9F7BEA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <h3 class="cta-done-title">Mesajınızı aldık.</h3>
-      <p class="cta-done-sub">En kısa sürede size dönüş yapacağız.</p>
-      <button type="button" class="btn-primary cta-done-close" data-close>Kapat</button>
-    </div>
+      <div class="cta-done" id="ctaDone" hidden>
+        <div class="cta-done-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#9F7BEA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="cta-done-title">Mesajınızı aldık.</h3>
+        <p class="cta-done-sub">En kısa sürede size dönüş yapacağız.</p>
+        <button type="button" class="btn-primary cta-done-close" data-close>Kapat</button>
+      </div>
+    </div><!-- /viewEmployer -->
+
+    <!-- Görünüm 3: ADAY formu -->
+    <div class="modal-view" id="viewCandidate" hidden>
+      <button type="button" class="modal-back" data-back>← Geri</button>
+      <h3 class="modal-title">Özgeçmişinizi gönderin</h3>
+      <!-- Netlify aday başvuru formu (name=aday-basvuru, multipart, honeypot) -->
+      <form class="cta-form" id="aday-form" name="aday-basvuru" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
+        <input type="hidden" name="form-name" value="aday-basvuru">
+        <input type="hidden" name="bot-field">
+        <div class="cta-row">
+          <div class="cta-field">
+            <label for="ad-first">Ad</label>
+            <input id="ad-first" name="first_name" type="text" placeholder="Adınız" autocomplete="given-name" required>
+          </div>
+          <div class="cta-field">
+            <label for="ad-last">Soyad</label>
+            <input id="ad-last" name="last_name" type="text" placeholder="Soyadınız" autocomplete="family-name" required>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="cta-field">
+            <label for="ad-email">E-posta</label>
+            <input id="ad-email" name="email" type="email" placeholder="ad@ornek.com" required>
+          </div>
+          <div class="cta-field">
+            <label for="ad-phone">Telefon</label>
+            <input id="ad-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
+            <p class="cta-field-err phone-err" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
+          </div>
+        </div>
+        <div class="cta-field">
+          <label for="cvInput">Özgeçmiş</label>
+          <div class="cv-drop" tabindex="0" role="button" aria-label="Özgeçmiş yükle">
+            <input type="file" name="cv_file" id="cvInput" class="cv-input" accept=".pdf,.doc,.docx">
+            <div class="cv-idle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.5 1.5A3.5 3.5 0 0 1 17 18M12 12v7M9 15l3-3 3 3"/></svg>
+              <p class="cv-text">Özgeçmişinizi sürükleyin veya <span class="cv-pick">seçin</span></p>
+              <p class="cv-hint">PDF, DOC, DOCX · en fazla 3 MB</p>
+            </div>
+            <div class="cv-chosen" hidden>
+              <span class="cv-name"></span>
+              <span class="cv-size"></span>
+              <button type="button" class="cv-remove" aria-label="Kaldır">&times;</button>
+            </div>
+          </div>
+          <p class="cta-field-err cv-err" hidden>Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.</p>
+        </div>
+        <div class="cta-field">
+          <label for="ad-message">Mesajınız</label>
+          <textarea id="ad-message" name="message" rows="3" placeholder="Kısaca kendinizden bahsedin..."></textarea>
+        </div>
+        <label class="cta-check">
+          <input type="checkbox" name="kvkk_notice_acknowledged" value="onaylandı">
+          <span><a href="/kvkk-aday-basvuru" target="_blank" rel="noopener">Aday Başvuru Formu Aydınlatma Metni</a>’ni okuduğumu ve kişisel verilerimin işlenmesine ilişkin bilgi edindiğimi beyan ederim.</span>
+        </label>
+        <p class="cta-field-err kvkk-err" hidden>Devam etmek için aydınlatma metni onayını işaretleyin.</p>
+        <button type="submit" class="btn-primary cta-submit">Başvuruyu gönder</button>
+        <p class="cta-error" role="alert" hidden>Gönderilemedi. Lütfen tekrar deneyin ya da <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a> adresine yazın.</p>
+      </form>
+      <div class="cta-done" id="adayDone" hidden>
+        <div class="cta-done-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#9F7BEA" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="cta-done-title">Başvurunuzu aldık.</h3>
+        <p class="cta-done-sub">En kısa sürede size dönüş yapacağız.</p>
+        <button type="button" class="btn-primary cta-done-close" data-close>Kapat</button>
+      </div>
+    </div><!-- /viewCandidate -->
   </div>
 </div>
 
@@ -1317,7 +1451,11 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     </div>
     <div class="footer-bottom">
       <span>© 2026 Talevo İnsan Kaynakları Danışmanlık Ltd. Şti.</span>
-      <a href="/kvkk-iletisim-formu">İletişim Formu Aydınlatma Metni</a>
+      <span class="footer-legal-links">
+        <a href="/kvkk-iletisim-formu">İletişim Formu Aydınlatma Metni</a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <a href="/kvkk-aday-basvuru">Aday Başvuru Formu Aydınlatma Metni</a>
+      </span>
     </div>
   </div>
 </footer>
@@ -1860,103 +1998,143 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   const cModal=document.getElementById('contactModal');
   if(cModal && (ctaOpen || navCta)){
     let lastFocus=null;
-    const getF=()=>[...cModal.querySelectorAll('button:not([disabled]),a[href],input:not([type="hidden"]),textarea,select')]
+    const getF=()=>[...cModal.querySelectorAll('button:not([disabled]),a[href],input:not([type="hidden"]):not([disabled]):not(.cv-input),textarea,select,.cv-drop')]
       .filter(el=>el.offsetWidth||el.offsetHeight||el.getClientRects().length);
-    function openM(e){
-      if(e&&e.preventDefault)e.preventDefault();             // çapa/kaydırma yok — doğrudan modal
-      lastFocus=(e&&e.currentTarget)||document.activeElement; // hangi butondan açıldıysa o
-      cModal.hidden=false;
-      resetContactForm();                                  // her açılışta form temiz + baştan
-      document.body.style.overflow='hidden';               // arka plan kaydırma kilidi
-      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
-    }
-    function closeM(){
-      if(cModal.hidden)return;
-      cModal.hidden=true;
-      document.body.style.overflow='';
-      (lastFocus||ctaOpen||document.body).focus();          // odak açan butona döner
-    }
-    if(ctaOpen)ctaOpen.addEventListener('click',openM);
-    if(navCta)navCta.addEventListener('click',openM);
-    cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeM));
-    document.addEventListener('keydown',e=>{
-      if(cModal.hidden)return;
-      if(e.key==='Escape'){e.preventDefault();closeM();return;}
-      if(e.key==='Tab'){                                    // odak tuzağı (focus trap)
-        const f=getF(); if(!f.length)return;
-        const first=f[0], last=f[f.length-1];
-        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
-        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
-      }
-    });
 
-    /* ---- İletişim formu: AJAX gönderim (progressive enhancement — JS yoksa normal HTML submit çalışır) ---- */
-    const cForm=document.getElementById('talep-form');
-    function resetContactForm(){                            // fonksiyon bildirimi: openM'den önce çağrılabilir (hoisting)
-      if(!cForm)return;
-      const done=document.getElementById('ctaDone'), err=document.getElementById('ctaError');
-      const title=cModal.querySelector('.modal-title'), btn=cForm.querySelector('.cta-submit');
-      if(done)done.hidden=true;
-      if(err)err.hidden=true;
-      const pErr=document.getElementById('phoneErr'); if(pErr)pErr.hidden=true;
-      cForm.hidden=false;
-      if(title)title.hidden=false;
-      if(btn){btn.disabled=false;btn.textContent='Gönder';}
-      cForm.reset();
-    }
-    if(cForm){
-      /* ---- Türkçe-doğru metin düzeltme (blur'da; toLocale*Case('tr-TR')) ---- */
-      const trTitle=s=>String(s).trim().replace(/\s+/g,' ').split(' ')
-        .map(w=>w?w.charAt(0).toLocaleUpperCase('tr-TR')+w.slice(1).toLocaleLowerCase('tr-TR'):w).join(' ');
-      const smartTitle=s=>{const t=String(s).trim().replace(/\s+/g,' ');
-        return (t && t===t.toLocaleLowerCase('tr-TR')) ? trTitle(t) : t;};   // metinde büyük harf varsa DOKUNMA
-      cForm.querySelectorAll('[name="first_name"],[name="last_name"]').forEach(el=>
-        el.addEventListener('blur',()=>{el.value=trTitle(el.value);}));
-      cForm.querySelectorAll('[name="company"],[name="position"]').forEach(el=>
-        el.addEventListener('blur',()=>{el.value=smartTitle(el.value);}));
+    /* ---- Görünümler: ayrım / işveren / aday ---- */
+    const viewChoice=document.getElementById('viewChoice');
+    const viewEmployer=document.getElementById('viewEmployer');
+    const viewCandidate=document.getElementById('viewCandidate');
+    const views=[viewChoice,viewEmployer,viewCandidate];
+    function showView(v){ views.forEach(x=>{ if(x)x.hidden=(x!==v); }); }
 
-      /* ---- Telefon maskesi: 0(5xx)/0(2xx) 123 45 67 ---- */
-      const phDigits=v=>{let d=String(v).replace(/\D/g,'');
-        if(d.startsWith('90')&&d.length>10)d=d.slice(2); if(d.startsWith('0'))d=d.slice(1); return d.slice(0,10);};
-      const phFormat=v=>{const d=phDigits(v); if(!d)return ''; let o='0('+d.slice(0,3);
-        if(d.length>=3)o+=')'; if(d.length>3)o+=' '+d.slice(3,6); if(d.length>6)o+=' '+d.slice(6,8); if(d.length>8)o+=' '+d.slice(8,10); return o;};
-      const phoneEl=cForm.querySelector('[name="phone"]');
-      const phErr=document.getElementById('phoneErr');
+    /* ---- Paylaşılan: Türkçe metin düzeltme + telefon maskesi ---- */
+    const trTitle=s=>String(s).trim().replace(/\s+/g,' ').split(' ')
+      .map(w=>w?w.charAt(0).toLocaleUpperCase('tr-TR')+w.slice(1).toLocaleLowerCase('tr-TR'):w).join(' ');
+    const smartTitle=s=>{const t=String(s).trim().replace(/\s+/g,' ');
+      return (t && t===t.toLocaleLowerCase('tr-TR')) ? trTitle(t) : t;};   // büyük harf varsa DOKUNMA
+    const phDigits=v=>{let d=String(v).replace(/\D/g,'');
+      if(d.startsWith('90')&&d.length>10)d=d.slice(2); if(d.startsWith('0'))d=d.slice(1); return d.slice(0,10);};
+    const phFormat=v=>{const d=phDigits(v); if(!d)return ''; let o='0('+d.slice(0,3);
+      if(d.length>=3)o+=')'; if(d.length>3)o+=' '+d.slice(3,6); if(d.length>6)o+=' '+d.slice(6,8); if(d.length>8)o+=' '+d.slice(8,10); return o;};
+
+    /* ---- Her formu kur (düzeltme + dosya + doğrulama + AJAX); reset fonksiyonu döner ---- */
+    function setupForm(form){
+      if(!form) return ()=>{};
+      const view=form.parentElement;
+      const submitBtn=form.querySelector('.cta-submit');
+      const origLabel=submitBtn?submitBtn.textContent:'Gönder';
+      const errEl=form.querySelector('.cta-error');
+      const doneEl=view.querySelector('.cta-done');
+      const titleEl=view.querySelector('.modal-title');
+      const backEl=view.querySelector('.modal-back');
+      const multipart=form.getAttribute('enctype')==='multipart/form-data';
+
+      // metin düzeltme (blur)
+      form.querySelectorAll('[name="first_name"],[name="last_name"]').forEach(el=>el.addEventListener('blur',()=>{el.value=trTitle(el.value);}));
+      form.querySelectorAll('[name="company"],[name="position"]').forEach(el=>el.addEventListener('blur',()=>{el.value=smartTitle(el.value);}));
+
+      // telefon maskesi
+      const phoneEl=form.querySelector('[name="phone"]'), phErr=form.querySelector('.phone-err');
       if(phoneEl){
         phoneEl.addEventListener('input',()=>{
-          const raw=phoneEl.value, caret=phoneEl.selectionStart||0;
-          const dLeft=phDigits(raw.slice(0,caret)).length;         // imlecin solundaki anlamlı rakam sayısı
+          const raw=phoneEl.value, caret=phoneEl.selectionStart||0, dLeft=phDigits(raw.slice(0,caret)).length;
           phoneEl.value=phFormat(raw);
           let pos=phoneEl.value.length, seen=0;
-          if(dLeft<=0){pos=phoneEl.value?2:0;}                     // "0(" hemen sonrası
+          if(dLeft<=0){pos=phoneEl.value?2:0;}
           else{for(let i=2;i<phoneEl.value.length;i++){if(/\d/.test(phoneEl.value[i])){seen++; if(seen===dLeft){pos=i+1;break;}}}}
-          try{phoneEl.setSelectionRange(pos,pos);}catch(e){}       // imleç zıplamasın
+          try{phoneEl.setSelectionRange(pos,pos);}catch(e){}
         });
         phoneEl.addEventListener('blur',()=>{ if(phErr)phErr.hidden=!(phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10); });
       }
 
-      cForm.addEventListener('submit',ev=>{
-        ev.preventDefault();                               // JS varsa AJAX gönder
-        if(phoneEl && phoneEl.value.trim() && phDigits(phoneEl.value).length!==10){  // opsiyonel ama girildiyse 10 hane
-          if(phErr)phErr.hidden=false; phoneEl.focus(); return;
-        }
-        const err=document.getElementById('ctaError'), btn=cForm.querySelector('.cta-submit');
-        if(err)err.hidden=true;
-        if(btn){btn.disabled=true;btn.textContent='Gönderiliyor…';}
-        const bodyData=new URLSearchParams(new FormData(cForm)).toString();  // form-name + honeypot dahil TÜM alanlar
-        fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:bodyData})
-          .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status);
-            cForm.hidden=true;                             // başarı: formu gizle, teşekkür göster (sayfa değişmez)
-            const title=cModal.querySelector('.modal-title'); if(title)title.hidden=true;
-            const done=document.getElementById('ctaDone'); if(done)done.hidden=false;
-            requestAnimationFrame(()=>{const c=done&&done.querySelector('.cta-done-close'); if(c)c.focus();});
-          })
-          .catch(()=>{                                     // hata: form kalır, mesaj göster, buton geri aktif
-            if(err)err.hidden=false;
-            if(btn){btn.disabled=false;btn.textContent='Gönder';}
-          });
+      // dosya yükleme (aday) — sürükle-bırak + tıkla-seç + accept + boyut
+      const cvInput=form.querySelector('[name="cv_file"]');
+      let clearCV=()=>{};
+      if(cvInput){
+        const drop=form.querySelector('.cv-drop'), idle=form.querySelector('.cv-idle'), chosen=form.querySelector('.cv-chosen');
+        const nameEl=form.querySelector('.cv-name'), sizeEl=form.querySelector('.cv-size'), cvErr=form.querySelector('.cv-err');
+        const okExt=['pdf','doc','docx'];
+        const fmtSize=b=>b<1024?b+' B':(b<1048576?Math.round(b/1024)+' KB':(b/1048576).toFixed(1)+' MB');
+        const accept=f=>{ if(!f)return false; const ext=(f.name.split('.').pop()||'').toLowerCase();
+          if(okExt.indexOf(ext)<0){ if(cvErr){cvErr.textContent='Yalnızca PDF, DOC veya DOCX kabul edilir.';cvErr.hidden=false;} return false; }
+          if(f.size>3*1024*1024){ if(cvErr){cvErr.textContent='Dosya 3 MB sınırını aşıyor.';cvErr.hidden=false;} return false; } return true; };
+        const showFile=f=>{ nameEl.textContent=f.name; sizeEl.textContent=fmtSize(f.size); idle.hidden=true; chosen.hidden=false; drop.classList.add('has-file'); if(cvErr)cvErr.hidden=true; };
+        clearCV=()=>{ cvInput.value=''; idle.hidden=false; chosen.hidden=true; drop.classList.remove('has-file'); };
+        drop.addEventListener('click',e=>{ if(e.target.closest('.cv-remove'))return; if(drop.classList.contains('has-file'))return; cvInput.click(); });
+        drop.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&!drop.classList.contains('has-file')){e.preventDefault();cvInput.click();} });
+        cvInput.addEventListener('change',()=>{ const f=cvInput.files[0]; if(f&&accept(f))showFile(f); else clearCV(); });
+        const rm=form.querySelector('.cv-remove'); if(rm)rm.addEventListener('click',e=>{e.stopPropagation();clearCV();});
+        ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag');}));
+        ['dragleave','dragend','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag');}));
+        drop.addEventListener('drop',e=>{ const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+          if(f&&accept(f)){ try{const dt=new DataTransfer();dt.items.add(f);cvInput.files=dt.files;}catch(_){}; showFile(f); } });
+      }
+
+      function reset(){
+        form.hidden=false; if(titleEl)titleEl.hidden=false; if(backEl)backEl.hidden=false;
+        if(doneEl)doneEl.hidden=true; if(errEl)errEl.hidden=true;
+        form.querySelectorAll('.cta-field-err').forEach(e=>e.hidden=true);
+        if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=origLabel;}
+        form.reset(); clearCV();
+      }
+
+      form.addEventListener('submit',ev=>{
+        ev.preventDefault();                               // JS varsa AJAX (dosyalı formda multipart)
+        form.querySelectorAll('.cta-field-err').forEach(e=>e.hidden=true);
+        // doğrulamalar (required alanları tarayıcı zaten engeller; bunlar ek/özel uyarılar)
+        if(phoneEl && phoneEl.value.trim() && phDigits(phoneEl.value).length!==10){ if(phErr)phErr.hidden=false; phoneEl.focus(); return; }
+        if(cvInput && (!cvInput.files||!cvInput.files.length)){ const ce=form.querySelector('.cv-err'); if(ce){ce.textContent='Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.';ce.hidden=false;} return; }
+        const kv=form.querySelector('[name="kvkk_notice_acknowledged"]');
+        if(kv && !kv.checked){ const ke=form.querySelector('.kvkk-err'); if(ke)ke.hidden=false; return; }
+        // gönder
+        if(errEl)errEl.hidden=true;
+        if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Gönderiliyor…';}
+        const opts=multipart ? {method:'POST',body:new FormData(form)}   // Content-Type YOK — tarayıcı boundary'yi koyar
+          : {method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()};
+        fetch('/',opts).then(r=>{ if(!r.ok)throw new Error('HTTP '+r.status);
+          form.hidden=true; if(titleEl)titleEl.hidden=true; if(backEl)backEl.hidden=true;
+          if(doneEl)doneEl.hidden=false;
+          requestAnimationFrame(()=>{const c=doneEl&&doneEl.querySelector('.cta-done-close'); if(c)c.focus();});
+        }).catch(()=>{ if(errEl)errEl.hidden=false; if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=origLabel;} });
       });
+
+      return reset;
     }
+
+    const resetEmp=setupForm(document.getElementById('talep-form'));
+    const resetAday=setupForm(document.getElementById('aday-form'));
+    function resetModal(){ resetEmp(); resetAday(); showView(viewChoice); }
+
+    function openM(e){
+      if(e&&e.preventDefault)e.preventDefault();
+      lastFocus=(e&&e.currentTarget)||document.activeElement;
+      cModal.hidden=false; resetModal();                   // her açılışta AYRIM ekranından başla, formlar temiz
+      document.body.style.overflow='hidden';
+      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
+    }
+    function closeM(){ if(cModal.hidden)return; cModal.hidden=true; document.body.style.overflow=''; (lastFocus||ctaOpen||document.body).focus(); }
+
+    if(ctaOpen)ctaOpen.addEventListener('click',openM);
+    if(navCta)navCta.addEventListener('click',openM);
+    cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeM));
+    cModal.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{
+      showView(b.getAttribute('data-goto')==='employer'?viewEmployer:viewCandidate);
+      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
+    }));
+    cModal.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>{
+      resetEmp(); resetAday(); showView(viewChoice);       // geri: formu sıfırla, ayrıma dön
+      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
+    }));
+    document.addEventListener('keydown',e=>{
+      if(cModal.hidden)return;
+      if(e.key==='Escape'){e.preventDefault();closeM();return;}
+      if(e.key==='Tab'){
+        const f=getF(); if(!f.length)return; const first=f[0], last=f[f.length-1];
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+      }
+    });
   }
 
   /* ---- Kapanış (#talep) görünürken header'ı yumuşakça gizle, dışında geri getir ---- */
