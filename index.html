@@ -150,13 +150,16 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .nav .brand img{height:32px;width:auto;display:block}
 .nav-cta{font-size:.9rem;font-weight:700;color:#fff;background:var(--brand-purple);
   border:none;cursor:pointer;font-family:inherit;line-height:1.4;
+  min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
   padding:9px 20px;border-radius:99px;transition:background .2s,transform .2s}
 .nav-cta:hover{background:#57279F;transform:translateY(-1px)}
 /* Header: sayfa üstünde iki buton, kaydırınca tek — grid-stack ile sıçramasız crossfade */
 .nav-cta-wrap{display:grid;align-items:center}
 .nav-two{grid-area:1/1;justify-self:end;display:flex;gap:10px;align-items:center;transition:opacity .3s ease,visibility .3s ease}
 .nav-btn2{font-size:.85rem;font-weight:700;padding:8px 16px;border-radius:99px;cursor:pointer;font-family:inherit;
-  line-height:1.2;white-space:nowrap;border:1px solid transparent;transition:background .2s,border-color .2s,transform .2s}
+  line-height:1.2;white-space:nowrap;border:1px solid transparent;
+  min-height:44px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
+  transition:background .2s,border-color .2s,transform .2s}
 .nav-btn2-primary{background:var(--brand-purple);color:#fff;border-color:var(--brand-purple)}
 .nav-btn2-primary:hover{background:#57279F;transform:translateY(-1px)}
 .nav-btn2-ghost{background:transparent;color:#fff;border-color:rgba(159,123,234,.5)}
@@ -501,7 +504,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   width:9px;height:9px;border-radius:50%;background:#CFCBD8;box-shadow:0 0 0 3px var(--bg-white)}
 .tri-road-tl .tri-node::before{background:var(--brand-orange);
   box-shadow:0 0 0 3px var(--bg-white),0 0 0 5px rgba(255,106,53,.18)}
-.tri-k{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#A2A0AC;line-height:1.25}
+.tri-k{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#A2A0AC;line-height:1.25}
 .tri-v{font-size:.8rem;line-height:1.32;color:var(--text-on-light-muted)}
 .tri-road-tl .tri-v{color:var(--text-on-light)}
 .tri-road-tl .tri-v b{color:var(--brand-purple);font-weight:800}
@@ -509,7 +512,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 /* Yolun sonu: ölü uç (kapak) vs akmaya devam (aşağı ok) */
 .tri-end{position:relative;min-height:36px;display:flex;align-items:center;gap:9px;padding-top:6px}
 .tri-end-cap{width:14px;height:2px;background:#CFCBD8;border-radius:2px;margin-left:-18px;flex-shrink:0}
-.tri-end-t{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.tri-end-t{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .tri-end-dead .tri-end-t{color:#B4B1BC}
 .tri-end-flow{color:var(--brand-orange)}
 .tri-end-flow .tri-end-t{color:var(--brand-orange)}
@@ -521,6 +524,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 /* ============ 12 · TALEVO LIVE + CTA ============ */
 .live-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+/* Grid öğelerinin min-width:auto varsayılanı içeriği daraltmaz → dar ekranda (320px) yatay
+   taşmaya yol açar. min-width:0 ile grid/panel içeriği kapsayıcıya sığacak şekilde büzülür. */
+.live-grid>*,.kpis,.kpi{min-width:0}
 .live h2{font-size:clamp(1.9rem,4.4vw,3rem);margin:16px 0 16px}
 .live p{color:var(--text-on-dark-muted);max-width:46ch;margin-bottom:12px}
 .panel{background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:var(--radius);
@@ -549,8 +555,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 .cta-field{margin-bottom:14px}
 .cta-field label{display:block;font-size:.8rem;font-weight:700;color:var(--text-on-dark);margin-bottom:6px}
-.cta-form input,.cta-form textarea{width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);
-  border:1px solid var(--border-dark);border-radius:12px;padding:12px 14px;color:#fff;font:inherit;font-size:.95rem;
+/* font-size:16px — iOS Safari 16px ALTI form alanına odaklanınca otomatik yakınlaştırır
+   (modal düzenini bozar). 16px bu davranışı engeller. */
+.cta-form input,.cta-form textarea,.cta-form select{width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);
+  border:1px solid var(--border-dark);border-radius:12px;padding:12px 14px;color:#fff;font:inherit;font-size:16px;
   transition:border-color .2s ease, background .2s ease}
 .cta-form input::placeholder,.cta-form textarea::placeholder{color:rgba(255,255,255,.32)}
 .cta-form input:focus,.cta-form textarea:focus{outline:none;border-color:#8B6FE0;background:rgba(255,255,255,.08)}
@@ -624,12 +632,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal[hidden]{display:none}
 .modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px)}
-.modal-card{position:relative;z-index:1;width:100%;max-width:520px;max-height:90vh;overflow:auto;
+.modal-card{position:relative;z-index:1;width:100%;max-width:520px;max-height:calc(100dvh - 24px);overflow:auto;
+  overscroll-behavior:contain;
   background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:20px;
   padding:36px 30px 30px;box-shadow:0 40px 100px rgba(0,0,0,.6)}
 .modal-card .cta-form{margin:0;max-width:none}
 .modal-title{font-size:1.35rem;font-weight:800;color:var(--text-on-dark);margin-bottom:20px}
-.modal-x{position:absolute;top:14px;right:16px;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:1;
+.modal-x{position:absolute;top:14px;right:16px;width:44px;height:44px;border-radius:50%;font-size:22px;line-height:1;
   color:var(--text-on-dark-muted);background:rgba(255,255,255,.05);border:1px solid var(--border-dark);cursor:pointer;
   display:flex;align-items:center;justify-content:center;transition:background .2s ease, color .2s ease}
 .modal-x:hover{background:rgba(255,255,255,.10);color:#fff}
@@ -714,7 +723,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   .cycle-svg{display:none}
   .cycle-mobile{display:block}
   .cycle-mobile .cyc-card{height:auto}
-  .live-grid{grid-template-columns:1fr}
+  .live-grid{grid-template-columns:minmax(0,1fr)}
   /* Üçlü Karşılaştırma: pin çözülür, üç yol alt alta tam genişlik */
   #triScene{height:auto}
   #triScene .tri-pin{position:static;height:auto;padding:36px 0 8px}
@@ -1510,6 +1519,11 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 (function(){
   "use strict";
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Mobil (≤900px) VE reduced-motion aynı "statik mod"a girer: sahneler son halinde
+  // sabitlenir, scroll-driven hesaplar durur (getBoundingClientRect/opacity/transform
+  // her karede çalışmaz). Bu, CSS sahne düzleştirmesinin JS tamamlayıcısıdır.
+  const mobileMQ = matchMedia('(max-width: 900px)');
+  let staticMode = reduced || mobileMQ.matches;
   const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
   const map = (p,a,b)=>clamp((p-a)/(b-a),0,1);
   const ease = p=>1-Math.pow(1-p,3);
@@ -1609,7 +1623,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     dataEmpty.style.opacity=1;
     ppSegs.forEach((s,i)=>s.classList.toggle('on',i===2));
   }
-  if(reduced) setProblemFinal();
+  if(staticMode) setProblemFinal();
   const ghostScene=document.getElementById('ghostScene');
   const cvCard=document.getElementById('cvCard');
   const ghostPhases=[document.getElementById('ghostPhase1'),document.getElementById('ghostPhase2'),document.getElementById('ghostPhase3')];
@@ -1667,7 +1681,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     cvRows.forEach(row=>{row.querySelector('.cv-ghost').style.opacity=0;const r=row.querySelector('.cv-real');r.style.opacity=1;r.style.filter='none';});
     ghostDots.forEach((d,i)=>d.classList.toggle('on',i===2));
   }
-  if(reduced) setGhostFinal();
+  if(staticMode) setGhostFinal();
   const procScene=document.getElementById('procScene');
   const hTrack=document.getElementById('hTrack');
   const procCards=[...hTrack.querySelectorAll('.pcard')];
@@ -1782,7 +1796,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     motorVerdict.style.opacity=1;
     motorVerdictWords.forEach(w=>w.style.opacity='1');
   }
-  if(reduced) setMotorFinal();
+  if(staticMode) setMotorFinal();
 
   /* ============ 6 · KALİBRASYON (üç dal) kurulumu ============ */
   const calibScene=document.getElementById('calibScene');
@@ -1821,7 +1835,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     calibCoreGlow.style.opacity=1;calibCoreGlow.style.transform='scale(1.7)';
     calibBranches.forEach(a=>{a.path.style.strokeDashoffset=160;a.end.style.opacity=1;a.card.style.opacity=1;a.card.style.transform='none';});
   }
-  if(reduced) setCalibFinal();
+  if(staticMode) setCalibFinal();
 
   /* ============ 11 · ÜÇLÜ KARŞILAŞTIRMA (üç yol) kurulumu ============ */
   const triScene=document.getElementById('triScene');
@@ -1855,14 +1869,16 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     triRoads.forEach(r=>r.style.opacity='1');
     if(triFlow)triFlow.style.opacity='1';
   }
-  if(reduced) setTriFinal();
+  if(staticMode) setTriFinal();
 
   const progressBar=document.getElementById('progress');
 
   function update(){
     const doc=document.documentElement;
     progressBar.style.width=(scrollY/(doc.scrollHeight-innerHeight)*100)+'%';
-    if(reduced) return;
+    // Statik modda (mobil veya reduced-motion) sahne hesapları DURUR — yalnız ilerleme
+    // çubuğu güncellenir. Sahnelerin son durumu setXFinal() ile bir kez sabitlenmiştir.
+    if(staticMode) return;
 
     // AÇILIŞ: Hero + Manifesto tek sabit sahnede. Kamera sabit; yalnızca opacity + scale.
     const p=prog(openingScene);
@@ -1911,6 +1927,20 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   },{passive:true});
   addEventListener('resize',update);
   update();
+
+  // Breakpoint geçişi: pencere yeniden boyutlanınca / cihaz dönünce doğru moda geç.
+  // Masaüstü→mobil: sahneleri son haline sabitle (yarım kalmış animasyon bırakma).
+  // Mobil→masaüstü: update() tüm sahneleri scroll konumuna göre canlı yeniden hesaplar.
+  mobileMQ.addEventListener('change',()=>{
+    staticMode = reduced || mobileMQ.matches;
+    if(staticMode){
+      setProblemFinal(); setGhostFinal(); setCalibFinal(); setMotorFinal(); setTriFinal();
+      // Süreç sahnesi: masaüstünden kalmış aktif/near sınıflarını temizle (final'i yok)
+      procCards.forEach(c=>c.classList.remove('active','near'));
+      procNodes.forEach(n=>n.classList.remove('on','past'));
+    }
+    update();
+  });
 
   /* ---- Header: sayfa üstünde iki buton, kaydırınca tek (scrolled sınıfı) ---- */
   const navBar=document.querySelector('.nav');
