@@ -198,6 +198,28 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 @keyframes toTopBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.to-top{animation:none}}
 
+/* ============ BÖLÜM NAVİGASYONU (sağda dikey nokta göstergesi) ============
+   z-index 110: nav(90)/progress(100) üstünde, to-top(120) ve modal(200) altında.
+   Hero'da gizli; kaydırınca (.visible) belirir. Mobilde tamamen gizli. */
+.dotnav{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:110;
+  display:flex;flex-direction:column;gap:13px;align-items:flex-end;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease, visibility .4s ease}
+.dotnav.visible{opacity:1;visibility:visible;pointer-events:auto}
+.dot{display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:5px 2px;border-radius:8px}
+.dot-label{font-size:11px;font-weight:600;line-height:1;color:#fff;background:rgba(18,18,26,.82);
+  padding:5px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.28);
+  opacity:0;transform:translateX(6px);transition:opacity .25s ease, transform .25s ease;pointer-events:none}
+.dot-mark{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.28);flex-shrink:0;
+  transition:background .25s ease, width .2s ease, height .2s ease, box-shadow .25s ease}
+.dot:hover .dot-mark,.dot:focus-visible .dot-mark{background:rgba(255,255,255,.6)}
+.dot[aria-current="true"] .dot-mark{background:#9F7BEA;width:12px;height:12px;box-shadow:0 0 0 3px rgba(159,123,234,.25)}
+.dot[aria-current="true"] .dot-label,.dot:hover .dot-label,.dot:focus-visible .dot-label{opacity:1;transform:none}
+.dot:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.dotnav,.dot-label,.dot-mark{transition:none}}
+/* Mobil (≤900px): nokta göstergesi gizli — dar ekranda içeriğe biner, to-top ile çakışır */
+@media(max-width:900px){.dotnav{display:none!important}}
+
 /* ============ SAHNE YARDIMCILARI ============ */
 .scene{position:relative}
 .pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
@@ -1218,7 +1240,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 </section>
 
 <!-- ============ 12 · TALEVO LIVE ============ -->
-<section class="sec dark live" aria-label="Talevo Live">
+<section class="sec dark live" id="liveScene" aria-label="Talevo Live">
   <div class="wrap live-grid">
     <div class="reveal">
       <p class="chapter">Bölüm 7 — Şeffaflık</p>
@@ -1465,6 +1487,17 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <path d="M12 19 V5 M6 11 L12 5 L18 11" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </button>
+
+<!-- ============ BÖLÜM NAVİGASYONU (sağda dikey nokta göstergesi) ============ -->
+<nav class="dotnav" id="dotnav" aria-label="Bölümler">
+  <button class="dot" type="button" data-target="probScene" aria-label="Bölüm 1: Geleneksel Modelin Sınırları"><span class="dot-label">Geleneksel Modelin Sınırları</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="ghostScene" aria-label="Bölüm 2: Görünmeyen Yetenek"><span class="dot-label">Görünmeyen Yetenek</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="procScene" aria-label="Bölüm 3: Nasıl Çalışırız"><span class="dot-label">Nasıl Çalışırız</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="calibScene" aria-label="Bölüm 4: Kalibrasyon"><span class="dot-label">Kalibrasyon</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="motorScene" aria-label="Bölüm 5: Görünmez Motor"><span class="dot-label">Görünmez Motor</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="cycleScene" aria-label="Bölüm 6: Verinin Döngüsü"><span class="dot-label">Verinin Döngüsü</span><span class="dot-mark" aria-hidden="true"></span></button>
+  <button class="dot" type="button" data-target="liveScene" aria-label="Bölüm 7: Şeffaflık"><span class="dot-label">Şeffaflık</span><span class="dot-mark" aria-hidden="true"></span></button>
+</nav>
 
 <!-- ============ FOOTER ============ -->
 <!-- ============ SAYFA SONU · ADAY CTA (footer üstü) ============ -->
@@ -1955,13 +1988,42 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     update();
   });
 
-  /* ---- Header: sayfa üstünde iki buton, kaydırınca tek (scrolled sınıfı) ---- */
+  /* ---- Header: kaydırınca tek buton (.scrolled) + bölüm nokta göstergesi görünürlüğü ---- */
   const navBar=document.querySelector('.nav');
-  if(navBar){
+  const dotnav=document.getElementById('dotnav');
+  if(navBar||dotnav){
     let navTick=false;
-    const navScroll=()=>navBar.classList.toggle('scrolled', scrollY>60);
-    addEventListener('scroll',()=>{ if(!navTick){requestAnimationFrame(()=>{navScroll();navTick=false});navTick=true} },{passive:true});
-    navScroll();
+    const onNavScroll=()=>{
+      const past=scrollY>60;                               // header .scrolled ile AYNI eşik
+      if(navBar)navBar.classList.toggle('scrolled', past);
+      if(dotnav)dotnav.classList.toggle('visible', past);  // hero'da gizli, kaydırınca belirir
+    };
+    addEventListener('scroll',()=>{ if(!navTick){requestAnimationFrame(()=>{onNavScroll();navTick=false});navTick=true} },{passive:true});
+    onNavScroll();
+  }
+
+  /* ---- Bölüm nokta göstergesi: aktif tespit (IntersectionObserver — update()'e yük YOK) + tıkla-kaydır ---- */
+  if(dotnav){
+    const dots=[...dotnav.querySelectorAll('.dot')];
+    // Tıklama: sahnenin BAŞINA (progress 0) yumuşak kaydır; reduced-motion'da anında.
+    // scrollIntoView değil, belge-mutlak konuma scrollTo — bu sayfada body scroll-container
+    // olduğu için scrollIntoView tutarsız; getBoundingClientRect().top+scrollY her zaman doğru.
+    dots.forEach(d=>d.addEventListener('click',()=>{
+      const s=document.getElementById(d.dataset.target);
+      if(!s)return;
+      const y=s.getBoundingClientRect().top+window.pageYOffset;
+      window.scrollTo({top:y, behavior:reduced?'auto':'smooth'});
+    }));
+    // Aktif = viewport ORTASINI kesen bölüm (0-yükseklik orta çizgi rootMargin ile)
+    const setActive=id=>dots.forEach(d=>{
+      const on=d.dataset.target===id;
+      d.classList.toggle('active',on);
+      if(on)d.setAttribute('aria-current','true'); else d.removeAttribute('aria-current');
+    });
+    const secObs=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting)setActive(e.target.id); });
+    },{rootMargin:'-50% 0px -50% 0px', threshold:0});
+    dots.forEach(d=>{ const s=document.getElementById(d.dataset.target); if(s)secObs.observe(s); });
   }
 
   /* ---- Statik bölüm reveal ---- */
