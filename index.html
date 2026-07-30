@@ -1339,14 +1339,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 </section>
 
 <!-- ============ İLETİŞİM MODALI ============ -->
-<div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-label="İletişim formu" hidden>
+<div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="mtChoice" hidden>
   <div class="modal-overlay" data-close></div>
   <div class="modal-card" tabindex="-1">
     <button class="modal-x" type="button" data-close aria-label="Kapat">&times;</button>
 
     <!-- Görünüm 1: AYRIM ekranı -->
     <div class="modal-view" id="viewChoice">
-      <h3 class="modal-title">İletişime geçin</h3>
+      <h3 class="modal-title" id="mtChoice">İletişime geçin</h3>
       <div class="choice-list">
         <button type="button" class="choice-card choice-primary" data-goto="employer">
           <span class="choice-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 21V9h3a1 1 0 0 1 1 1v11M8 7h2M8 11h2M8 15h2"/></svg></span>
@@ -1364,7 +1364,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <!-- Görünüm 2: İŞVEREN formu -->
     <div class="modal-view" id="viewEmployer" hidden>
       <button type="button" class="modal-back" data-back>← Geri</button>
-      <h3 class="modal-title">İletişime Geç</h3>
+      <h3 class="modal-title" id="mtEmployer">İletişime Geç</h3>
       <!-- Netlify iletişim formu (name=contact, data-netlify, honeypot) -->
       <form class="cta-form" id="talep-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
@@ -1373,16 +1373,19 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <div class="cta-field">
           <label for="cf-first">Ad</label>
           <input id="cf-first" name="first_name" type="text" placeholder="Adınız" autocomplete="given-name" required>
+          <p class="cta-field-err first-err" id="cfFirstErr" role="alert" hidden>Adınızı girin.</p>
         </div>
         <div class="cta-field">
           <label for="cf-last">Soyad</label>
           <input id="cf-last" name="last_name" type="text" placeholder="Soyadınız" autocomplete="family-name" required>
+          <p class="cta-field-err last-err" id="cfLastErr" role="alert" hidden>Soyadınızı girin.</p>
         </div>
       </div>
       <div class="cta-row">
         <div class="cta-field">
           <label for="cf-email">E-posta</label>
           <input id="cf-email" name="email" type="email" placeholder="sirket@domain.com" required>
+          <p class="cta-field-err email-err" id="cfEmailErr" role="alert" hidden>Geçerli bir e-posta adresi girin.</p>
         </div>
         <div class="cta-field">
           <label for="cf-phone">Telefon</label>
@@ -1420,7 +1423,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <!-- Görünüm 3: ADAY formu -->
     <div class="modal-view" id="viewCandidate" hidden>
       <button type="button" class="modal-back" data-back>← Geri</button>
-      <h3 class="modal-title">Özgeçmişinizi gönderin</h3>
+      <h3 class="modal-title" id="mtCandidate">Özgeçmişinizi gönderin</h3>
       <!-- Netlify aday başvuru formu (name=aday-basvuru, multipart, honeypot) -->
       <form class="cta-form" id="aday-form" name="aday-basvuru" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data">
         <input type="hidden" name="form-name" value="aday-basvuru">
@@ -1429,16 +1432,19 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <div class="cta-field">
             <label for="ad-first">Ad</label>
             <input id="ad-first" name="first_name" type="text" placeholder="Adınız" autocomplete="given-name" required>
+            <p class="cta-field-err first-err" id="adFirstErr" role="alert" hidden>Adınızı girin.</p>
           </div>
           <div class="cta-field">
             <label for="ad-last">Soyad</label>
             <input id="ad-last" name="last_name" type="text" placeholder="Soyadınız" autocomplete="family-name" required>
+            <p class="cta-field-err last-err" id="adLastErr" role="alert" hidden>Soyadınızı girin.</p>
           </div>
         </div>
         <div class="cta-row">
           <div class="cta-field">
             <label for="ad-email">E-posta</label>
             <input id="ad-email" name="email" type="email" placeholder="ad@ornek.com" required>
+            <p class="cta-field-err email-err" id="adEmailErr" role="alert" hidden>Geçerli bir e-posta adresi girin.</p>
           </div>
           <div class="cta-field">
             <label for="ad-phone">Telefon</label>
@@ -1453,7 +1459,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
             <div class="cv-idle">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.5 1.5A3.5 3.5 0 0 1 17 18M12 12v7M9 15l3-3 3 3"/></svg>
               <p class="cv-text">Özgeçmişinizi sürükleyin veya <span class="cv-pick">seçin</span></p>
-              <p class="cv-hint">PDF, DOC, DOCX · en fazla 3 MB</p>
+              <p class="cv-hint">PDF, DOC, DOCX · en fazla 2,5 MB</p>
             </div>
             <div class="cv-chosen" hidden>
               <span class="cv-name"></span>
@@ -2033,22 +2039,27 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       d.classList.toggle('active',on);
       if(on)d.setAttribute('aria-current','true'); else d.removeAttribute('aria-current');
     });
+    const navSet=new Set(dots.map(d=>d.dataset.target));   // yalnız 7 nav bölümü
+    // rootMargin: sıfır çizgi yerine küçük merkez BANDI (-45%) — sınırlarda daha kararlı
     const secObs=new IntersectionObserver(es=>{
       es.forEach(e=>{ if(e.isIntersecting)setActive(e.target.id); });
-    },{rootMargin:'-50% 0px -50% 0px', threshold:0});
+    },{rootMargin:'-45% 0px -45% 0px', threshold:0});
     dots.forEach(d=>{ const s=document.getElementById(d.dataset.target); if(s)secObs.observe(s); });
 
-    // Zemin uyumu: viewport ORTASINDAKİ bölüm AÇIK zeminliyse .on-light ekle (koyu-mor noktalar).
-    // Aktif tespitten AYRI, hafif observer — TÜM bölümleri izler (tri/kapanış/aday-cta/footer dahil),
-    // update()'e yük yok. Açık bölümler: bg-light kullananlar.
+    // Zemin uyumu + NAV DIŞI temizlik: viewport ORTASINDAKİ bölüm AÇIK zeminliyse .on-light ekle;
+    // ayrıca bölüm 7 nav sahnesinden biri DEĞİLSE (opening/tri/kapanış/aday-cta/footer) hiçbir nokta
+    // aria-current olmasın (son "Şeffaflık" noktası takılı kalmasın). TÜM bölümleri izler; update()'e yük yok.
     const LIGHT=new Set(['probScene','procScene','cycleScene','triScene']);
     const bgEls=[
       ...['openingScene','probScene','ghostScene','procScene','calibScene','motorScene','cycleScene','liveScene','triScene','talep'].map(id=>document.getElementById(id)),
       document.querySelector('.aday-cta'), document.querySelector('.site-footer')
     ].filter(Boolean);
     const bgObs=new IntersectionObserver(es=>{
-      es.forEach(e=>{ if(e.isIntersecting)dotnav.classList.toggle('on-light', LIGHT.has(e.target.id)); });
-    },{rootMargin:'-50% 0px -50% 0px', threshold:0});
+      es.forEach(e=>{ if(e.isIntersecting){
+        dotnav.classList.toggle('on-light', LIGHT.has(e.target.id));
+        if(!navSet.has(e.target.id)) setActive(null);   // nav dışı bölüm → tüm aria-current temizlenir
+      }});
+    },{rootMargin:'-45% 0px -45% 0px', threshold:0});
     bgEls.forEach(el=>bgObs.observe(el));
   }
 
@@ -2172,10 +2183,23 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
   if(reduced){ cyGrow(1); }
   else{
+    let cycleVisible=false;
     const cycleObserver=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{ if(e.isIntersecting)startCycle(); else stopCycle(); });
+      entries.forEach(e=>{ cycleVisible=e.isIntersecting; if(e.isIntersecting)startCycle(); else stopCycle(); });
     },{threshold:0.35});
     cycleObserver.observe(cycleScene);
+    // Breakpoint farkındalığı (startCycle ile AYNI triMobile'ı paylaşır):
+    // masaüstü→mobil: rAF döngüsünü durdur + son kareyi uygula (görünmeyen SVG 60fps güncellenmesin);
+    // mobil→masaüstü: bölüm hâlâ görünürse animasyonu başlat.
+    triMobile.addEventListener('change',()=>{
+      if(triMobile.matches){ stopCycle(); cyGrow(1); }
+      else{
+        // masaüstüne dönüş: bölüm ŞU AN görünürse başlat (cached değil, anlık ölç — observer/scroll
+        // yeniden konumlanma yarışından etkilenmesin).
+        const r=cycleScene.getBoundingClientRect();
+        if(r.bottom>innerHeight*0.35 && r.top<innerHeight*0.65) startCycle();
+      }
+    });
   }
 
   /* ---- İletişim modalı: aç/kapa (buton, X, overlay, ESC) + odak yönetimi + scroll kilidi ---- */
@@ -2192,7 +2216,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     const viewEmployer=document.getElementById('viewEmployer');
     const viewCandidate=document.getElementById('viewCandidate');
     const views=[viewChoice,viewEmployer,viewCandidate];
-    function showView(v){ views.forEach(x=>{ if(x)x.hidden=(x!==v); }); }
+    function showView(v){
+      views.forEach(x=>{ if(x)x.hidden=(x!==v); });
+      // Dialog adı aktif görünümün başlığına bağlanır (ekran okuyucu bağlamı doğru okusun)
+      const t=v&&v.querySelector('.modal-title');
+      if(t&&t.id)cModal.setAttribute('aria-labelledby',t.id);
+    }
 
     /* ---- Paylaşılan: Türkçe metin düzeltme + telefon maskesi ---- */
     const trTitle=s=>String(s).trim().replace(/\s+/g,' ').split(' ')
@@ -2250,19 +2279,25 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       const cvInput=form.querySelector('[name="cv_file"]');
       let clearCV=()=>{};
       if(cvInput){
+        const MAX_CV_MB=2.5, MAX_CV=MAX_CV_MB*1024*1024, mbText=String(MAX_CV_MB).replace('.',',');  // TEK sabit
         const drop=form.querySelector('.cv-drop'), idle=form.querySelector('.cv-idle'), chosen=form.querySelector('.cv-chosen');
         const nameEl=form.querySelector('.cv-name'), sizeEl=form.querySelector('.cv-size'), cvErr=form.querySelector('.cv-err');
+        const hintEl=form.querySelector('.cv-hint');
+        if(hintEl)hintEl.textContent='PDF, DOC, DOCX · en fazla '+mbText+' MB';   // hint metni sabitten üretilir
         const okExt=['pdf','doc','docx'];
         const fmtSize=b=>b<1024?b+' B':(b<1048576?Math.round(b/1024)+' KB':(b/1048576).toFixed(1)+' MB');
+        // Geçersiz dosya: setErr ile göster → aria-invalid + aria-describedby de bağlanır (ekran okuyucu öğrenir)
         const accept=f=>{ if(!f)return false; const ext=(f.name.split('.').pop()||'').toLowerCase();
-          if(okExt.indexOf(ext)<0){ if(cvErr){cvErr.textContent='Yalnızca PDF, DOC veya DOCX kabul edilir.';cvErr.hidden=false;} return false; }
-          if(f.size>3*1024*1024){ if(cvErr){cvErr.textContent='Dosya 3 MB sınırını aşıyor.';cvErr.hidden=false;} return false; } return true; };
-        const showFile=f=>{ nameEl.textContent=f.name; sizeEl.textContent=fmtSize(f.size); idle.hidden=true; chosen.hidden=false; drop.classList.add('has-file'); if(cvErr)cvErr.hidden=true; };
+          if(okExt.indexOf(ext)<0){ setErr(drop,cvErr,true,'Yalnızca PDF, DOC veya DOCX kabul edilir.'); return false; }
+          if(f.size>MAX_CV){ setErr(drop,cvErr,true,'Dosya '+mbText+' MB sınırını aşıyor.'); return false; } return true; };
+        const showFile=f=>{ setErr(drop,cvErr,false); nameEl.textContent=f.name; sizeEl.textContent=fmtSize(f.size); idle.hidden=true; chosen.hidden=false; drop.classList.add('has-file'); };
+        // clearCV yalnız GÖRSEL durumu sıfırlar; hatayı BURADA silmez (geçersiz seçim mesajı ekranda kalır).
         clearCV=()=>{ cvInput.value=''; idle.hidden=false; chosen.hidden=true; drop.classList.remove('has-file'); };
         drop.addEventListener('click',e=>{ if(e.target.closest('.cv-remove'))return; if(drop.classList.contains('has-file'))return; cvInput.click(); });
         drop.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&!drop.classList.contains('has-file')){e.preventDefault();cvInput.click();} });
         cvInput.addEventListener('change',()=>{ const f=cvInput.files[0]; if(f&&accept(f))showFile(f); else clearCV(); });
-        const rm=form.querySelector('.cv-remove'); if(rm)rm.addEventListener('click',e=>{e.stopPropagation();clearCV();});
+        // × ile KALDIRMA kullanıcının kendi işlemi → hatayı da temizle
+        const rm=form.querySelector('.cv-remove'); if(rm)rm.addEventListener('click',e=>{e.stopPropagation();clearCV();setErr(drop,cvErr,false);});
         ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag');}));
         ['dragleave','dragend','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag');}));
         drop.addEventListener('drop',e=>{ const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
@@ -2271,7 +2306,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           let ok=false;
           try{ const dt=new DataTransfer(); dt.items.add(f); cvInput.files=dt.files; ok=!!(cvInput.files&&cvInput.files.length); }catch(_){ ok=false; }
           if(ok){ showFile(f); }
-          else if(cvErr){ cvErr.textContent='Bu tarayıcıda sürükle-bırak desteklenmiyor; lütfen "seçin" bağlantısını kullanın.'; cvErr.hidden=false; } });
+          else{ setErr(drop,cvErr,true,'Bu tarayıcıda sürükle-bırak desteklenmiyor; lütfen "seçin" bağlantısını kullanın.'); } });
       }
 
       function reset(){
@@ -2287,6 +2322,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       const firstEl=form.querySelector('[name="first_name"]');
       const lastEl=form.querySelector('[name="last_name"]');
       const emailEl=form.querySelector('[name="email"]');
+      const firstErrEl=form.querySelector('.first-err');          // ad/soyad/e-posta görünür hata öğeleri
+      const lastErrEl=form.querySelector('.last-err');
+      const emailErrEl=form.querySelector('.email-err');
       const cvDrop=form.querySelector('.cv-drop');                 // CV için odak/aria taşıyıcı (role=button)
       const cvErrEl=form.querySelector('.cv-err');
       const kvEl=form.querySelector('[name="kvkk_notice_acknowledged"]');
@@ -2297,9 +2335,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       // NOT: novalidate açık olduğundan native 'required' devre dışı — required alanların
       // HEPSİ burada olmalı (first/last/email checkValidity ile, message ise required-korumalı).
       const buildRules=()=>[
-        {aria:firstEl, err:null,     bad:()=>firstEl&&!firstEl.checkValidity()},
-        {aria:lastEl,  err:null,     bad:()=>lastEl&&!lastEl.checkValidity()},
-        {aria:emailEl, err:null,     bad:()=>emailEl&&!emailEl.checkValidity()},
+        {aria:firstEl, err:firstErrEl, msg:'Adınızı girin.',   bad:()=>firstEl&&!firstEl.checkValidity()},
+        {aria:lastEl,  err:lastErrEl,  msg:'Soyadınızı girin.', bad:()=>lastEl&&!lastEl.checkValidity()},
+        {aria:emailEl, err:emailErrEl, msg:()=>emailEl.value.trim()===''?'E-posta adresinizi girin.':'Geçerli bir e-posta adresi girin.',
+         bad:()=>emailEl&&!emailEl.checkValidity()},
         {aria:phoneEl, err:phErr,    msg:'Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.',
          bad:()=>phoneEl&&phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10},
         {aria:messageEl, err:msgErrEl, msg:'Lütfen işe alım ihtiyacınızı kısaca açıklayın.',
@@ -2310,7 +2349,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
          bad:()=>kvEl&&!kvEl.checked}
       ].filter(r=>r.aria);
       // Alan düzeldiğinde ARIA/hata canlı temizlenir (kullanıcı düzeltince "hâlâ hatalı" denmez)
-      [firstEl,lastEl,emailEl].forEach(el=>{ if(el)el.addEventListener('input',()=>{ if(el.checkValidity())setErr(el,null,false); }); });
+      [[firstEl,firstErrEl],[lastEl,lastErrEl],[emailEl,emailErrEl]].forEach(([el,er])=>{ if(el)el.addEventListener('input',()=>{ if(el.checkValidity())setErr(el,er,false); }); });
       if(messageEl)messageEl.addEventListener('input',()=>{ if(!messageEl.required||messageEl.value.trim())setErr(messageEl,msgErrEl,false); });
       if(cvInput)cvInput.addEventListener('change',()=>{ if(cvInput.files&&cvInput.files.length)setErr(cvDrop||cvInput,cvErrEl,false); });
       if(kvEl)kvEl.addEventListener('change',()=>{ if(kvEl.checked)setErr(kvEl,kvErrEl,false); });
@@ -2319,7 +2358,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         ev.preventDefault();                               // JS varsa AJAX (dosyalı formda multipart)
         // tüm kuralları değerlendir; hataları+ARIA ayarla; İLK hatalı kontrolü odakla
         let firstBad=null;
-        buildRules().forEach(r=>{ const bad=r.bad(); setErr(r.aria,r.err,bad,r.msg); if(bad&&!firstBad)firstBad=r; });
+        buildRules().forEach(r=>{ const bad=r.bad(); setErr(r.aria,r.err,bad, typeof r.msg==='function'?r.msg():r.msg); if(bad&&!firstBad)firstBad=r; });
         if(firstBad){ if(firstBad.aria&&firstBad.aria.focus)firstBad.aria.focus(); return; }
         // gönder
         if(errEl)errEl.hidden=true;
@@ -2346,10 +2385,20 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       cModal.hidden=false; resetModal();                   // formlar temiz (varsayılan: AYRIM ekranı)
       if(target==='candidate') showView(viewCandidate);    // sayfa sonu butonu → doğrudan ADAY formu (ayrımı atla)
       else if(target==='employer') showView(viewEmployer);
+      // Arka plan kabuğu inert (focus trap'e EK güvenlik). Modal <main> içinde olduğundan
+      // body'nin doğrudan çocuğu DEĞİL → modalın ata-yolu HARİÇ, her seviyedeki kardeşleri inert yap.
+      setBgInert(true);
       document.body.style.overflow='hidden';
       requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
     }
-    function closeM(){ if(cModal.hidden)return; cModal.hidden=true; document.body.style.overflow=''; (lastFocus||ctaOpen||document.body).focus(); }
+    function setBgInert(on){
+      for(let n=cModal; n&&n!==document.body; n=n.parentElement){
+        [...n.parentElement.children].forEach(sib=>{ if(sib!==n) sib.inert=on; });
+      }
+    }
+    function closeM(){ if(cModal.hidden)return; cModal.hidden=true; document.body.style.overflow='';
+      setBgInert(false);   // inert kaldır (odak dönüşünden ÖNCE)
+      (lastFocus||ctaOpen||document.body).focus(); }
 
     if(ctaOpen)ctaOpen.addEventListener('click',openM);
     if(navCta)navCta.addEventListener('click',openM);
