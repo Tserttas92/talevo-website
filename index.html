@@ -817,6 +817,31 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   .pill{animation:none}
   *{transition-duration:.001s!important}
 }
+
+/* ============ MOBİL YENİLEME — AŞAMA 0 (scroll ritmi) + AŞAMA 1 (açılış/manifesto) ============
+   YALNIZ ≤900px. Masaüstü (>900px) bu bloğun HİÇBİRİNİ görmez → scroll-driven açılış AYNEN çalışır.
+   Düzleştirme bloğundan SONRA gelir; !important olmayan mobil varsayılanları geçersiz kılar. */
+@media(max-width:900px){
+  /* AŞAMA 0 — bölümler snap noktası; proximity (mandatory DEĞİL → uzun bölümde kilitleme yok) */
+  html{scroll-snap-type:y proximity}
+  .scene,.sec,.cycle,.closing{scroll-snap-align:start;scroll-margin-top:68px}
+  /* Uzun bölümler (bir ekrandan taşanlar) + iki-ekranlı açılış snap'ten MUAF — kullanıcı kilitlenmesin */
+  #probScene,#procScene,#triScene,#openingScene{scroll-snap-align:none}
+
+  /* AŞAMA 1 — Açılış: hero = İLK EKRAN (tek vaat), manifesto = AYRI EKRAN. DOM değişmez; iki mevcut
+     .opening-layer her biri kendi ekranını doldurur. Sabit yükseklik DEĞİL → min-height (içerik sıkışmaz). */
+  #openingScene .pin{padding:0}                                   /* düzleştirmenin 90px padding'ini geçersiz kıl */
+  #openingScene .opening-layer{min-height:100vh;min-height:100svh;box-sizing:border-box;
+    display:flex;flex-direction:column;justify-content:center;padding:96px 24px 44px;
+    scroll-snap-align:start;scroll-margin-top:68px}               /* iki ekran ayrı ayrı snap'lenir */
+  #openingScene .scroll-cue{display:block;position:absolute;left:50%;transform:translateX(-50%);
+    top:calc(100vh - 84px);top:calc(100svh - 84px)}              /* ilk ekranın altında kaydırma ipucu GÖRÜNÜR */
+  /* Manifesto: tek güçlü blok, okunur satırlar (~20ch). Vurgular (.w.hi) korunur. */
+  #manifLayer .manifesto{font-size:clamp(1.5rem,6.4vw,2rem);line-height:1.42;max-width:20ch}
+}
+@media(max-width:900px) and (prefers-reduced-motion:reduce){
+  html{scroll-snap-type:none;scroll-behavior:auto}               /* hareket-azaltma: snap kapalı, içerik doğrudan */
+}
 </style>
 </head>
 <body>
