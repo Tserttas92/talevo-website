@@ -69,6 +69,9 @@
   /* Marka */
   --brand-purple:#48218E;
   --brand-orange:#FF6A35;
+  /* Açık zeminde küçük metin için erişilebilir turuncu (WCAG AA: ~4.84:1 / #F7F7F9).
+     Marka turuncusu #FF6A35 açık zeminde ~2.66:1 → yalnız KOYU zeminde ve büyük grafiklerde kullanılır. */
+  --brand-orange-on-light:#C2410C;
 
   /* Zemin */
   --bg-dark:#12121A;
@@ -111,6 +114,8 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:-.02em;line-height:1.15}
 a{color:inherit;text-decoration:none}
 img,svg{display:block;max-width:100%}
 button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+/* Yalnız ekran okuyucuya görünür (görsel olarak gizli) — animasyonlu sahnelerin statik özeti için */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 
@@ -202,7 +207,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .sec{padding:110px 0}
 .sec.dark{background:var(--bg-dark);color:var(--text-on-dark)}
 .sec.light{background:var(--bg-light);color:var(--text-on-light)}
-.sec.light .chapter{color:var(--brand-orange)}
+/* Açık zeminli sahnelerin turuncu kicker'ları erişilebilir tona çevrilir (kontrast) */
+.sec.light .chapter,#probScene .chapter,#procScene .chapter{color:var(--brand-orange-on-light)}
 
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease, transform .8s ease}
 .reveal.in{opacity:1;transform:none}
@@ -263,7 +269,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .prob-act h3{font-size:clamp(1.5rem,3.2vw,2.4rem);font-weight:800;color:var(--text-on-light);max-width:22ch;line-height:1.2}
 .act-foot{font-size:.98rem;color:var(--text-on-light-muted);max-width:46ch}
 .act-foot strong{color:var(--text-on-light);font-weight:800}
-.star{color:var(--brand-orange)}
+.star{color:var(--brand-orange-on-light)}
 .prob-note{padding:0 24px 40px;text-align:center;font-size:11px;color:#8A8996;z-index:2}
 
 /* Perde 1 — Kapasite */
@@ -274,7 +280,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cap-meter{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;justify-content:center}
 .cap-count{font-size:clamp(3rem,6vw,4.4rem);font-weight:800;color:var(--brand-purple);font-variant-numeric:tabular-nums;line-height:1}
 .cap-max{font-size:1rem;color:var(--text-on-light-muted);font-weight:600}
-.cap-warn{font-size:.8rem;font-weight:700;color:var(--brand-orange);background:#FFEDE5;padding:5px 12px;border-radius:99px;opacity:0;transition:opacity .3s}
+.cap-warn{font-size:.8rem;font-weight:700;color:var(--brand-orange-on-light);background:#FFEDE5;padding:5px 12px;border-radius:99px;opacity:0;transition:opacity .3s}
 
 /* Perde 2 — Maliyet */
 .cost-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:26px;background:var(--bg-white);
@@ -514,8 +520,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .tri-end-cap{width:14px;height:2px;background:#CFCBD8;border-radius:2px;margin-left:-18px;flex-shrink:0}
 .tri-end-t{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .tri-end-dead .tri-end-t{color:#B4B1BC}
-.tri-end-flow{color:var(--brand-orange)}
-.tri-end-flow .tri-end-t{color:var(--brand-orange)}
+.tri-end-flow{color:var(--brand-orange-on-light)}
+.tri-end-flow .tri-end-t{color:var(--brand-orange-on-light)}
 .tri-flow-arrow{margin-left:-22px;flex-shrink:0;animation:triFlowBounce 1.6s ease-in-out infinite}
 @keyframes triFlowBounce{0%,100%{transform:translateY(-2px);opacity:.55}50%{transform:translateY(3px);opacity:1}}
 
@@ -787,7 +793,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 </style>
 </head>
 <body>
-<div id="progress"></div>
+<div id="progress" aria-hidden="true"></div>
 
 <!-- ============ NAV ============ -->
 <header class="nav">
@@ -811,7 +817,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 <section class="scene" id="openingScene" aria-label="Giriş ve manifesto">
   <div class="pin opening-pin" id="opening">
     <div class="hero-bg" data-herobg></div>
-    <div class="orb a" data-orb></div><div class="orb b" data-orb2></div><div class="orb c" data-orb3></div>
+    <div class="orb a" data-orb aria-hidden="true"></div><div class="orb b" data-orb2 aria-hidden="true"></div><div class="orb c" data-orb3 aria-hidden="true"></div>
 
     <!-- Katman 1: Hero -->
     <div class="opening-layer" id="heroLayer">
@@ -861,6 +867,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <div class="prob-act" id="probAct1">
         <p class="act-label">Kapasite</p>
         <h3>Bir uzman, sınırlı sayıda pozisyon taşıyabilir.</h3>
+        <p class="sr-only">Bir uzman aynı anda yalnızca sınırlı sayıda pozisyon taşıyabilir; yük yaklaşık 20 pozisyona ulaştığında gerçek değerlendirme kapasitesi sınırı aşar.</p>
         <div class="cap-grid" id="capGrid" aria-hidden="true"></div>
         <div class="cap-meter">
           <span class="cap-count" id="capCount">0</span>
@@ -874,6 +881,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <div class="prob-act" id="probAct2">
         <p class="act-label">Maliyet</p>
         <h3>Her işe alım, maliyeti sıfırdan başlatır.</h3>
+        <p class="sr-only">Geleneksel modelde her işe alım maliyeti sıfırdan başlar; ödenen komisyon yıllık brüt ücretin yaklaşık dörtte biridir ve bir sonraki alımı ucuzlatmaz.</p>
         <div class="cost-card">
           <div class="cost-left">
             <div class="cost-idx" id="costIdx">1</div>
@@ -893,6 +901,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <div class="prob-act" id="probAct3">
         <p class="act-label">Veri</p>
         <h3>Süreç biter. Bilgi sizde değil, onlarda kalır.</h3>
+        <p class="sr-only">Süreç bittiğinde aday geçmişi, kanal performansı ve karar gerekçesi gibi veriler sizde değil geleneksel firmada kalır; bir sonraki alımda yine sıfırdan başlarsınız.</p>
         <div class="data-cols">
           <div class="data-box data-you">
             <div class="data-box-t">Sizin kurumunuz</div>
@@ -930,6 +939,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <div class="ghost-left">
         <p class="chapter">Bölüm 2 — Görünmeyen Yetenek</p>
         <h2>Herkes iyi CV yazamaz.</h2>
+        <p class="sr-only">Nitelikli adaylar çoğu zaman zayıf yazılmış özgeçmiş yüzünden elenir; Talevo, kanıtlanan deneyimi görünür kılarak işe en uygun adayı kısa listeye taşır.</p>
         <div class="ghost-phases">
           <div class="ghost-phase" id="ghostPhase1">
             <p>CV'ye dayalı ilk eleme, role uygun yeteneklerin <span class="hi">daha başlamadan kaybedilmesine</span> neden olabilir.</p>
@@ -958,7 +968,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
               <div class="cv-stamp s3" id="cvStamp3">KISA LİSTE</div>
             </div>
           </div>
-          <div class="cv-beam" data-beam></div>
+          <div class="cv-beam" data-beam aria-hidden="true"></div>
           <div class="cv-row"><div class="cv-ghost"></div><div class="cv-real"><span class="cv-key">SAP HR</span><span class="cv-val">3 yıl aktif kullanım</span></div></div>
           <div class="cv-row"><div class="cv-ghost"></div><div class="cv-real"><span class="cv-key">Bordro</span><span class="cv-val">1.200 çalışan</span></div></div>
           <div class="cv-row"><div class="cv-ghost"></div><div class="cv-real"><span class="cv-key">Mevzuat</span><span class="cv-val">SGK ve teşvik süreçleri</span></div></div>
@@ -1127,13 +1137,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <div class="motor-head">
         <p class="chapter">Bölüm 5 — Görünmez Motor</p>
         <h2>Aynı süreç, aynı özen. <span class="motor-em">Teknolojiyle çok daha kısa sürede.</span></h2>
+        <p class="sr-only">Aynı titiz altı adımlı süreç teknolojiyle çok daha kısa sürede tamamlanır: geleneksel yöntem haftalarca sürerken Talevo yaklaşık bir haftada sonuç verir.</p>
       </div>
 
       <div class="motor-strips">
         <!-- Üst şerit: Geleneksel -->
         <div class="motor-strip motor-trad" id="motorTrad">
           <div class="motor-strip-top"><span class="motor-strip-t">Geleneksel — insan eliyle</span><span class="motor-time" id="motorTradTime">1. hafta</span></div>
-          <div class="motor-boxes">
+          <div class="motor-boxes" aria-hidden="true">
             <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>CV tarama</span></div>
             <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>derinleştirme</span></div>
             <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>yetkinlik eşleştirme</span></div>
@@ -1147,7 +1158,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <div class="motor-lower">
           <div class="motor-strip motor-strip-tl" id="motorTalevo">
             <div class="motor-strip-top"><span class="motor-strip-t">Talevo — uzman + teknoloji</span><span class="motor-time" id="motorTalevoTime">…</span></div>
-            <div class="motor-boxes">
+            <div class="motor-boxes" aria-hidden="true">
               <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>CV tarama</span></div>
               <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>derinleştirme</span></div>
               <div class="motor-box" style="--f:0"><i class="mb-fill"></i><span>yetkinlik eşleştirme</span></div>
@@ -1178,7 +1189,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <p class="chapter">Bölüm 6 — Verinin Döngüsü</p>
     <h2><span class="cycle-em">Kurumsal hafızanız</span> genişlemeye devam eder.</h2>
     <p class="cycle-lead">Yerleştirdiğimiz her aday, kurumunuza kalıcı bir veri varlığı olarak eklenir; bir sonraki alımınızı daha isabetli yapar.</p>
-    <div class="cycle-legend"><span><i class="lg lg-p"></i> veri gider</span><span><i class="lg lg-o"></i> öğrenme döner</span></div>
+    <div class="cycle-legend" aria-hidden="true"><span><i class="lg lg-p"></i> veri gider</span><span><i class="lg lg-o"></i> öğrenme döner</span></div>
+    <p class="sr-only">Talevo'nun ürettiği veri kurumunuzda kalıcı bir varlık olur ve dört alanda değer üretir: erken kariyer tahminlemesi; veriye dayalı onboarding ve eğitim tasarımı; kültür ve kültürel uyum kalibrasyonu; stratejik İK analitiği girdisi. Böylece her projede işe alım isabetiniz artar.</p>
   </div>
 
   <svg class="cycle-svg" viewBox="0 0 860 760" aria-hidden="true">
@@ -1234,12 +1246,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <div class="tri-head">
       <p class="chapter">Üç Model, Tek Soru: Geriye Ne Kalır?</p>
       <h2>Standart, yazılım, hibrit.</h2>
+      <p class="sr-only">Üç işe alım modeli aynı yedi ölçütte karşılaştırılır. Geleneksel firma ve yalnızca yazılım (ATS) süreç bitince tıkanır; Talevo hibrit model insan yargısını teknolojiyle birleştirir, veriyi kuruma varlık olarak bırakır ve her projede öğrenir. Aşağıda her model, ölçütleriyle birlikte ayrı ayrı verilmiştir.</p>
     </div>
 
     <div class="tri-roads">
 
       <!-- YOL 1 — Geleneksel Firma (söner) -->
-      <div class="tri-road" data-road="0">
+      <div class="tri-road" data-road="0" role="group" aria-label="Geleneksel Firma modeli">
         <div class="tri-model">Geleneksel Firma</div>
         <div class="tri-track">
           <div class="tri-node" data-col="0" data-row="0"><span class="tri-k">Günlük görüşme kapasitesi</span><span class="tri-v">~6 aday / uzman*</span></div>
@@ -1254,7 +1267,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       </div>
 
       <!-- YOL 2 — Sadece Yazılım (ATS) (söner) -->
-      <div class="tri-road" data-road="1">
+      <div class="tri-road" data-road="1" role="group" aria-label="Sadece Yazılım (ATS) modeli">
         <div class="tri-model">Sadece Yazılım (ATS)</div>
         <div class="tri-track">
           <div class="tri-node" data-col="1" data-row="0"><span class="tri-k">Günlük görüşme kapasitesi</span><span class="tri-v">Görüşmez; başvuru sıralar</span></div>
@@ -1269,7 +1282,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       </div>
 
       <!-- YOL 3 — Talevo Hibrit (akmaya devam eder) -->
-      <div class="tri-road tri-road-tl" data-road="2">
+      <div class="tri-road tri-road-tl" data-road="2" role="group" aria-label="Talevo Hibrit modeli">
         <div class="tri-model">Talevo Hibrit</div>
         <div class="tri-track">
           <div class="tri-node" data-col="2" data-row="0"><span class="tri-k">Günlük görüşme kapasitesi</span><span class="tri-v"><b>1.000+ aday*</b> — eş zamanlı, 7/24</span></div>
@@ -1347,7 +1360,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <div class="cta-field">
           <label for="cf-phone">Telefon</label>
           <input id="cf-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
-          <p class="cta-field-err phone-err" id="phoneErr" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
+          <p class="cta-field-err phone-err" id="cfPhoneErr" role="alert" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
         </div>
       </div>
       <div class="cta-row">
@@ -1402,13 +1415,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <div class="cta-field">
             <label for="ad-phone">Telefon</label>
             <input id="ad-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0(___) ___ __ __">
-            <p class="cta-field-err phone-err" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
+            <p class="cta-field-err phone-err" id="adPhoneErr" role="alert" hidden>Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.</p>
           </div>
         </div>
         <div class="cta-field">
           <label for="cvInput">Özgeçmiş</label>
           <div class="cv-drop" tabindex="0" role="button" aria-label="Özgeçmiş yükle">
-            <input type="file" name="cv_file" id="cvInput" class="cv-input" accept=".pdf,.doc,.docx">
+            <input type="file" name="cv_file" id="cvInput" class="cv-input" accept=".pdf,.doc,.docx" required>
             <div class="cv-idle">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.5 1.5A3.5 3.5 0 0 1 17 18M12 12v7M9 15l3-3 3 3"/></svg>
               <p class="cv-text">Özgeçmişinizi sürükleyin veya <span class="cv-pick">seçin</span></p>
@@ -1420,17 +1433,17 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
               <button type="button" class="cv-remove" aria-label="Kaldır">&times;</button>
             </div>
           </div>
-          <p class="cta-field-err cv-err" hidden>Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.</p>
+          <p class="cta-field-err cv-err" id="adCvErr" role="alert" hidden>Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.</p>
         </div>
         <div class="cta-field">
           <label for="ad-message">Mesajınız</label>
           <textarea id="ad-message" name="message" rows="3" placeholder="Kısaca kendinizden bahsedin..."></textarea>
         </div>
         <label class="cta-check">
-          <input type="checkbox" name="kvkk_notice_acknowledged" value="onaylandı">
+          <input type="checkbox" id="ad-kvkk" name="kvkk_notice_acknowledged" value="onaylandı" required>
           <span><a href="/kvkk-aday-basvuru" target="_blank" rel="noopener">Aday Başvuru Formu Aydınlatma Metni</a>’ni okuduğumu ve kişisel verilerimin işlenmesine ilişkin bilgi edindiğimi beyan ederim.</span>
         </label>
-        <p class="cta-field-err kvkk-err" hidden>Devam etmek için aydınlatma metni onayını işaretleyin.</p>
+        <p class="cta-field-err kvkk-err" id="adKvkkErr" role="alert" hidden>Devam etmek için aydınlatma metnini okuduğunuzu işaretleyin.</p>
         <button type="submit" class="btn-primary cta-submit">Başvuruyu gönder</button>
         <p class="cta-error" role="alert" hidden>Gönderilemedi. Lütfen tekrar deneyin ya da <a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a> adresine yazın.</p>
       </form>
@@ -2115,6 +2128,18 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       const backEl=view.querySelector('.modal-back');
       const multipart=form.getAttribute('enctype')==='multipart/form-data';
 
+      // Erişilebilir doğrulama: JS varken doğrulamayı biz yönetiriz (ARIA + odak + canlı hata);
+      // native balon devre dışı. JS yoksa HTML required tarayıcı seviyesinde devrede kalır.
+      form.setAttribute('novalidate','novalidate');
+      // Hata göster/gizle + aria-invalid/aria-describedby (ariaEl: odak/aria taşıyıcı; errEl: mesaj <p id>)
+      function setErr(ariaEl, errEl, on, msg){
+        if(errEl){ if(on&&msg!=null)errEl.textContent=msg; errEl.hidden=!on; }
+        if(ariaEl){
+          if(on){ ariaEl.setAttribute('aria-invalid','true'); if(errEl&&errEl.id)ariaEl.setAttribute('aria-describedby',errEl.id); }
+          else{ ariaEl.removeAttribute('aria-invalid'); ariaEl.removeAttribute('aria-describedby'); }
+        }
+      }
+
       // metin düzeltme (blur)
       form.querySelectorAll('[name="first_name"],[name="last_name"]').forEach(el=>el.addEventListener('blur',()=>{el.value=trTitle(el.value);}));
       form.querySelectorAll('[name="company"],[name="position"]').forEach(el=>el.addEventListener('blur',()=>{el.value=smartTitle(el.value);}));
@@ -2130,7 +2155,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           else{for(let i=2;i<phoneEl.value.length;i++){if(/\d/.test(phoneEl.value[i])){seen++; if(seen===dLeft){pos=i+1;break;}}}}
           try{phoneEl.setSelectionRange(pos,pos);}catch(e){}
         });
-        phoneEl.addEventListener('blur',()=>{ if(phErr)phErr.hidden=!(phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10); });
+        phoneEl.addEventListener('blur',()=>{ setErr(phoneEl,phErr,!!(phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10)); });
       }
 
       // dosya yükleme (aday) — sürükle-bırak + tıkla-seç + accept + boyut
@@ -2153,25 +2178,54 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag');}));
         ['dragleave','dragend','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag');}));
         drop.addEventListener('drop',e=>{ const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
-          if(f&&accept(f)){ try{const dt=new DataTransfer();dt.items.add(f);cvInput.files=dt.files;}catch(_){}; showFile(f); } });
+          if(!f||!accept(f))return;
+          // input.files yazımı BAŞARILI olduğu doğrulanmadan "seçildi" gösterme (bazı Safari'lerde başarısız olur)
+          let ok=false;
+          try{ const dt=new DataTransfer(); dt.items.add(f); cvInput.files=dt.files; ok=!!(cvInput.files&&cvInput.files.length); }catch(_){ ok=false; }
+          if(ok){ showFile(f); }
+          else if(cvErr){ cvErr.textContent='Bu tarayıcıda sürükle-bırak desteklenmiyor; lütfen "seçin" bağlantısını kullanın.'; cvErr.hidden=false; } });
       }
 
       function reset(){
         form.hidden=false; if(titleEl)titleEl.hidden=false; if(backEl)backEl.hidden=false;
         if(doneEl)doneEl.hidden=true; if(errEl)errEl.hidden=true;
         form.querySelectorAll('.cta-field-err').forEach(e=>e.hidden=true);
+        form.querySelectorAll('[aria-invalid]').forEach(el=>{el.removeAttribute('aria-invalid');el.removeAttribute('aria-describedby');});
         if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=origLabel;}
         form.reset(); clearCV();
       }
 
+      // Doğrulanacak alanlar (belge sırası). contact formunda cv/kvkk yoksa otomatik atlanır.
+      const firstEl=form.querySelector('[name="first_name"]');
+      const lastEl=form.querySelector('[name="last_name"]');
+      const emailEl=form.querySelector('[name="email"]');
+      const cvDrop=form.querySelector('.cv-drop');                 // CV için odak/aria taşıyıcı (role=button)
+      const cvErrEl=form.querySelector('.cv-err');
+      const kvEl=form.querySelector('[name="kvkk_notice_acknowledged"]');
+      const kvErrEl=form.querySelector('.kvkk-err');
+      // her kural: aria (odak/aria taşıyıcı), err (mesaj <p>), bad() (geçersiz mi), msg
+      const buildRules=()=>[
+        {aria:firstEl, err:null,     bad:()=>firstEl&&!firstEl.checkValidity()},
+        {aria:lastEl,  err:null,     bad:()=>lastEl&&!lastEl.checkValidity()},
+        {aria:emailEl, err:null,     bad:()=>emailEl&&!emailEl.checkValidity()},
+        {aria:phoneEl, err:phErr,    msg:'Telefon numarası eksik görünüyor. 10 hane girin ya da alanı boş bırakın.',
+         bad:()=>phoneEl&&phoneEl.value.trim()&&phDigits(phoneEl.value).length!==10},
+        {aria:cvDrop||cvInput, err:cvErrEl, msg:'Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.',
+         bad:()=>cvInput&&(!cvInput.files||!cvInput.files.length)},
+        {aria:kvEl, err:kvErrEl,     msg:'Devam etmek için aydınlatma metnini okuduğunuzu işaretleyin.',
+         bad:()=>kvEl&&!kvEl.checked}
+      ].filter(r=>r.aria);
+      // Alan düzeldiğinde ARIA/hata canlı temizlenir (kullanıcı düzeltince "hâlâ hatalı" denmez)
+      [firstEl,lastEl,emailEl].forEach(el=>{ if(el)el.addEventListener('input',()=>{ if(el.checkValidity())setErr(el,null,false); }); });
+      if(cvInput)cvInput.addEventListener('change',()=>{ if(cvInput.files&&cvInput.files.length)setErr(cvDrop||cvInput,cvErrEl,false); });
+      if(kvEl)kvEl.addEventListener('change',()=>{ if(kvEl.checked)setErr(kvEl,kvErrEl,false); });
+
       form.addEventListener('submit',ev=>{
         ev.preventDefault();                               // JS varsa AJAX (dosyalı formda multipart)
-        form.querySelectorAll('.cta-field-err').forEach(e=>e.hidden=true);
-        // doğrulamalar (required alanları tarayıcı zaten engeller; bunlar ek/özel uyarılar)
-        if(phoneEl && phoneEl.value.trim() && phDigits(phoneEl.value).length!==10){ if(phErr)phErr.hidden=false; phoneEl.focus(); return; }
-        if(cvInput && (!cvInput.files||!cvInput.files.length)){ const ce=form.querySelector('.cv-err'); if(ce){ce.textContent='Lütfen özgeçmişinizi (PDF, DOC veya DOCX) ekleyin.';ce.hidden=false;} return; }
-        const kv=form.querySelector('[name="kvkk_notice_acknowledged"]');
-        if(kv && !kv.checked){ const ke=form.querySelector('.kvkk-err'); if(ke)ke.hidden=false; return; }
+        // tüm kuralları değerlendir; hataları+ARIA ayarla; İLK hatalı kontrolü odakla
+        let firstBad=null;
+        buildRules().forEach(r=>{ const bad=r.bad(); setErr(r.aria,r.err,bad,r.msg); if(bad&&!firstBad)firstBad=r; });
+        if(firstBad){ if(firstBad.aria&&firstBad.aria.focus)firstBad.aria.focus(); return; }
         // gönder
         if(errEl)errEl.hidden=true;
         if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Gönderiliyor…';}
