@@ -1685,7 +1685,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     dataEmpty.style.opacity=1;
     ppSegs.forEach((s,i)=>s.classList.toggle('on',i===2));
   }
-  if(staticMode) setProblemFinal();
   const ghostScene=document.getElementById('ghostScene');
   const cvCard=document.getElementById('cvCard');
   const ghostPhases=[document.getElementById('ghostPhase1'),document.getElementById('ghostPhase2'),document.getElementById('ghostPhase3')];
@@ -1743,7 +1742,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     cvRows.forEach(row=>{row.querySelector('.cv-ghost').style.opacity=0;const r=row.querySelector('.cv-real');r.style.opacity=1;r.style.filter='none';});
     ghostDots.forEach((d,i)=>d.classList.toggle('on',i===2));
   }
-  if(staticMode) setGhostFinal();
   const procScene=document.getElementById('procScene');
   const hTrack=document.getElementById('hTrack');
   const procCards=[...hTrack.querySelectorAll('.pcard')];
@@ -1759,7 +1757,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   function updateProc(p){
     // Mobilde yatay şerit dikey diziliyor; scroll-bazlı aktiflik/renk oynaması istenmiyor.
     // Sınıfları temizle (masaüstünden mobile resize durumunu da toparlar) ve çık.
-    if(triMobile.matches){
+    if(mobileMQ.matches){
       procCards.forEach(c=>c.classList.remove('active','near'));
       procNodes.forEach(n=>n.classList.remove('on','past'));
       return;
@@ -1862,7 +1860,6 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     motorVerdict.style.opacity=1;
     motorVerdictWords.forEach(w=>w.style.opacity='1');
   }
-  if(staticMode) setMotorFinal();
 
   /* ============ 6 · KALİBRASYON (üç dal) kurulumu ============ */
   const calibScene=document.getElementById('calibScene');
@@ -1876,8 +1873,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   function updateCalib(p){
     // Mobilde SVG dalları display:none — dal çizimi (dashoffset/uç) boşa hesap. Ama çekirdek ve
     // KARTLAR mobilde de görünür + JS'e bağlı (kart opacity'si buradan gelir), o yüzden onları
-    // korur, yalnız gizli dal yazımını atlarız. (triMobile update()'ten önce tanımlı — TDZ yok.)
-    const mob=triMobile.matches;
+    // korur, yalnız gizli dal yazımını atlarız. (mobileMQ update()'ten önce tanımlı — TDZ yok.)
+    const mob=mobileMQ.matches;
     // Üç dal sırayla açılır (0.06 / 0.20 / 0.34), sonunda üçü de görünür kalır
     const g=[clamp((p-0.06)/0.24,0,1),clamp((p-0.20)/0.24,0,1),clamp((p-0.34)/0.24,0,1)];
     // Çekirdek büyür ve parlar (mobilde de görünür)
@@ -1901,19 +1898,17 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     calibCoreGlow.style.opacity=1;calibCoreGlow.style.transform='scale(1.7)';
     calibBranches.forEach(a=>{a.path.style.strokeDashoffset=160;a.end.style.opacity=1;a.card.style.opacity=1;a.card.style.transform='none';});
   }
-  if(staticMode) setCalibFinal();
 
   /* ============ 11 · ÜÇLÜ KARŞILAŞTIRMA (üç yol) kurulumu ============ */
   const triScene=document.getElementById('triScene');
   const triNodes=[...document.querySelectorAll('#triScene .tri-node')];
   const triRoads=[...document.querySelectorAll('#triScene .tri-road')];
   const triFlow=document.querySelector('#triScene .tri-end-flow');
-  const triMobile=matchMedia('(max-width:900px)');
 
   function updateTri(p){
     // İŞ3 — Mobil: sahne statik dikey liste; scroll-bazlı sönme burada karmaşa yaratır.
     // Her şeyi TAM görünür bırak (boş/yarı-sönük takılma yok) ve çık.
-    if(triMobile.matches){
+    if(mobileMQ.matches){
       triNodes.forEach(n=>n.style.opacity='1');
       triRoads.forEach(r=>r.style.opacity='1');
       if(triFlow)triFlow.style.opacity='1';
@@ -1935,27 +1930,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     triRoads.forEach(r=>r.style.opacity='1');
     if(triFlow)triFlow.style.opacity='1';
   }
-  if(staticMode) setTriFinal();
 
   const progressBar=document.getElementById('progress');
 
-  function update(){
-    const doc=document.documentElement;
-    // İlerleme çubuğu: width yerine transform:scaleX → layout/paint yerine yalnız composite
-    const maxScroll=doc.scrollHeight-innerHeight;
-    progressBar.style.transform='scaleX('+(maxScroll>0?scrollY/maxScroll:0)+')';
-    // Statik modda (mobil veya reduced-motion) sahne hesapları DURUR — yalnız ilerleme
-    // çubuğu güncellenir. Sahnelerin son durumu setXFinal() ile bir kez sabitlenmiştir.
-    if(staticMode) return;
-
-    // FAZ 1 — TÜM OKUMALAR (7 sahnenin prog() değeri): getBoundingClientRect'ler ardışık
-    // okunur; araya yazım girmez → layout thrashing yok (updateX'ler yalnız YAZAR, okumaz).
-    const pOpen=prog(openingScene), pProb=prog(probScene), pGhost=prog(ghostScene),
-          pProc=prog(procScene), pCalib=prog(calibScene), pMotor=prog(motorScene), pTri=prog(triScene);
-
-    // FAZ 2 — TÜM YAZIMLAR (görsel sonuç eskisiyle BİREBİR aynı; yalnız sıra: oku-sonra-yaz)
-    // AÇILIŞ: Hero + Manifesto tek sabit sahnede. Kamera sabit; yalnızca opacity + scale.
-    const heroOpacity=Math.max(0,1-pOpen/0.5);           // p 0–0.5: Hero söner, hafif küçülür
+  // AÇILIŞ (Hero + Manifesto) yazımları — registry'de diğer sahnelerle tek biçim olsun diye fonksiyona alındı
+  function updateOpening(p){
+    const heroOpacity=Math.max(0,1-p/0.5);               // p 0–0.5: Hero söner, hafif küçülür
     heroLayer.style.opacity=heroOpacity;
     heroLayer.style.transform=`scale(${1-(1-heroOpacity)*0.12})`;
     orbA.style.opacity=heroOpacity;
@@ -1963,20 +1943,48 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     orbC.style.opacity=heroOpacity;
     heroBg.style.opacity=heroOpacity;
     scrollCue.style.opacity=heroOpacity;
-
-    const manifOpacity=clamp((pOpen-0.5)/0.35,0,1);       // p 0.5–0.85: Manifesto aynı merkezde belirir
+    const manifOpacity=clamp((p-0.5)/0.35,0,1);           // p 0.5–0.85: Manifesto aynı merkezde belirir
     manifLayer.style.opacity=manifOpacity;
     manifLayer.style.transform=`scale(${0.94+manifOpacity*0.06})`;
-
-    const lit=Math.floor(map(pOpen,.70,1)*words.length); // p 0.70–1.0: kelime kelime aydınlanma
+    const lit=Math.floor(map(p,.70,1)*words.length);      // p 0.70–1.0: kelime kelime aydınlanma
     words.forEach((w,i)=>w.style.opacity=i<lit?1:.16);
+  }
 
-    updateProblem(pProb);   // SORUN (üç perde)
-    updateGhost(pGhost);    // GÖRÜNMEYEN YETENEK (üç perde + tarama huzmesi)
-    updateProc(pProc);      // SÜREÇ (yatay şerit + aktif kart)
-    updateCalib(pCalib);    // KALİBRASYON (üç dal)
-    updateMotor(pMotor);    // GÖRÜNMEZ MOTOR (iki şerit + kararma/hüküm)
-    updateTri(pTri);        // ÜÇLÜ KARŞILAŞTIRMA (üç yol)
+  /* ============ SAHNE REGISTRY — sahne kayıtlarının TEK kaynağı ============
+     update() döngüsü, statik finalize, dotnav observer'ları, zemin uyumu (LIGHT), bgEls — HEPSİ
+     bu listeden türetilir. Yeni bölüm = buraya BİR satır + statik dotnav butonu (+ HTML/CSS/updateX).
+     Sıra = DOM/scroll sırası. update() yalnız 'update' fonksiyonu olan sahneleri işler; 'finalize'ı
+     olmayanlar (proc/cycle/live) statik modda atlanır. updateX/setXFinal function-declaration
+     (hoisted) olduğundan burada referanslanmaları TDZ üretmez. */
+  const SCENES=[
+    { id:'openingScene', theme:'dark',  update:updateOpening, finalize:null,            nav:null },
+    { id:'probScene',    theme:'light', update:updateProblem, finalize:setProblemFinal, nav:'Geleneksel Modelin Sınırları' },
+    { id:'ghostScene',   theme:'dark',  update:updateGhost,   finalize:setGhostFinal,   nav:'Görünmeyen Yetenek' },
+    { id:'procScene',    theme:'light', update:updateProc,    finalize:null,            nav:'Nasıl Çalışırız' },
+    { id:'calibScene',   theme:'dark',  update:updateCalib,   finalize:setCalibFinal,   nav:'Kalibrasyon' },
+    { id:'motorScene',   theme:'dark',  update:updateMotor,   finalize:setMotorFinal,   nav:'Görünmez Motor' },
+    { id:'cycleScene',   theme:'light', update:null,          finalize:null,            nav:'Verinin Döngüsü' },
+    { id:'liveScene',    theme:'dark',  update:null,          finalize:null,            nav:'Şeffaflık' },
+    { id:'triScene',     theme:'light', update:updateTri,     finalize:setTriFinal,     nav:null },
+    { id:'talep',        theme:'dark',  update:null,          finalize:null,            nav:null },
+  ];
+  SCENES.forEach(s=>{ s.el=document.getElementById(s.id); });         // element'i bir kez çöz
+  const UPDATERS=SCENES.filter(s=>s.update&&s.el);                    // update() sırası (scroll-driven)
+  function finalizeAll(){ SCENES.forEach(s=>{ if(s.finalize) s.finalize(); }); }
+
+  if(staticMode) finalizeAll();                                       // başlangıç statik modu (mobil/reduced)
+
+  function update(){
+    const doc=document.documentElement;
+    // İlerleme çubuğu: width yerine transform:scaleX → layout/paint yerine yalnız composite
+    const maxScroll=doc.scrollHeight-innerHeight;
+    progressBar.style.transform='scaleX('+(maxScroll>0?scrollY/maxScroll:0)+')';
+    // Statik modda (mobil/reduced) sahne hesapları DURUR — son durum finalizeAll ile sabitlenmiştir.
+    if(staticMode) return;
+    // FAZ 1 — TÜM OKUMALAR (registry sırasıyla prog): getBoundingClientRect'ler ardışık → thrashing yok
+    const progs=UPDATERS.map(s=>prog(s.el));
+    // FAZ 2 — TÜM YAZIMLAR (updateX'ler yalnız YAZAR; görsel sonuç eskisiyle BİREBİR aynı)
+    UPDATERS.forEach((s,i)=>s.update(progs[i]));
   }
 
   let ticking=false;
@@ -1994,7 +2002,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   function applyStaticMode(){
     staticMode = reduced || mobileMQ.matches;
     if(staticMode){
-      setProblemFinal(); setGhostFinal(); setCalibFinal(); setMotorFinal(); setTriFinal();
+      finalizeAll();   // registry'deki tüm finalize'lar (setProblemFinal…setTriFinal)
       // Süreç sahnesi: masaüstünden kalmış aktif/near sınıflarını temizle (final'i yok)
       procCards.forEach(c=>c.classList.remove('active','near'));
       procNodes.forEach(n=>n.classList.remove('on','past'));
@@ -2037,21 +2045,21 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       d.classList.toggle('active',on);
       if(on)d.setAttribute('aria-current','true'); else d.removeAttribute('aria-current');
     });
-    const navSet=new Set(dots.map(d=>d.dataset.target));   // yalnız 7 nav bölümü
+    // navSet + izlenecek nav elemanları: registry'de 'nav'ı olan sahneler (dotnav HTML ile eşleşir)
+    const navScenes=SCENES.filter(s=>s.nav&&s.el);
+    const navSet=new Set(navScenes.map(s=>s.id));
     // rootMargin: sıfır çizgi yerine küçük merkez BANDI (-45%) — sınırlarda daha kararlı
     const secObs=new IntersectionObserver(es=>{
       es.forEach(e=>{ if(e.isIntersecting)setActive(e.target.id); });
     },{rootMargin:'-45% 0px -45% 0px', threshold:0});
-    dots.forEach(d=>{ const s=document.getElementById(d.dataset.target); if(s)secObs.observe(s); });
+    navScenes.forEach(s=>secObs.observe(s.el));
 
     // Zemin uyumu + NAV DIŞI temizlik: viewport ORTASINDAKİ bölüm AÇIK zeminliyse .on-light ekle;
-    // ayrıca bölüm 7 nav sahnesinden biri DEĞİLSE (opening/tri/kapanış/aday-cta/footer) hiçbir nokta
+    // ayrıca bölüm nav sahnesinden biri DEĞİLSE (opening/tri/kapanış/aday-cta/footer) hiçbir nokta
     // aria-current olmasın (son "Şeffaflık" noktası takılı kalmasın). TÜM bölümleri izler; update()'e yük yok.
-    const LIGHT=new Set(['probScene','procScene','cycleScene','triScene']);
-    const bgEls=[
-      ...['openingScene','probScene','ghostScene','procScene','calibScene','motorScene','cycleScene','liveScene','triScene','talep'].map(id=>document.getElementById(id)),
-      document.querySelector('.aday-cta'), document.querySelector('.site-footer')
-    ].filter(Boolean);
+    const LIGHT=new Set(SCENES.filter(s=>s.theme==='light').map(s=>s.id));   // theme:'light' → koyu-mor noktalar
+    const bgEls=[ ...SCENES.map(s=>s.el),                                    // tüm registry sahneleri +
+      document.querySelector('.aday-cta'), document.querySelector('.site-footer') ].filter(Boolean);   // ek öğeler
     const bgObs=new IntersectionObserver(es=>{
       es.forEach(e=>{ if(e.isIntersecting){
         dotnav.classList.toggle('on-light', LIGHT.has(e.target.id));
@@ -2175,7 +2183,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   function startCycle(){ if(cyPlaying)return;
     // Mobilde SVG display:none — görünmeyen elemanları 60fps güncellemek boşa CPU.
     // rAF'ı hiç başlatma; son statik kareyi (cyGrow(1)) bir kez uygula (mobil çekirdek görünümü doğru kalsın).
-    if(triMobile.matches){ cyGrow(1); return; }
+    if(mobileMQ.matches){ cyGrow(1); return; }
     cyPlaying=true; cyT0=performance.now(); cyRAF=requestAnimationFrame(cyTick); }
   function stopCycle(){ if(!cyPlaying)return; cyPlaying=false; cyAcc+=performance.now()-cyT0; cancelAnimationFrame(cyRAF); }
 
@@ -2186,11 +2194,11 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       entries.forEach(e=>{ cycleVisible=e.isIntersecting; if(e.isIntersecting)startCycle(); else stopCycle(); });
     },{threshold:0.35});
     cycleObserver.observe(cycleScene);
-    // Breakpoint farkındalığı (startCycle ile AYNI triMobile'ı paylaşır):
+    // Breakpoint farkındalığı (startCycle ile AYNI mobileMQ'ı paylaşır):
     // masaüstü→mobil: rAF döngüsünü durdur + son kareyi uygula (görünmeyen SVG 60fps güncellenmesin);
     // mobil→masaüstü: bölüm hâlâ görünürse animasyonu başlat.
-    triMobile.addEventListener('change',()=>{
-      if(triMobile.matches){ stopCycle(); cyGrow(1); }
+    mobileMQ.addEventListener('change',()=>{
+      if(mobileMQ.matches){ stopCycle(); cyGrow(1); }
       else{
         // masaüstüne dönüş: bölüm ŞU AN görünürse başlat (cached değil, anlık ölç — observer/scroll
         // yeniden konumlanma yarışından etkilenmesin).
