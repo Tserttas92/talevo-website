@@ -211,11 +211,16 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   padding:5px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.28);
   opacity:0;transform:translateX(6px);transition:opacity .25s ease, transform .25s ease;pointer-events:none}
 .dot-mark{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.28);flex-shrink:0;
-  transition:background .25s ease, width .2s ease, height .2s ease, box-shadow .25s ease}
+  transition:background .35s ease, box-shadow .35s ease, width .2s ease, height .2s ease}
 .dot:hover .dot-mark,.dot:focus-visible .dot-mark{background:rgba(255,255,255,.6)}
 .dot[aria-current="true"] .dot-mark{background:#9F7BEA;width:12px;height:12px;box-shadow:0 0 0 3px rgba(159,123,234,.25)}
 .dot[aria-current="true"] .dot-label,.dot:hover .dot-label,.dot:focus-visible .dot-label{opacity:1;transform:none}
 .dot:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px}
+/* AÇIK ZEMİNLİ bölüm üzerindeyken (.on-light): koyu-mor tonlu noktalar (beyaz üstünde kaybolmasın) */
+.dotnav.on-light .dot-mark{background:rgba(26,14,56,.32)}
+.dotnav.on-light .dot:hover .dot-mark,.dotnav.on-light .dot:focus-visible .dot-mark{background:rgba(26,14,56,.55)}
+.dotnav.on-light .dot[aria-current="true"] .dot-mark{background:#48218E;box-shadow:0 0 0 3px rgba(72,33,142,.22)}
+.dotnav.on-light .dot:focus-visible{outline-color:#48218E}
 @media(prefers-reduced-motion:reduce){.dotnav,.dot-label,.dot-mark{transition:none}}
 /* Mobil (≤900px): nokta göstergesi gizli — dar ekranda içeriğe biner, to-top ile çakışır */
 @media(max-width:900px){.dotnav{display:none!important}}
@@ -2024,6 +2029,19 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       es.forEach(e=>{ if(e.isIntersecting)setActive(e.target.id); });
     },{rootMargin:'-50% 0px -50% 0px', threshold:0});
     dots.forEach(d=>{ const s=document.getElementById(d.dataset.target); if(s)secObs.observe(s); });
+
+    // Zemin uyumu: viewport ORTASINDAKİ bölüm AÇIK zeminliyse .on-light ekle (koyu-mor noktalar).
+    // Aktif tespitten AYRI, hafif observer — TÜM bölümleri izler (tri/kapanış/aday-cta/footer dahil),
+    // update()'e yük yok. Açık bölümler: bg-light kullananlar.
+    const LIGHT=new Set(['probScene','procScene','cycleScene','triScene']);
+    const bgEls=[
+      ...['openingScene','probScene','ghostScene','procScene','calibScene','motorScene','cycleScene','liveScene','triScene','talep'].map(id=>document.getElementById(id)),
+      document.querySelector('.aday-cta'), document.querySelector('.site-footer')
+    ].filter(Boolean);
+    const bgObs=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting)dotnav.classList.toggle('on-light', LIGHT.has(e.target.id)); });
+    },{rootMargin:'-50% 0px -50% 0px', threshold:0});
+    bgEls.forEach(el=>bgObs.observe(el));
   }
 
   /* ---- Statik bölüm reveal ---- */
