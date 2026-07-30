@@ -100,7 +100,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-gutter:stable}   /* modal açılınca scrollbar kalkınca yatay sıçramayı önler */
 body{
   font-family:var(--font);
   font-weight:400;
@@ -142,7 +142,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .btn-accent[disabled]{opacity:.45;cursor:default;transform:none}
 
 /* ============ ÜST İLERLEME ÇUBUĞU ============ */
-#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--brand-orange);z-index:100}
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:left;will-change:transform;background:var(--brand-orange);z-index:100}
 
 /* ============ NAV ============ */
 .nav{position:fixed;inset:0 0 auto 0;z-index:90;backdrop-filter:blur(16px);
@@ -227,7 +227,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 /* ============ SAHNE YARDIMCILARI ============ */
 .scene{position:relative}
-.pin{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+.pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;
   justify-content:center;overflow:hidden}
 
 /* Koyu / açık bölüm zeminleri */
@@ -241,7 +241,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .reveal.in{opacity:1;transform:none}
 
 /* ============ 1+2 · AÇILIŞ (Hero + Manifesto, tek sabit sahne) ============ */
-#openingScene{height:420svh}
+#openingScene{height:420vh;height:420svh}
 .opening-pin{align-items:center;text-align:center;background:var(--bg-dark)}
 /* İki metin katmanı aynı merkezde üst üste; geçiş yalnızca opacity + scale (translate yok) */
 .opening-layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -275,7 +275,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .manifesto .w.hi{color:var(--brand-orange)}
 
 /* ============ 3 · SORUN (üç perdeli, tek sabit sahne) ============ */
-#probScene{height:420svh;background:var(--bg-light);color:var(--text-on-light)}
+#probScene{height:420vh;height:420svh;background:var(--bg-light);color:var(--text-on-light)}
 .prob-pin{justify-content:flex-start}
 .prob-top{padding:64px 24px 0;text-align:center;max-width:var(--maxw);margin:0 auto;width:100%;z-index:2}
 .prob-progress{display:flex;gap:8px;justify-content:center;margin-bottom:18px}
@@ -337,7 +337,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .data-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#C9C6D2;opacity:0;transition:opacity .3s}
 
 /* ============ 4 · GÖRÜNMEYEN YETENEK (üç perdeli, tek sabit sahne) ============ */
-#ghostScene{height:420svh;background:var(--bg-dark)}
+#ghostScene{height:420vh;height:420svh;background:var(--bg-dark)}
 .ghost-stage{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
   max-width:var(--maxw);margin:0 auto;padding:0 24px;width:100%}
 .ghost-left .chapter{color:var(--brand-orange)}
@@ -380,7 +380,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .ghost-dot.on{color:var(--brand-orange)}
 
 /* ============ 5 · SÜREÇ (yatay şerit, aktif kart vurgusu) ============ */
-#procScene{height:420svh;background:var(--bg-light);color:var(--text-on-light)}
+#procScene{height:420vh;height:420svh;background:var(--bg-light);color:var(--text-on-light)}
 .proc-pin{justify-content:center}
 .proc-head{max-width:var(--maxw);margin:0 auto 44px;padding:0 24px;width:100%;text-align:center}
 .proc-head h2{font-size:clamp(1.8rem,4.2vw,2.9rem);margin-top:12px;color:var(--text-on-light)}
@@ -409,7 +409,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
 
 /* ============ 6 · KALİBRASYON (üç dal, sabit sahne) ============ */
-#calibScene{height:320svh}
+#calibScene{height:320vh;height:320svh}
 .calib-pin{background:#0E0E15;color:var(--text-on-dark);justify-content:center}
 .calib-glow{position:absolute;left:-100px;top:50%;transform:translateY(-50%);width:340px;height:340px;
   border-radius:50%;background:rgba(72,33,142,.32);filter:blur(80px);pointer-events:none}
@@ -435,7 +435,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .calib-card .cc-b{color:#fff;font-size:13px;font-weight:700;line-height:1.32;margin-top:7px}
 
 /* ============ 8 · GÖRÜNMEZ MOTOR (iki şerit, kaydırma bazlı) ============ */
-#motorScene{height:480svh;background:#000;--m-fill:var(--brand-purple);--m-purple-text:#A78BDF}
+#motorScene{height:480vh;height:480svh;background:#000;--m-fill:var(--brand-purple);--m-purple-text:#A78BDF}
 .motor-pin{justify-content:center;overflow:hidden}
 .motor-main{position:relative;z-index:1;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px;
   display:flex;flex-direction:column;gap:34px;will-change:opacity}
@@ -478,7 +478,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .note{font-size:.72rem;color:var(--text-on-dark-muted);margin-top:14px}
 
 /* ============ 9 · VERİNİN DÖNGÜSÜ (zaman ile, kaydırma değil) ============ */
-.cycle{background:var(--bg-light);color:var(--text-on-light);min-height:100svh;padding:80px 24px}
+.cycle{background:var(--bg-light);color:var(--text-on-light);min-height:100vh;min-height:100svh;padding:80px 24px}
 .cycle-head{text-align:center;max-width:780px;margin:0 auto}
 .cycle-head .chapter{color:var(--brand-purple);font-size:10px;letter-spacing:.18em}
 .cycle-head h2{font-size:clamp(1.6rem,3.4vw,2.6rem);font-weight:800;letter-spacing:-.025em;margin-top:12px;color:var(--text-on-light)}
@@ -505,7 +505,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .cyc-m-list{display:flex;flex-direction:column;gap:12px;max-width:420px;margin:0 auto}
 
 /* ============ 11 · ÜÇLÜ KARŞILAŞTIRMA (üç yol, sabit sahne) ============ */
-#triScene{height:300svh;background:var(--bg-light);color:var(--text-on-light)}
+#triScene{height:300vh;height:300svh;background:var(--bg-light);color:var(--text-on-light)}
 .tri-pin{justify-content:flex-start}
 .tri-head{max-width:var(--maxw);margin:0 auto;padding:60px 24px 0;text-align:center;width:100%}
 .tri-head .chapter{color:var(--brand-purple)}
@@ -579,7 +579,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .pos .bar-track{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:6px}
 .pos .bar-fill{height:6px;border-radius:6px;background:var(--brand-orange);transition:width 1.2s cubic-bezier(.22,1,.36,1)}
 
-.closing{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 0;text-align:center;
+.closing{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 0;text-align:center;
   background:radial-gradient(900px 520px at 50% -10%, rgba(72,33,142,.5) 0%, var(--bg-dark) 62%)}
 .closing h2{font-size:clamp(2rem,5vw,3.6rem);max-width:18ch;margin:0 auto 18px}
 .closing p{color:var(--text-on-dark-muted);max-width:50ch;margin:0 auto 40px}
@@ -665,7 +665,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
 .modal[hidden]{display:none}
 .modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px)}
-.modal-card{position:relative;z-index:1;width:100%;max-width:520px;max-height:calc(100dvh - 24px);overflow:auto;
+.modal-card{position:relative;z-index:1;width:100%;max-width:520px;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow:auto;
   overscroll-behavior:contain;
   background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:20px;
   padding:36px 30px 30px;box-shadow:0 40px 100px rgba(0,0,0,.6)}
@@ -1576,7 +1576,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 <script>
 (function(){
   "use strict";
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMQ = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = reducedMQ.matches;   // canlı dinlenir (aşağıda reducedMQ 'change' ile güncellenir)
   // Mobil (≤900px) VE reduced-motion aynı "statik mod"a girer: sahneler son halinde
   // sabitlenir, scroll-driven hesaplar durur (getBoundingClientRect/opacity/transform
   // her karede çalışmaz). Bu, CSS sahne düzleştirmesinin JS tamamlayıcısıdır.
@@ -1940,16 +1941,21 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
   function update(){
     const doc=document.documentElement;
-    progressBar.style.width=(scrollY/(doc.scrollHeight-innerHeight)*100)+'%';
+    // İlerleme çubuğu: width yerine transform:scaleX → layout/paint yerine yalnız composite
+    const maxScroll=doc.scrollHeight-innerHeight;
+    progressBar.style.transform='scaleX('+(maxScroll>0?scrollY/maxScroll:0)+')';
     // Statik modda (mobil veya reduced-motion) sahne hesapları DURUR — yalnız ilerleme
     // çubuğu güncellenir. Sahnelerin son durumu setXFinal() ile bir kez sabitlenmiştir.
     if(staticMode) return;
 
-    // AÇILIŞ: Hero + Manifesto tek sabit sahnede. Kamera sabit; yalnızca opacity + scale.
-    const p=prog(openingScene);
+    // FAZ 1 — TÜM OKUMALAR (7 sahnenin prog() değeri): getBoundingClientRect'ler ardışık
+    // okunur; araya yazım girmez → layout thrashing yok (updateX'ler yalnız YAZAR, okumaz).
+    const pOpen=prog(openingScene), pProb=prog(probScene), pGhost=prog(ghostScene),
+          pProc=prog(procScene), pCalib=prog(calibScene), pMotor=prog(motorScene), pTri=prog(triScene);
 
-    // p 0–0.5: Hero söner (metin + küreler + gradyan + mouse birlikte), hafif küçülür
-    const heroOpacity=Math.max(0,1-p/0.5);
+    // FAZ 2 — TÜM YAZIMLAR (görsel sonuç eskisiyle BİREBİR aynı; yalnız sıra: oku-sonra-yaz)
+    // AÇILIŞ: Hero + Manifesto tek sabit sahnede. Kamera sabit; yalnızca opacity + scale.
+    const heroOpacity=Math.max(0,1-pOpen/0.5);           // p 0–0.5: Hero söner, hafif küçülür
     heroLayer.style.opacity=heroOpacity;
     heroLayer.style.transform=`scale(${1-(1-heroOpacity)*0.12})`;
     orbA.style.opacity=heroOpacity;
@@ -1958,32 +1964,19 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     heroBg.style.opacity=heroOpacity;
     scrollCue.style.opacity=heroOpacity;
 
-    // p 0.5–0.85: Manifesto aynı merkezde belirir (opacity + scale, kayma yok)
-    const manifOpacity=clamp((p-0.5)/0.35,0,1);
+    const manifOpacity=clamp((pOpen-0.5)/0.35,0,1);       // p 0.5–0.85: Manifesto aynı merkezde belirir
     manifLayer.style.opacity=manifOpacity;
     manifLayer.style.transform=`scale(${0.94+manifOpacity*0.06})`;
 
-    // p 0.70–1.0: Metin belirdikten sonra kelime kelime aydınlanma (genişletilmiş aralık, daha yavaş)
-    const lit=Math.floor(map(p,.70,1)*words.length);
+    const lit=Math.floor(map(pOpen,.70,1)*words.length); // p 0.70–1.0: kelime kelime aydınlanma
     words.forEach((w,i)=>w.style.opacity=i<lit?1:.16);
 
-    // SORUN (üç perde)
-    updateProblem(prog(probScene));
-
-    // GÖRÜNMEYEN YETENEK (üç perde + tarama huzmesi)
-    updateGhost(prog(ghostScene));
-
-    // SÜREÇ (yatay şerit + aktif kart)
-    updateProc(prog(procScene));
-
-    // KALİBRASYON (üç dal)
-    updateCalib(prog(calibScene));
-
-    // GÖRÜNMEZ MOTOR (iki şerit + kararma/hüküm)
-    updateMotor(prog(motorScene));
-
-    // ÜÇLÜ KARŞILAŞTIRMA (üç yol)
-    updateTri(prog(triScene));
+    updateProblem(pProb);   // SORUN (üç perde)
+    updateGhost(pGhost);    // GÖRÜNMEYEN YETENEK (üç perde + tarama huzmesi)
+    updateProc(pProc);      // SÜREÇ (yatay şerit + aktif kart)
+    updateCalib(pCalib);    // KALİBRASYON (üç dal)
+    updateMotor(pMotor);    // GÖRÜNMEZ MOTOR (iki şerit + kararma/hüküm)
+    updateTri(pTri);        // ÜÇLÜ KARŞILAŞTIRMA (üç yol)
   }
 
   let ticking=false;
@@ -1996,7 +1989,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   // Breakpoint geçişi: pencere yeniden boyutlanınca / cihaz dönünce doğru moda geç.
   // Masaüstü→mobil: sahneleri son haline sabitle (yarım kalmış animasyon bırakma).
   // Mobil→masaüstü: update() tüm sahneleri scroll konumuna göre canlı yeniden hesaplar.
-  mobileMQ.addEventListener('change',()=>{
+  // Ortak: staticMode'u yeniden hesapla; statikse son durumları sabitle; sonra update().
+  // Hem breakpoint (mobileMQ) hem hareket-azaltma (reducedMQ) tercihi CANLI değişiminde çağrılır.
+  function applyStaticMode(){
     staticMode = reduced || mobileMQ.matches;
     if(staticMode){
       setProblemFinal(); setGhostFinal(); setCalibFinal(); setMotorFinal(); setTriFinal();
@@ -2005,7 +2000,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       procNodes.forEach(n=>n.classList.remove('on','past'));
     }
     update();
-  });
+  }
+  mobileMQ.addEventListener('change',applyStaticMode);
+  // reduced-motion tercihi sayfa AÇIKKEN değişirse: reduced'ı güncelle, modu yeniden uygula.
+  reducedMQ.addEventListener('change',()=>{ reduced=reducedMQ.matches; applyStaticMode(); });
 
   /* ---- Header: kaydırınca tek buton (.scrolled) + bölüm nokta göstergesi görünürlüğü ---- */
   const navBar=document.querySelector('.nav');
@@ -2365,11 +2363,26 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Gönderiliyor…';}
         const opts=multipart ? {method:'POST',body:new FormData(form)}   // Content-Type YOK — tarayıcı boundary'yi koyar
           : {method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()};
+        // Zaman aşımı: 25 sn'de yanıt gelmezse isteği iptal et, butonu geri al, hatayı göster.
+        // Form VERİSİ korunur (reset çağrılmaz) → kullanıcı yeniden doldurmaz.
+        const ctrl=new AbortController();
+        const timer=setTimeout(()=>ctrl.abort(),25000);
+        opts.signal=ctrl.signal;
+        const MAIL='<a href="mailto:info@talevo.com.tr">info@talevo.com.tr</a>';
         fetch('/',opts).then(r=>{ if(!r.ok)throw new Error('HTTP '+r.status);
+          clearTimeout(timer);
           form.hidden=true; if(titleEl)titleEl.hidden=true; if(backEl)backEl.hidden=true;
           if(doneEl)doneEl.hidden=false;
           requestAnimationFrame(()=>{const c=doneEl&&doneEl.querySelector('.cta-done-close'); if(c)c.focus();});
-        }).catch(()=>{ if(errEl)errEl.hidden=false; if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=origLabel;} });
+        }).catch(err=>{ clearTimeout(timer);
+          if(errEl){
+            errEl.innerHTML = (err&&err.name==='AbortError')
+              ? 'Bağlantı zaman aşımına uğradı. Lütfen tekrar deneyin ya da '+MAIL+' adresine yazın.'
+              : 'Gönderilemedi. Lütfen tekrar deneyin ya da '+MAIL+' adresine yazın.';
+            errEl.hidden=false;
+          }
+          if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=origLabel;}
+        });
       });
 
       return reset;
