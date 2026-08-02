@@ -583,6 +583,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   background:radial-gradient(900px 520px at 50% -10%, rgba(72,33,142,.5) 0%, var(--bg-dark) 62%)}
 .closing h2{font-size:clamp(2rem,5vw,3.6rem);max-width:18ch;margin:0 auto 18px}
 .closing p{color:var(--text-on-dark-muted);max-width:50ch;margin:0 auto 40px}
+/* Kapanış destekleyici CTA metni (butonun altında; hem mobil hem masaüstü) */
+.closing-cta-hint{color:var(--text-on-dark-muted);font-size:.9rem;margin:16px auto 0;max-width:40ch}
+/* Talevo Live CTA: yalnız mobilde görünür (masaüstü tasarımı AYNEN kalsın) */
+.live-cta{display:none}
 /* Kapanış iletişim formu — koyu-mor zemin üstünde şık, okunur; mobilde tek sütun */
 .cta-form{max-width:520px;margin:32px auto 0;text-align:left}
 .cta-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
@@ -864,6 +868,20 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   #motorScene .motor-strip{border-radius:14px;padding:18px 16px;
     border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.035)}
   #motorScene .motor-strip-tl{border-color:rgba(159,123,234,.55);background:rgba(72,33,142,.18)}   /* Talevo öne çıkar */
+
+  /* AŞAMA 5 — CİLA (az müdahale): calib kartları, ghost faz ayrımı, live panel + CTA */
+  /* Kalibrasyon: üç uygulama kartı net kart hissi (koyu zemin) */
+  #calibScene .calib-card{background:rgba(255,255,255,.045);border:1px solid var(--border-dark);border-radius:14px;padding:16px 18px}
+  /* Görünmeyen yetenek: üç faz arası belirgin ayrım (numaralı rozet + ince ayırıcı) */
+  #ghostScene .ghost-phases{counter-reset:gp}
+  #ghostScene .ghost-phase{counter-increment:gp;margin-bottom:0;padding:20px 0;border-top:1px solid var(--border-dark)}
+  #ghostScene .ghost-phase:first-child{border-top:none;padding-top:4px}
+  #ghostScene .ghost-phase::before{content:counter(gp);display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;background:rgba(255,106,53,.15);color:var(--brand-orange);
+    font-size:13px;font-weight:800;margin-bottom:10px}
+  /* Talevo Live: panel dashboard hissi (zaten kart; hafif gölge) + mobil CTA butonu */
+  #liveScene .panel{box-shadow:0 12px 40px rgba(0,0,0,.35)}
+  #liveScene .live-cta{display:inline-flex;margin-top:22px}
 }
 </style>
 </head>
@@ -1300,8 +1318,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <h2>Kara kutu yok.<br>Talevo Live var.</h2>
       <p>Hangi pozisyon hangi aşamada, kaç aday değerlendirildi, kim onay bekliyor — gerçek zamanlı tek ekranda.</p>
       <p>Rapor beklemenize gerek kalmaz. Kontrol sizde.</p>
+      <button class="btn-primary live-cta" type="button" id="liveCta" aria-haspopup="dialog">Talevo Live yaklaşımını inceleyin</button>
     </div>
-    <div class="panel reveal">
+    <div class="panel reveal" aria-hidden="true">
       <div class="ph"><b>İşe Alım Komuta Merkezi</b><span class="pill">Canlı</span></div>
       <div class="kpis">
         <div class="kpi"><div class="v">7</div><div class="l">Paylaşılan aday</div></div>
@@ -1383,6 +1402,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     <h2>Kurumunuzun işe alım zekâsını inşa edelim.</h2>
     <p>3 kişilik bir kadro da olsa, 4.000 kişilik bir operasyon da — hikaye aynı prensiplerle yazılır.</p>
     <button class="btn-primary" type="button" id="ctaOpen" aria-haspopup="dialog">İletişime Geç</button>
+    <p class="closing-cta-hint">İlk rolünüzü birlikte modelleyelim — 30 dakikalık tanışma görüşmesi.</p>
   </div>
 </section>
 
@@ -2476,6 +2496,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     if(navCand)navCand.addEventListener('click',e=>openM(e,'candidate'));
     const adayCta=document.getElementById('adayCta');    // sayfa sonu "Özgeçmişinizi gönderin" → doğrudan aday formu
     if(adayCta)adayCta.addEventListener('click',e=>openM(e,'candidate'));
+    const liveCta=document.getElementById('liveCta');    // Talevo Live bölümü CTA → işveren formu
+    if(liveCta)liveCta.addEventListener('click',e=>openM(e,'employer'));
     cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeM));
     cModal.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{
       showView(b.getAttribute('data-goto')==='employer'?viewEmployer:viewCandidate);
