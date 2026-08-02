@@ -386,6 +386,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .proc-head h2{font-size:clamp(1.8rem,4.2vw,2.9rem);margin-top:12px;color:var(--text-on-light)}
 .proc-em{color:var(--brand-purple)}
 .h-track{display:flex;gap:14px;padding:0 calc((100vw - 236px)/2);will-change:transform;align-items:center}
+/* Süreç faz başlıkları: yalnız mobilde görünür (masaüstü yatay şerit AYNEN; display:none flex akışından tamamen çıkarır) */
+.proc-phase{display:none}
 .pcard{flex:0 0 236px;background:var(--bg-white);border-radius:14px;padding:26px 24px;
   border:1px solid var(--border-light);box-shadow:0 2px 10px rgba(18,18,26,.05);opacity:.62;
   transition:opacity .3s ease,background .3s ease,box-shadow .3s ease,transform .3s ease;
@@ -806,6 +808,15 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   #procScene .pcard.turn h3{color:#fff}
   #procScene .pcard.turn p{color:rgba(255,255,255,.78)}
   #procScene .proc-nodes{display:none}
+  /* AŞAMA 4 — süreç faz gruplaması (yalnız mobil): üç faz başlığı + ritim + ince süreç çizgisi */
+  #procScene .proc-phase{display:block;width:100%;max-width:480px;margin:0 auto;text-align:left;
+    font-size:.8rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--brand-purple);padding:0 2px 2px}
+  /* Fazlar arası belirgin ayrım: FAZ 2 ve FAZ 3'ten önce boşluk + ince ayırıcı çizgi */
+  #procScene .proc-phase[data-phase="2"],#procScene .proc-phase[data-phase="3"]{margin-top:10px;padding-top:22px;border-top:1px solid rgba(72,33,142,.16)}
+  /* Aynı faz içindeki adımları görsel bağlayan ince dikey çizgi (kartlar arası gap içinde) */
+  #procScene .pcard{position:relative}
+  #procScene .pcard + .pcard::before{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+    width:2px;height:16px;background:linear-gradient(rgba(255,106,53,.55),rgba(255,106,53,.15))}
   /* Görünmez Motor: akış/kararma yok, son durum dikey yığın ve okunur */
   #motorScene .motor-strip{opacity:1!important}
   #motorScene .motor-lower{display:flex;flex-direction:column;gap:20px}
@@ -1087,6 +1098,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     </div>
     <div class="h-track" id="hTrack">
 
+      <h3 class="proc-phase" data-phase="1">FAZ 1 — Hazırlık</h3>
       <article class="pcard" data-i="0">
         <svg class="proc-ico" viewBox="0 0 120 34" aria-hidden="true" fill="none">
           <polygon points="60,3 79,13 72,30 48,30 41,13" fill="none" stroke="var(--ic-faint)" stroke-width="1.2"/>
@@ -1101,6 +1113,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <p>Rol analizi, yetkinlik haritası ve değerlendirme modeli birlikte tasarlanır.</p>
       </article>
 
+      <h3 class="proc-phase" data-phase="2">FAZ 2 — Bulma ve değerlendirme</h3>
       <article class="pcard" data-i="1">
         <svg class="proc-ico" viewBox="0 0 120 34" aria-hidden="true">
           <circle cx="9" cy="7" r="2.2" fill="var(--ic-faint)"/><circle cx="24" cy="13" r="2.2" fill="var(--ic-faint)"/><circle cx="41" cy="5" r="2.2" fill="var(--ic-faint)"/><circle cx="55" cy="16" r="2.2" fill="var(--ic-faint)"/><circle cx="70" cy="7" r="2.2" fill="var(--ic-faint)"/><circle cx="88" cy="14" r="2.2" fill="var(--ic-faint)"/><circle cx="103" cy="6" r="2.2" fill="var(--ic-faint)"/><circle cx="114" cy="19" r="2.2" fill="var(--ic-faint)"/><circle cx="15" cy="24" r="2.2" fill="var(--ic-faint)"/><circle cx="33" cy="27" r="2.2" fill="var(--ic-faint)"/><circle cx="49" cy="29" r="2.2" fill="var(--ic-faint)"/><circle cx="64" cy="25" r="2.2" fill="var(--ic-faint)"/><circle cx="79" cy="28" r="2.2" fill="var(--ic-faint)"/><circle cx="96" cy="26" r="2.2" fill="var(--ic-faint)"/>
@@ -1136,6 +1149,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         <p>Yapay zekâ adayın verilerini analiz eder. Nihai değerlendirmeyi uzman danışman yapar.</p>
       </article>
 
+      <h3 class="proc-phase" data-phase="3">FAZ 3 — Karar ve kurumsal hafıza</h3>
       <article class="pcard" data-i="4">
         <svg class="proc-ico" viewBox="0 0 120 34" aria-hidden="true">
           <rect x="30" y="4" width="42" height="26" rx="3" fill="none" stroke="var(--ic-faint)" stroke-width="1.4"/>
