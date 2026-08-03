@@ -197,6 +197,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 /* Çok hafif nefes/salınım: genlik 4px, yavaş, yumuşak */
 @keyframes toTopBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.to-top{animation:none}}
+/* HATA 3 — Başa dön butonu dar ekranda Live KPI'larını ve Talevo kartını örtüyor → mobilde kaldır.
+   Mobil zaten dotnav'ı gizliyor (mobil = saf dikey kaydırma); masaüstü-genişliği statik modda (reduced/kısa)
+   buton kalır (orada örtme yok, bol kenar boşluğu). */
+@media(max-width:900px){.to-top{display:none!important}}
 
 /* ============ BÖLÜM NAVİGASYONU (sağda dikey nokta göstergesi) ============
    z-index 110: nav(90)/progress(100) üstünde, to-top(120) ve modal(200) altında.
@@ -386,8 +390,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .proc-head h2{font-size:clamp(1.8rem,4.2vw,2.9rem);margin-top:12px;color:var(--text-on-light)}
 .proc-em{color:var(--brand-purple)}
 .h-track{display:flex;gap:14px;padding:0 calc((100vw - 236px)/2);will-change:transform;align-items:center}
-/* Süreç faz başlıkları: yalnız mobilde görünür (masaüstü yatay şerit AYNEN; display:none flex akışından tamamen çıkarır) */
-.proc-phase{display:none}
+/* Süreç faz başlıkları (HATA 4): masaüstünde GÖRSEL gizli ama ERİŞİLEBİLİRLİK AĞACINDA kalır (sr-only) →
+   ekran okuyucu masaüstünde de fazları duyar, hiyerarşi h2→h3(faz)→h4(kart) TUTARLI (atlama yok).
+   position:absolute → display:none gibi flex akışından çıkar (yatay şerit AYNEN). Mobilde/düzleştirmede tam görünür. */
+.proc-phase{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .pcard{flex:0 0 236px;background:var(--bg-white);border-radius:14px;padding:26px 24px;
   border:1px solid var(--border-light);box-shadow:0 2px 10px rgba(18,18,26,.05);opacity:.62;
   transition:opacity .3s ease,background .3s ease,box-shadow .3s ease,transform .3s ease;
@@ -400,8 +406,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .proc-num{font-weight:800;font-size:2.2rem;line-height:1;color:#C9C6D2}
 .pcard.turn .proc-num{color:var(--brand-purple)}
 .pcard.active .proc-num{color:var(--brand-orange)}
-.pcard h3{font-size:1.15rem;margin:10px 0 8px;color:var(--text-on-light);line-height:1.25}
-.pcard.active h3{color:#fff}
+.pcard h4{font-size:1.15rem;margin:10px 0 8px;color:var(--text-on-light);line-height:1.25}
+.pcard.active h4{color:#fff}
 .pcard p{color:var(--text-on-light-muted);font-size:.9rem;line-height:1.5}
 .pcard.active p{color:rgba(255,255,255,.78)}
 .proc-nodes{position:absolute;bottom:40px;left:0;right:0;display:flex;gap:16px;justify-content:center}
@@ -775,12 +781,13 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   .footer-brandcol{flex-direction:column;gap:26px}
 }
 
-/* ============ SAHNE DÜZLEŞTİRME (mobil ≤900px VEYA hareket-azaltma) ============
+/* ============ SAHNE DÜZLEŞTİRME (mobil ≤900px VEYA kısa ekran ≤600px VEYA hareket-azaltma) ============
    Scroll-driven scenes statikleşir: yapışkan pin yok, svh yükseklik yok, absolute perde yok.
-   Mobilde (reduced-motion kapalı olsa da) ve hareket-azaltma açıkken tüm içerik dikey yığın,
-   son halinde ve tam görünür. Masaüstünde (>900px + reduced-motion kapalı) hiçbir koşul eşleşmez
-   → scroll-driven deneyim ESKİSİ GİBİ çalışır. */
-@media(max-width:900px),(prefers-reduced-motion:reduce){
+   Mobilde, KISA EKRANDA (≤600px yükseklik — dar dizüstü/bölünmüş ekran, pinlenmiş sahne sığmaz) ve
+   hareket-azaltma açıkken tüm içerik dikey yığın, son halinde ve tam görünür. Masaüstünde
+   (>900px GENİŞ + >600px YÜKSEK + reduced-motion kapalı) hiçbir koşul eşleşmez → scroll-driven AYNEN.
+   ⚠️ Bu koşul JS staticMode ile BİREBİR AYNI olmalı (max-width:900 + max-height:600 + reduced). */
+@media(max-width:900px),(max-height:600px),(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .scene{height:auto!important}
   .pin{position:relative;height:auto;padding:90px 0}  /* relative: akış statik gibi ama absolute orb'ları kapsar (mobilde yatay taşmayı önler) */
@@ -809,11 +816,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   #procScene .pcard{flex:none;width:100%;max-width:480px;opacity:1!important;transform:none!important}
   #procScene .pcard.turn{background:var(--brand-purple);border-color:transparent;--ic-main:rgba(255,255,255,.92);--ic-faint:rgba(255,255,255,.3);--ic-accent:#fff;--ic-fill:rgba(255,255,255,.14)}
   #procScene .pcard.turn .proc-num{color:var(--brand-orange)}
-  #procScene .pcard.turn h3{color:#fff}
+  #procScene .pcard.turn h4{color:#fff}
   #procScene .pcard.turn p{color:rgba(255,255,255,.78)}
   #procScene .proc-nodes{display:none}
   /* AŞAMA 4 — süreç faz gruplaması (yalnız mobil): üç faz başlığı + ritim + ince süreç çizgisi */
-  #procScene .proc-phase{display:block;width:100%;max-width:480px;margin:0 auto;text-align:left;
+  #procScene .proc-phase{display:block;position:static;width:100%;height:auto;max-width:480px;margin:0 auto;
+    overflow:visible;clip:auto;white-space:normal;text-align:left;   /* sr-only sıfırla → mobilde/düzleştirmede TAM görünür */
     font-size:.8rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--brand-purple);padding:0 2px 2px}
   /* Fazlar arası belirgin ayrım: FAZ 2 ve FAZ 3'ten önce boşluk + ince ayırıcı çizgi */
   #procScene .proc-phase[data-phase="2"],#procScene .proc-phase[data-phase="3"]{margin-top:10px;padding-top:22px;border-top:1px solid rgba(72,33,142,.16)}
@@ -1113,7 +1121,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <circle cx="52" cy="27" r="2" fill="var(--ic-main)"/><circle cx="45" cy="15" r="2" fill="var(--ic-main)"/>
         </svg>
         <div class="proc-num">00</div>
-        <h3>Hazırlık ve Modelleme</h3>
+        <h4>Hazırlık ve Modelleme</h4>
         <p>Rol analizi, yetkinlik haritası ve değerlendirme modeli birlikte tasarlanır.</p>
       </article>
 
@@ -1124,7 +1132,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <circle cx="30" cy="9" r="4.4" fill="var(--ic-main)"/><circle cx="61" cy="6" r="4.4" fill="var(--ic-main)"/><circle cx="45" cy="20" r="4.4" fill="var(--ic-main)"/><circle cx="83" cy="22" r="4.4" fill="var(--ic-main)"/><circle cx="107" cy="12" r="4.4" fill="var(--ic-main)"/>
         </svg>
         <div class="proc-num">01</div>
-        <h3>Talent Mining</h3>
+        <h4>Talent Mining</h4>
         <p>Aktif başvuruların yanında pasif aday havuzu da taranır.</p>
       </article>
 
@@ -1137,7 +1145,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <circle cx="52" cy="28" r="2.6" fill="var(--ic-accent)"/><circle cx="68" cy="28" r="2.6" fill="var(--ic-accent)"/>
         </svg>
         <div class="proc-num">02</div>
-        <h3>Akıllı Eleme</h3>
+        <h4>Akıllı Eleme</h4>
         <p>Minimum kriterler doğrulanır, hedefli sorularla görünmeyen deneyim ortaya çıkar.</p>
       </article>
 
@@ -1149,7 +1157,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <circle cx="82" cy="13" r="5" fill="var(--ic-main)"/><path d="M72 28 Q82 19 92 28" fill="var(--ic-main)"/>
         </svg>
         <div class="proc-num">03</div>
-        <h3>İnsan + Yapay Zekâ</h3>
+        <h4>İnsan + Yapay Zekâ</h4>
         <p>Yapay zekâ adayın verilerini analiz eder. Nihai değerlendirmeyi uzman danışman yapar.</p>
       </article>
 
@@ -1163,7 +1171,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <line x1="42" y1="25" x2="66" y2="25" stroke="var(--ic-faint)" stroke-width="1.4"/>
         </svg>
         <div class="proc-num">04</div>
-        <h3>Karar Dosyası</h3>
+        <h4>Karar Dosyası</h4>
         <p>Her aday için güçlü yönler, riskler, kültür ve teknik uyum birlikte teslim edilir.</p>
       </article>
 
@@ -1176,7 +1184,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
           <circle cx="70" cy="17" r="2" fill="var(--ic-main)"/><circle cx="60" cy="1" r="2" fill="var(--ic-main)" opacity=".55"/><circle cx="60" cy="33" r="2" fill="var(--ic-main)" opacity=".55"/>
         </svg>
         <div class="proc-num">05</div>
-        <h3>Kurumsal İşe Alım Sermayesi</h3>
+        <h4>Kurumsal İşe Alım Sermayesi</h4>
         <p>Danışmanlığımız biter; ama biriken aday verisi, pazar zekâsı ve raporlar kurumunuzun mülkü olarak kalır.</p>
       </article>
 
@@ -1336,6 +1344,9 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <h2>Kara kutu yok.<br>Talevo Live var.</h2>
       <p>Hangi pozisyon hangi aşamada, kaç aday değerlendirildi, kim onay bekliyor — gerçek zamanlı tek ekranda.</p>
       <p>Rapor beklemenize gerek kalmaz. Kontrol sizde.</p>
+      <!-- HATA 5 — Görsel panel aria-hidden (animasyonlu sayaç "0" okunmasın); ekran okuyucu panelin NE
+           gösterdiğini bu temsili özetten alır (sitenin en güçlü ürün kanıtı SR kullanıcıya da ulaşsın). -->
+      <p class="sr-only">Temsili Talevo Live paneli: paylaşılan aday, onay bekleyen aday ve açık pozisyon sayıları ile pozisyon bazlı ilerleme oranları gerçek zamanlı tek ekranda izlenir.</p>
       <button class="btn-primary live-cta" type="button" id="liveCta" aria-haspopup="dialog">Talevo Live yaklaşımını inceleyin</button>
     </div>
     <div class="panel reveal" aria-hidden="true">
@@ -1668,7 +1679,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   // sabitlenir, scroll-driven hesaplar durur (getBoundingClientRect/opacity/transform
   // her karede çalışmaz). Bu, CSS sahne düzleştirmesinin JS tamamlayıcısıdır.
   const mobileMQ = matchMedia('(max-width: 900px)');
-  let staticMode = reduced || mobileMQ.matches;
+  // Sahne modunu genişliğin YANINDA yüksekliğe de bağla: kısa ekranlarda (≤600px) pinlenmiş sinematik
+  // sahneler sığmaz → statik. Eşik CSS düzleştirme bloğuyla (@media …,(max-height:600px),…) BİREBİR AYNI.
+  const shortMQ = matchMedia('(max-height: 600px)');
+  let staticMode = reduced || mobileMQ.matches || shortMQ.matches;
   const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
   const map = (p,a,b)=>clamp((p-a)/(b-a),0,1);
   const ease = p=>1-Math.pow(1-p,3);
@@ -2086,7 +2100,7 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   // Ortak: staticMode'u yeniden hesapla; statikse son durumları sabitle; sonra update().
   // Hem breakpoint (mobileMQ) hem hareket-azaltma (reducedMQ) tercihi CANLI değişiminde çağrılır.
   function applyStaticMode(){
-    staticMode = reduced || mobileMQ.matches;
+    staticMode = reduced || mobileMQ.matches || shortMQ.matches;
     if(staticMode){
       finalizeAll();   // registry'deki tüm finalize'lar (setProblemFinal…setTriFinal)
       // Süreç sahnesi: masaüstünden kalmış aktif/near sınıflarını temizle (final'i yok)
@@ -2094,8 +2108,10 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       procNodes.forEach(n=>n.classList.remove('on','past'));
     }
     update();
+    syncCycleMotion();   // döngü rAF'ını da yeni moda göre hizala — TEK karar noktası (aşağıda tanımlı, hoist edilir)
   }
   mobileMQ.addEventListener('change',applyStaticMode);
+  shortMQ.addEventListener('change',applyStaticMode);   // kısa ekran eşiği (yükseklik) geçişi
   // reduced-motion tercihi sayfa AÇIKKEN değişirse: reduced'ı güncelle, modu yeniden uygula.
   reducedMQ.addEventListener('change',()=>{ reduced=reducedMQ.matches; applyStaticMode(); });
 
@@ -2273,26 +2289,21 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     cyPlaying=true; cyT0=performance.now(); cyRAF=requestAnimationFrame(cyTick); }
   function stopCycle(){ if(!cyPlaying)return; cyPlaying=false; cyAcc+=performance.now()-cyT0; cancelAnimationFrame(cyRAF); }
 
-  if(reduced){ cyGrow(1); }
-  else{
-    let cycleVisible=false;
-    const cycleObserver=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{ cycleVisible=e.isIntersecting; if(e.isIntersecting)startCycle(); else stopCycle(); });
-    },{threshold:0.35});
-    cycleObserver.observe(cycleScene);
-    // Breakpoint farkındalığı (startCycle ile AYNI mobileMQ'ı paylaşır):
-    // masaüstü→mobil: rAF döngüsünü durdur + son kareyi uygula (görünmeyen SVG 60fps güncellenmesin);
-    // mobil→masaüstü: bölüm hâlâ görünürse animasyonu başlat.
-    mobileMQ.addEventListener('change',()=>{
-      if(mobileMQ.matches){ stopCycle(); cyGrow(1); }
-      else{
-        // masaüstüne dönüş: bölüm ŞU AN görünürse başlat (cached değil, anlık ölç — observer/scroll
-        // yeniden konumlanma yarışından etkilenmesin).
-        const r=cycleScene.getBoundingClientRect();
-        if(r.bottom>innerHeight*0.35 && r.top<innerHeight*0.65) startCycle();
-      }
-    });
+  // Döngü yaşam döngüsü (HATA 1 düzeltmesi): görünürlük observer'ı HER DURUMDA kurulur — hareket
+  // tercihinden bağımsız. reduced / mobil / kısa ekran + görünürlük YALNIZ oynat/durdur kararını verir.
+  // Eskiden observer sadece ilk yüklemede reduced=false iken kuruluyordu → tercih sonradan değişince
+  // (açık yüklenip "azalt" seçilince görünmeyen 60fps sürer; "azalt" ile yüklenip açılınca hiç başlamazdı).
+  let cycleVisible=false;
+  function syncCycleMotion(){
+    if(reduced || mobileMQ.matches || shortMQ.matches || !cycleVisible){ stopCycle(); cyGrow(1); }
+    else startCycle();
   }
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ cycleVisible=e.isIntersecting; syncCycleMotion(); });
+  },{threshold:0.35}).observe(cycleScene);
+  syncCycleMotion();   // ilk durum (bölüm görünür değilse yalnız son statik kare)
+  // NOT: mobileMQ/shortMQ/reducedMQ 'change' → applyStaticMode → syncCycleMotion (TEK yerden yönetim,
+  // eski ayrı mobileMQ döngü dinleyicisi kaldırıldı → çakışma yok).
 
   /* ---- İletişim modalı: aç/kapa (buton, X, overlay, ESC) + odak yönetimi + scroll kilidi ---- */
   const ctaOpen=document.getElementById('ctaOpen');
