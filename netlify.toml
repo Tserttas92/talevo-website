@@ -16,6 +16,14 @@
   status = 301
   force = true
 
+# QR/sunum rotası: /iletisim → index.html'i servis et (REWRITE, status 200 → URL /iletisim KALIR, 404 vermez).
+# Sayfa JS'i /iletisim'i tespit edip iletişim modalını doğrudan İŞVEREN formuyla açar.
+# www kuralından SONRA gelir (www.../iletisim önce non-www'ye 301, sonra bu kural devreye girer).
+[[redirects]]
+  from = "/iletisim"
+  to = "/index.html"
+  status = 200
+
 # Headers for security and CORS
 [[headers]]
   for = "/*"
@@ -41,3 +49,11 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# /iletisim yalnız QR/sunum içindir → arama motorlarına KAPALI. X-Robots-Tag header (crawler JS beklemez,
+# JS ile <meta robots> eklemekten temiz) yalnız bu yola uygulanır; ana sayfa (/) noindex ALMAZ.
+# Not: /iletisim aynı index.html'i servis eder (aynı <head>), o yüzden meta değil header ile ayrıştırılır.
+[[headers]]
+  for = "/iletisim"
+  [headers.values]
+    X-Robots-Tag = "noindex"

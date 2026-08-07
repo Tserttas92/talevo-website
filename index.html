@@ -687,6 +687,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   color:var(--text-on-dark-muted);background:rgba(255,255,255,.05);border:1px solid var(--border-dark);cursor:pointer;
   display:flex;align-items:center;justify-content:center;transition:background .2s ease, color .2s ease}
 .modal-x:hover{background:rgba(255,255,255,.10);color:#fff}
+/* Mobil: modal TAM EKRAN (QR'dan gelenlerin çoğu telefon — ortada küçük kutu değil, tam viewport).
+   Mevcut max-height:100dvh + overscroll-behavior:contain ile uyumlu; form içeride kaydırılır. */
+@media(max-width:900px){
+  .modal{padding:0}
+  .modal-card{max-width:none;width:100%;height:100dvh;max-height:100dvh;border:none;border-radius:0;padding:56px 20px 28px}
+}
 
 /* ============ FOOTER ============ */
 .site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 0 40px}
@@ -1466,6 +1472,11 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       <form class="cta-form" id="talep-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="contact">
       <input type="hidden" name="bot-field">
+      <!-- QR/sunum UTM takibi: STATİK boş gizli alanlar (Netlify statik HTML tarar → algılansın).
+           JS, /iletisim?utm_...= parametrelerini setAttribute ile doldurur (form.reset değeri korur). -->
+      <input type="hidden" name="utm_source">
+      <input type="hidden" name="utm_medium">
+      <input type="hidden" name="utm_campaign">
       <div class="cta-row">
         <div class="cta-field">
           <label for="cf-first">Ad</label>
@@ -1589,6 +1600,25 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 </div>
 
 </main>
+
+<!-- QR/sunum rotası — FOUC ÖNLEME: Bu script modalın hemen ardında; parser buraya varınca SENKRON çalışır,
+     yani ilk boyamadan ÖNCE. /iletisim ile gelindiyse modalı İŞVEREN formuyla AÇIK gösterir (kapalı gelip
+     sonra açılma/yanıp sönme olmaz). Kapatma/geçmiş/inert/odak mantığı aşağıdaki ana script'te tamamlanır. -->
+<script>
+(function(){
+  try{
+    window.__talevoBaseTitle=document.title;                 // ana sayfa başlığını (değişmeden ÖNCE) sakla
+    if(location.pathname.replace(/\/+$/,'')!=='/iletisim')return;
+    var m=document.getElementById('contactModal');
+    var ve=document.getElementById('viewEmployer'), vc=document.getElementById('viewChoice'), vd=document.getElementById('viewCandidate');
+    if(!m||!ve)return;
+    m.hidden=false; ve.hidden=false; if(vc)vc.hidden=true; if(vd)vd.hidden=true;
+    m.setAttribute('aria-labelledby','mtEmployer');
+    if(document.body)document.body.style.overflow='hidden';  // arka plan kaymasın
+    document.title='İletişim — Talevo';
+  }catch(e){}
+})();
+</script>
 
 <!-- ============ BAŞA DÖN ============ -->
 <button class="to-top" id="toTop" type="button" aria-label="Başa dön">
@@ -2311,6 +2341,12 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   const cModal=document.getElementById('contactModal');
   if(cModal && (ctaOpen || navCta)){
     let lastFocus=null;
+    // ---- QR/sunum rotası: /iletisim → modal doğrudan İŞVEREN formu (aşağıda route-init) ----
+    const ROUTE='/iletisim';
+    const onRoute=()=>location.pathname.replace(/\/+$/,'')===ROUTE;
+    const BASE_TITLE=window.__talevoBaseTitle||document.title;   // ana sayfa başlığı (bootstrap sakladı)
+    const CONTACT_TITLE='İletişim — Talevo';
+    let routeDirectEntry=false;                                  // doğrudan /iletisim girişi mi (← Geri ANA SAYFAYA)
     const getF=()=>[...cModal.querySelectorAll('button:not([disabled]),a[href],input:not([type="hidden"]):not([disabled]):not(.cv-input),textarea,select,.cv-drop')]
       .filter(el=>el.offsetWidth||el.offsetHeight||el.getClientRects().length);
 
@@ -2497,6 +2533,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     const resetAday=setupForm(document.getElementById('aday-form'));
     function resetModal(){ resetEmp(); resetAday(); showView(viewChoice); }
 
+    // ---- UTM: giriş URL'sindeki parametreleri contact formundaki STATİK gizli alanlara yaz.
+    //      setAttribute('value') → defaultValue olur → form.reset()/resetModal DEĞERİ KORUR. Param yoksa alan boş kalır. ----
+    (function(){
+      const q=new URLSearchParams(location.search), f=document.getElementById('talep-form');
+      if(!f)return;
+      ['utm_source','utm_medium','utm_campaign'].forEach(n=>{ const v=q.get(n), el=f.querySelector('input[name="'+n+'"]'); if(el&&v)el.setAttribute('value',v); });
+    })();
+
     function openM(e, target){
       if(e&&e.preventDefault)e.preventDefault();
       lastFocus=(e&&e.currentTarget)||document.activeElement;
@@ -2507,15 +2551,22 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
       // body'nin doğrudan çocuğu DEĞİL → modalın ata-yolu HARİÇ, her seviyedeki kardeşleri inert yap.
       setBgInert(true);
       document.body.style.overflow='hidden';
-      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
+      // Adres → /iletisim (pushState): tarayıcı GERİ tuşu modalı kapatsın, siteden çıkarmasın.
+      routeDirectEntry=false;                               // butonla açıldı → ← Geri ayrım ekranına döner (route değil)
+      if(!onRoute()){ try{ history.pushState({modal:1},'',ROUTE); }catch(e){} document.title=CONTACT_TITLE; }   // try/catch: file:///sandbox'ta pushState atabilir → modal yine açılır
+      requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});   // butonla açılış: odak KORUNUR (kullanıcı zaten etkileşimde)
     }
     function setBgInert(on){
       for(let n=cModal; n&&n!==document.body; n=n.parentElement){
         [...n.parentElement.children].forEach(sib=>{ if(sib!==n) sib.inert=on; });
       }
     }
-    function closeM(){ if(cModal.hidden)return; cModal.hidden=true; document.body.style.overflow='';
+    function closeM(fromPop){ if(cModal.hidden)return; cModal.hidden=true; document.body.style.overflow='';
       setBgInert(false);   // inert kaldır (odak dönüşünden ÖNCE)
+      // Adres: X/ESC/overlay ile kapanış → /iletisim'den '/'e replaceState (YENİ geçmiş kaydı YOK).
+      // popstate (geri tuşu) ile kapanış → URL'yi tarayıcı zaten değiştirdi, replaceState YAPMA.
+      if(!fromPop && onRoute()){ try{ history.replaceState(null,'','/'); }catch(e){} }   // try/catch: file:///sandbox güvenliği
+      document.title=BASE_TITLE;                            // kapanınca ana sayfadayız → başlık geri
       (lastFocus||ctaOpen||document.body).focus(); }
 
     if(ctaOpen)ctaOpen.addEventListener('click',openM);
@@ -2527,13 +2578,14 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     if(adayCta)adayCta.addEventListener('click',e=>openM(e,'candidate'));
     const liveCta=document.getElementById('liveCta');    // Talevo Live bölümü CTA → işveren formu
     if(liveCta)liveCta.addEventListener('click',e=>openM(e,'employer'));
-    cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeM));
+    cModal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',()=>closeM()));  // event'i fromPop olarak GEÇİRME (aksi halde replaceState atlanır)
     cModal.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>{
       showView(b.getAttribute('data-goto')==='employer'?viewEmployer:viewCandidate);
       requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
     }));
     cModal.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>{
-      resetEmp(); resetAday(); showView(viewChoice);       // geri: formu sıfırla, ayrıma dön
+      if(routeDirectEntry){ closeM(); return; }            // doğrudan /iletisim girişi → ← Geri ANA SAYFAYA (modal kapanır, URL '/')
+      resetEmp(); resetAday(); showView(viewChoice);       // normal: formu sıfırla, ayrıma dön
       requestAnimationFrame(()=>{const f=getF();(f[0]||cModal).focus();});
     }));
     document.addEventListener('keydown',e=>{
@@ -2545,6 +2597,21 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
         else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
       }
     });
+
+    // ---- Geri tuşu (popstate): modal açıksa kapat (sayfa değişmesin, siteden çıkma) ----
+    addEventListener('popstate',()=>{ if(!cModal.hidden) closeM(true); });
+
+    // ---- Doğrudan /iletisim girişi (QR/sunum): modal ZATEN görsel açık (bootstrap, FOUC yok) →
+    //      mantığı tamamla. ODAKLAMA YOK (mobilde klavye zıplatmasın); ← Geri ana sayfaya gider. ----
+    if(onRoute()){
+      routeDirectEntry=true;
+      showView(viewEmployer);                              // durum netleşsin (bootstrap görünürlüğü ayarladı; form pristine, reset gerekmez → UTM korunur)
+      setBgInert(true);
+      document.body.style.overflow='hidden';
+      document.title=CONTACT_TITLE;
+      lastFocus=null;                                      // kapanınca body'ye dön (açan buton yok)
+      // ODAK YOK: ilk form alanına odaklanmıyoruz → mobilde klavye kendiliğinden açılıp sayfayı zıplatmaz.
+    }
   }
 
   /* ---- Kapanış (#talep) görünürken header'ı yumuşakça gizle, dışında geri getir ---- */
