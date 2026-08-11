@@ -25,3 +25,5 @@ index-eski-yedek*.html
 icerik/icgoruler.demo.json
 icgoruler/index.demo.html
 images/icgoruler/demo/
+# Makale ÖNİZLEME çıktıları (taslaklar) — yalnız yerel, canlıya/git'e ASLA gitmez.
+icgoruler/*/index.onizleme.html

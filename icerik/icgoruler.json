@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "slug": "2030-islerin-ve-yetkinliklerin-gelecegi",
+    "baslik": "2030'a Kadar İşlerin ve Yetkinliklerin Geleceği",
+    "altBaslik": "Veriler ne söylüyor, kurumlar ve profesyoneller bugün ne yapmalı?",
+    "ozet": "2030'a giden süreç 'işler bitecek' veya 'yalnızca teknoloji rolleri büyüyecek' kadar basit değil. WEF, bugünkü resmi istihdamın yüzde 22'sine denk gelen bir iş dönüşümü öngörüyor. Net artış olasılığına rağmen beceri açığı, geçişin kalitesini belirleyecek. Başarılı kurumlar teknolojiyi iş tasarımı, öğrenme ve yönetim kapasitesiyle birlikte ele alacak.",
+    "kategori": "arastirma-trendler",
+    "kapak": "/images/icgoruler/2030-hero.webp",
+    "kapakOg": "/images/icgoruler/2030-hero-og.webp",
+    "kapakKart": "/images/icgoruler/2030-hero-kart.webp",
+    "kapakAlt": "Soldan sağa akan bir yatakta meslekleri temsil eden geometrik işaretlerin 2030'a doğru ilerlediğini gösteren soyut illüstrasyon",
+    "tarih": "2026-08-11",
+    "okumaSuresi": 7,
+    "oneCikan": true,
+    "durum": "yayinda",
+    "seoBaslik": "2030'a Kadar İşlerin ve Yetkinliklerin Geleceği",
+    "metaAciklama": "WEF, OECD, Gallup ve McKinsey verileriyle 2030'a kadar işleri dönüştüren güçler, yükselen yetkinlikler ve bugün atılabilecek adımlar."
+  }
+]

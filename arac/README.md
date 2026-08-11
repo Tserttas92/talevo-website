@@ -60,22 +60,92 @@ node arac/gen-icgoruler.js --demo
 ⚠️ Demo çalıştırması `sitemap.xml`'i geçici değiştirebilir. **Commit'ten önce mutlaka
 `--demo` olmadan bir kez daha çalıştır** ki sitemap gerçek içerik durumunu yansıtsın.
 
-## 3. Sık sorulanlar
+## 3. Makale (tek tek yazı) ekleme — Faz 2
+
+Artık makale detay sayfaları üretiliyor (`ARTICLES_LIVE = true`). Bir makale iki parçadan oluşur:
+**metadata JSON'da**, **gövde Markdown dosyasında**.
+
+### Adım 1 — Gövdeyi yaz
+`icerik/makaleler/<slug>.md` oluştur. Desteklenen Markdown (fazlası GEREKMİYOR):
+- `## Başlık` (H2) · `### Alt başlık` (H3) · paragraf · `**kalın**` · `*italik*` · `[bağlantı](url)`
+- `- madde` / `1. numaralı` liste · `> alıntı` · `| tablo |` (başlık satırı + `| --- |` ayırıcı + satırlar)
+- Özel bloklar:
+  ```
+  :::istatistik
+  %22 | Açıklama satırı        ← her satır bir kutu (2–4 satır)
+  :::
+  :::kutu BAŞLIK
+  Metin…
+  :::
+  :::cta BAŞLIK
+  Metin…                        ← makale sonunda iletişim CTA'sına dönüşür
+  :::
+  ```
+- `## Kaynakça` başlığı özel stille (kaynak listesi) render edilir.
+- **H1 yazma** — H1, JSON'daki `baslik`'ten gelir (sayfada tek H1 olmalı).
+
+### Adım 2 — JSON kaydını ekle (`icerik/icgoruler.json`)
+Hub alanlarına (`slug/baslik/ozet/kategori/kapak/kapakAlt/tarih/okumaSuresi/oneCikan/durum`) ek olarak
+makale için: `altBaslik`, `seoBaslik`, `metaAciklama`, `kapakOg` (1200×630 sosyal görsel),
+`kapakKart` (kart kapağı — hub kartı), isteğe bağlı `ilgili: ["slug1","slug2"]` (ilgili içerik override).
+`slug` ile `.md` dosya adı **aynı** olmalı.
+
+### Adım 3 — Üret
+```
+node arac/gen-icgoruler.js              # yayında makaleleri → icgoruler/<slug>/index.html
+node arac/gen-icgoruler.js --onizleme   # TASLAKLARI da → icgoruler/<slug>/index.onizleme.html
+```
+- `durum:"taslak"` kayıt **yayına GİRMEZ** (hub'da görünmez, `index.html` üretilmez, sitemap'e eklenmez).
+  Şablonu görmek için `--onizleme` ile `index.onizleme.html` üret (bu dosya `.gitignore`'da, canlıya gitmez).
+- Yayına almak: JSON'da `durum:"taslak"` → `"yayinda"` yap, üreteci `--onizleme`'siz çalıştır.
+  Bu makale `icgoruler/<slug>/index.html` olur, hub kartı tıklanır, sitemap'e eklenir.
+- **İçindekiler** H2'lerden otomatik (Kaynakça hariç; 4'ten az H2 varsa render edilmez).
+- **İlgili içerikler** aynı kategoriden en yeni 2 yazı (2'den az aday → bölüm görünmez).
+
+## 4. Sık sorulanlar
 - **Hiç yayında içerik yoksa?** Sayfa "İlk içeriklerimiz çok yakında" boş durumunu
   gösterir, `noindex` olur ve sitemap'ten çıkarılır (ince içerik cezası almamak için).
 - **Kategori filtreleri?** Yalnız **içeriği olan** kategorinin butonu görünür (yanında sayı).
-- **Makale sayfaları (tek tek yazı sayfaları)?** Henüz yok — kartlarda "Yakında" yazar.
-  Faz 2'de `arac/gen-icgoruler.js` içindeki `ARTICLES_LIVE = false` → `true` yapılıp
-  makale üretimi eklenecek; kartlar o zaman tıklanabilir olur.
+  Makale kategori rozetine tıklayınca hub'a `?kategori=<slug>` ile gidilir ve o filtre seçili açılır.
 
-## 4. Dosya haritası (bu sistem)
-- `icerik/icgoruler.json` — **üretim verisi** (yayın)
-- `icerik/icgoruler.demo.json` — örnek veri (gitignore'da, yalnız yerel test)
-- `arac/gen-icgoruler.js` — üreteç
-- `arac/partials/` — ortak parçalar: `head-base.html` (meta+font+CSS), `nav.html`,
+## 5. Dosya haritası (bu sistem)
+- `icerik/icgoruler.json` — **üretim verisi** (yayın) · `icerik/icgoruler.demo.json` — örnek (gitignore)
+- `icerik/makaleler/<slug>.md` — **makale gövdesi** (Markdown)
+- `arac/gen-icgoruler.js` — üreteç · `arac/md.js` — Markdown ayrıştırıcı (bağımlılık yok)
+- `arac/partials/` — ortak parçalar: `head-base.html` (meta+font+CSS+makale şablonu stili), `nav.html`,
   `footer.html`, `drawer.html` (mobil menü)
 - `fonts/*.woff2` — paylaşılan Manrope (400/700/800, latin+ext)
-- `icgoruler/index.html` — **üretilen** hub (elle düzenleme; üreteç üzerine yazar)
+- `icgoruler/index.html` — **üretilen** hub · `icgoruler/<slug>/index.html` — **üretilen** makale
+  (elle düzenleme; üreteç üzerine yazar)
+
+---
+
+# Makale Görselleri (`arac/gen-gorsel-2030.py`)
+
+Makale hero görselleri **el yazımı SVG** üreteciyle üretilir. Görseldeki **"2030" yazısı gömülü
+metin değil**, `fonts/manrope-800.woff2`'den `<path>`'e çevrilmiştir (font bağımlılığı yok).
+
+```
+python3 arac/gen-gorsel-2030.py            # yalnız ANA sürüm (2030-hero.svg, 1600×900)
+python3 arac/gen-gorsel-2030.py --og       # OG sürümü (2030-hero-og.svg, 1200×630)
+python3 arac/gen-gorsel-2030.py --kart      # KART sürümü (2030-hero-kart.svg, 640×360)
+python3 arac/gen-gorsel-2030.py --hepsi     # üçü birden
+```
+**Ne üretir:** `images/icgoruler/` altına üç SVG (hero + og:image + hub kartı kapağı).
+**Bağımlılık:** `fonttools` + `brotli` (ZORUNLU — `pip3 install --user fonttools brotli`).
+Eksikse üreteç anlaşılır hatayla durur.
+
+**WebP önizlemeleri** (bu ortamda SVG rasterize aracı yok → Chrome headless + PIL):
+```
+# her SVG'yi wrap'leyip Chrome ile PNG'ye çevir, sonra PIL ile WEBP q82:
+#   Chrome headless --screenshot ile <w>×<h> PNG al → Pillow: im.save(x,"WEBP",quality=82)
+# (Pillow: pip3 install --user pillow). Ayrıntılı komut geçmişi oturum kaydında.
+```
+SVG değişmediyse WebP'yi yeniden üretmeye gerek yok (dosyalar git'te).
+
+**Başka bir yıl için** (ör. 2031): `gen-gorsel-2030.py` içindeki `path_2030()` çağrılarındaki
+`"2030"` dizisini değiştir ve scripti **yeniden çalıştır** — "2030" path olduğu için elle
+düzenlenemez. Konum/akıntı geometrisi onaylanmış mockup'tan birebir; değiştirme.
 
 ---
 

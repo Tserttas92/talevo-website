@@ -14,15 +14,17 @@
    ============================================================ */
 const fs = require('fs');
 const path = require('path');
+const md = require('./md.js');
 const ROOT = path.resolve(__dirname, '..');
 const P = f => path.join(ROOT, f);
 
 const DEMO = process.argv.includes('--demo');
+const PREVIEW = process.argv.includes('--onizleme');   // taslakları da makale olarak render et (index.onizleme.html)
 const DATA_FILE = DEMO ? 'icerik/icgoruler.demo.json' : 'icerik/icgoruler.json';
 const OUT_FILE  = DEMO ? 'icgoruler/index.demo.html' : 'icgoruler/index.html';
 
-// Faz 1: makale sayfaları henüz YOK → kartlar tıklanamaz ("Yakında"). Faz 2'de true yapılınca gerçek link.
-const ARTICLES_LIVE = false;
+// Faz 2: makale sayfaları ARTIK üretiliyor → yayında kartlar gerçek link (/icgoruler/<slug>).
+const ARTICLES_LIVE = true;
 
 const SITE = 'https://talevo.com.tr';
 const HUB_URL = SITE + '/icgoruler';
@@ -183,18 +185,17 @@ let head = partial('head-base.html')
   .replace(/\{\{DESCRIPTION\}\}/g, esc(DESC))
   .replace('{{CANONICAL}}', HUB_URL)
   .replace('{{ROBOTS}}', hasContent ? 'index,follow' : 'noindex,follow')  // içeriksizken noindex (ince içerik sinyali verme)
+  .replace('{{OG_TYPE}}', 'website')
   .replace('{{OG_URL}}', HUB_URL)
   .replace(/\{\{OG_TITLE\}\}/g, esc(TITLE))
   .replace(/\{\{OG_DESC\}\}/g, esc(DESC))
   .replace(/\{\{OG_IMAGE\}\}/g, OG_IMAGE)
   .replace('{{OG_IMAGE_ALT}}', esc('Talevo İçgörüler'))
-  .replace('{{JSONLD}}', jsonldTag);
+  .replace('{{JSONLD}}', jsonldTag)
+  .replace('{{EXTRA_HEAD}}', '');
 
-// ---- sayfa JS (drawer + filtreler); CSP script-src 'unsafe-inline' izinli ----
-const pageScript = [
-'<script>',
-'(function(){',
-'  "use strict";',
+// ---- sayfa JS parçaları (CSP script-src 'unsafe-inline' izinli); drawer HEM hub HEM makale kullanır ----
+const DRAWER_JS = [
 '  /* ---- Mobil drawer (modal deseninden: overflow kilidi + inert + focus trap + ESC + odak dönüşü) ---- */',
 '  var burger=document.getElementById("igBurger"), drawer=document.getElementById("igDrawer");',
 '  if(burger&&drawer){',
@@ -217,7 +218,10 @@ const pageScript = [
 '        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}',
 '        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}',
 '    });',
-'  }',
+'  }'
+].join('\n');
+
+const FILTER_JS = [
 '  /* ---- Kategori filtreleri (progressive enhancement: JS açar + wire eder) ---- */',
 '  var bar=document.querySelector(".ig-filterbar");',
 '  if(bar){',
@@ -232,10 +236,25 @@ const pageScript = [
 '      if(status)status.textContent=shown+" içerik gösteriliyor.";',
 '    }',
 '    btns.forEach(function(b){b.addEventListener("click",function(){apply(b.getAttribute("data-filter"));});});',
-'  }',
-'})();',
-'</'+'script>'
+'    /* Makale rozetinden gelen ?kategori=<slug> → ilgili filtreyi seçili aç */',
+'    try{var qp=new URLSearchParams(location.search).get("kategori");',
+'      if(qp&&btns.some(function(b){return b.getAttribute("data-filter")===qp;}))apply(qp);}catch(e){}',
+'  }'
 ].join('\n');
+
+// NOT: İçindekiler <details open> olarak render edilir ve durumu JS ile DEĞİŞTİRİLMEZ
+// (yükleme sonrası open→closed geçişi CLS yaratırdı). Masaüstü: CSS sticky sidebar + summary pointer-events:none.
+// Mobil: native <details> açılır/kapanır (varsayılan açık). Böylece CLS 0, JS'siz de erişilebilir.
+const ARTICLE_JS = [
+'  /* ---- Okuma ilerleme çubuğu (position:fixed → layout kaymaz) ---- */',
+'  var pb=document.querySelector(".read-progress span");',
+'  if(pb){var el=document.documentElement;',
+'    var upd=function(){var max=el.scrollHeight-el.clientHeight;var p=max>0?el.scrollTop/max:0;pb.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(1)+"%";};',
+'    document.addEventListener("scroll",upd,{passive:true});window.addEventListener("resize",upd,{passive:true});upd();}'
+].join('\n');
+
+const wrapScript = body => '<script>\n(function(){\n  "use strict";\n' + body + '\n})();\n</' + 'script>';
+const pageScript = wrapScript(DRAWER_JS + '\n' + FILTER_JS);   // hub
 
 // ---- birleştir ----
 const html = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n' + head + '\n</head>\n<body>\n'
@@ -249,34 +268,173 @@ const html = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n' + head + '\n</head>\n
 fs.mkdirSync(P('icgoruler'), { recursive: true });
 fs.writeFileSync(P(OUT_FILE), html);
 
-// ---- sitemap.xml: /icgoruler bloğunu içerik durumuna göre idempotent yönet ----
-// include=true → ekle/güncelle (lastmod=en yeni içerik); false → çıkar. '/' satırına DOKUNMAZ.
-function updateSitemap(include, lastmod){
+// ============================================================
+//  MAKALE SAYFALARI (Faz 2) — icgoruler/<slug>/index.html
+//  Gövde: icerik/makaleler/<slug>.md (md.js ile ayrıştırılır)
+//  Yayında kayıtlar → index.html. --onizleme ile taslaklar → index.onizleme.html (gitignore).
+// ============================================================
+function jsonLdSafe(obj){ return JSON.stringify(obj).replace(/</g, '\\u003c'); }
+
+function tocHTML(headings){
+  if(headings.length < 4) return '';   // 4'ten az H2 → içindekiler render EDİLMEZ
+  return '<details class="toc" open>'
+    + '<summary>İçindekiler</summary>'
+    + '<nav aria-label="Makale içindekiler"><ol>'
+    + headings.map(h => '<li><a href="#' + h.id + '">' + esc(h.text) + '</a></li>').join('')
+    + '</ol></nav></details>';
+}
+function extractCta(raw){
+  const m = /:::cta[ \t]+([^\n]+)\n([\s\S]*?)\n:::/.exec(raw);
+  if(!m) return { raw, ctaHtml: '' };
+  const bodyHtml = md.parse(m[2].trim()).html;
+  const ctaHtml = '<aside class="md-cta">'
+    + '<h2 class="md-cta-title">' + md.inline(m[1].trim()) + '</h2>'
+    + bodyHtml
+    + '<div class="article-cta-actions"><a class="btn-primary" href="/iletisim">İletişime Geç</a></div>'
+    + '</aside>';
+  return { raw: raw.replace(m[0], '').replace(/\n{3,}/g, '\n\n'), ctaHtml };
+}
+function relatedHTML(r){
+  // ilgili override YOKSA aynı kategoriden en yeni 2 (kendisi hariç). 2'den az aday → bölüm YOK.
+  let cands = (Array.isArray(r.ilgili) && r.ilgili.length)
+    ? r.ilgili.map(s => yayinda.find(x => x.slug === s)).filter(Boolean)
+    : yayinda.filter(x => x.kategori === r.kategori);
+  cands = cands.filter(x => x.slug !== r.slug).slice(0, 2);
+  if(cands.length < 2) return '';
+  return '<section class="article-related" aria-labelledby="rel-h"><div class="wrap">'
+    + '<p class="chapter">İlgili içerikler</p><h2 id="rel-h" class="sr-only">İlgili içerikler</h2>'
+    + '<div class="ig-grid">' + cands.map(cardHTML).join('') + '</div></div></section>';
+}
+
+function buildArticle(r, isPreview){
+  const mdPath = P('icerik/makaleler/' + r.slug + '.md');
+  let raw;
+  try { raw = fs.readFileSync(mdPath, 'utf8'); }
+  catch(e){ throw new Error(r.slug + ': gövde .md bulunamadı (' + mdPath + ')'); }
+
+  const cta = extractCta(raw);
+  const parsed = md.parse(cta.raw);                 // hata olursa throw → dosya YAZILMAZ
+  const bodyHtml = parsed.html;
+  const toc = tocHTML(parsed.headings);
+
+  const canonical = SITE + '/icgoruler/' + r.slug;
+  const ogImage = SITE + (r.kapakOg || r.kapak);
+  const d = fmtDateTR(r.tarih);
+  const seoTitle = (r.seoBaslik || r.baslik) + ' | Talevo';
+
+  const artLd = {
+    '@context':'https://schema.org','@type':'Article',
+    headline: r.baslik, description: r.metaAciklama || r.ozet,
+    image: ogImage, datePublished: r.tarih, dateModified: r.tarih,
+    author:{'@type':'Organization', name:'Talevo', url: SITE + '/'},
+    publisher:{'@type':'Organization', name:'Talevo',
+      logo:{'@type':'ImageObject', url: SITE + '/images/talevo-logo-white.svg'}},
+    mainEntityOfPage:{'@type':'WebPage','@id': canonical},
+    inLanguage:'tr-TR'
+  };
+  const crumbLd = {
+    '@context':'https://schema.org','@type':'BreadcrumbList',
+    itemListElement:[
+      {'@type':'ListItem', position:1, name:'Ana Sayfa', item: SITE + '/'},
+      {'@type':'ListItem', position:2, name:'İçgörüler', item: SITE + '/icgoruler'},
+      {'@type':'ListItem', position:3, name: r.baslik, item: canonical}
+    ]
+  };
+  const jsonldTags = '<script type="application/ld+json">' + jsonLdSafe(artLd) + '</' + 'script>\n'
+    + '<script type="application/ld+json">' + jsonLdSafe(crumbLd) + '</' + 'script>';
+  const extraHead = '<meta property="article:published_time" content="' + esc(r.tarih) + '">\n'
+    + '<meta property="article:section" content="' + esc(catLabel(r.kategori)) + '">';
+
+  const head = partial('head-base.html')
+    .replace('{{TITLE}}', esc(seoTitle))
+    .replace(/\{\{DESCRIPTION\}\}/g, esc(r.metaAciklama || r.ozet))
+    .replace('{{CANONICAL}}', canonical)
+    .replace('{{ROBOTS}}', isPreview ? 'noindex,nofollow' : 'index,follow')
+    .replace('{{OG_TYPE}}', 'article')
+    .replace('{{OG_URL}}', canonical)
+    .replace(/\{\{OG_TITLE\}\}/g, esc(r.seoBaslik || r.baslik))
+    .replace(/\{\{OG_DESC\}\}/g, esc(r.metaAciklama || r.ozet))
+    .replace(/\{\{OG_IMAGE\}\}/g, ogImage)
+    .replace('{{OG_IMAGE_ALT}}', esc(r.kapakAlt || r.baslik))
+    .replace('{{JSONLD}}', jsonldTags)
+    .replace('{{EXTRA_HEAD}}', extraHead);
+
+  const header = '<header class="article-head"><div class="wrap">'
+    + '<a class="ig-cat article-catlink" data-cat="' + esc(r.kategori) + '" href="/icgoruler?kategori=' + esc(r.kategori) + '">' + esc(catLabel(r.kategori)) + '</a>'
+    + '<h1>' + esc(r.baslik) + '</h1>'
+    + '<p class="article-sub">' + esc(r.altBaslik || '') + '</p>'
+    + '<div class="article-meta ig-meta"><time datetime="' + esc(d.machine) + '">' + esc(d.human) + '</time>'
+    + '<span aria-hidden="true">·</span><span>' + esc(r.okumaSuresi) + ' dk okuma</span></div>'
+    + '</div></header>';
+  const hero = '<div class="wrap"><figure class="article-hero">'
+    + '<img src="' + esc(r.kapak) + '" alt="' + esc(r.kapakAlt || '') + '" width="1600" height="900" decoding="async" fetchpriority="high">'
+    + '</figure></div>';
+  const summary = '<div class="article-summary" role="doc-abstract"><p>' + esc(r.ozet) + '</p></div>';
+  const layout = '<div class="wrap"><div class="article-layout' + (toc ? '' : ' no-toc') + '">'
+    + summary + toc + '<div class="article-body">' + bodyHtml + '</div></div></div>';
+  const ctaSection = cta.ctaHtml ? '<div class="wrap"><section class="article-cta">' + cta.ctaHtml + '</section></div>' : '';
+  const related = relatedHTML(r);
+
+  const mainArticle = '<main id="ig-main" class="article"><article>'
+    + header + hero + layout + ctaSection + related + '</article></main>';
+
+  const pageHtml = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n' + head + '\n</head>\n<body>\n'
+    + '<div class="read-progress" aria-hidden="true"><span></span></div>\n'
+    + partial('nav.html') + '\n'
+    + mainArticle + '\n'
+    + partial('footer.html') + '\n'
+    + partial('drawer.html') + '\n'
+    + wrapScript(DRAWER_JS + '\n' + ARTICLE_JS) + '\n'
+    + '</body>\n</html>\n';
+
+  const outRel = 'icgoruler/' + r.slug + '/' + (isPreview ? 'index.onizleme.html' : 'index.html');
+  fs.mkdirSync(path.dirname(P(outRel)), { recursive: true });
+  fs.writeFileSync(P(outRel), pageHtml);
+  return { outRel, bytes: pageHtml.length, toc: !!toc, related: !!related, h2: parsed.headings.length };
+}
+
+// Demo modunda makale üretilmez (demo kayıtlarının .md'si yok — hub görselleştirme amaçlı).
+const articleReports = [];
+if(!DEMO){
+  const drafts = records.filter(r => r && r.durum === 'taslak' && r.slug);
+  try {
+    yayinda.forEach(r => { if(r.slug) articleReports.push(Object.assign({ slug:r.slug, preview:false }, buildArticle(r, false))); });
+    if(PREVIEW) drafts.forEach(r => articleReports.push(Object.assign({ slug:r.slug, preview:true }, buildArticle(r, true))));
+  } catch(e){
+    console.error('✗ MAKALE ÜRETİLEMEDİ — hiçbir makale dosyası yazılmadı: ' + e.message);
+    process.exit(3);
+  }
+}
+
+// ---- sitemap.xml: TÜM /icgoruler* (hub + makaleler) bloklarını idempotent yönet ----
+// Verilen entries dizisini yazar; mevcut /icgoruler ve /icgoruler/<slug> bloklarını önce SİLER.
+// Root '/' satırına ve XML yapısına DOKUNMAZ.
+function updateSitemap(entries){
   const SM = P('sitemap.xml');
   let xml;
   try { xml = fs.readFileSync(SM, 'utf8'); }
-  catch(e){ console.warn('⚠️  sitemap.xml okunamadı, atlanıyor: ' + e.message); return { changed:false, present:false }; }
-  // mevcut /icgoruler <url> bloğunu (varsa) KALDIR — idempotency: iki kez çalışınca çift satır olmaz
-  const rx = /[ \t]*<url>\s*<loc>https:\/\/talevo\.com\.tr\/icgoruler<\/loc>[\s\S]*?<\/url>\s*\n?/g;
+  catch(e){ console.warn('⚠️  sitemap.xml okunamadı, atlanıyor: ' + e.message); return { changed:false, count:0 }; }
+  // hub VE makale bloklarını kaldır (idempotency): /icgoruler ve /icgoruler/<slug>
+  const rx = /[ \t]*<url>\s*<loc>https:\/\/talevo\.com\.tr\/icgoruler(?:\/[^<]*)?<\/loc>[\s\S]*?<\/url>\s*\n?/g;
   let out = xml.replace(rx, '');
-  if(include){
-    const block = '  <url>\n'
-      + '    <loc>https://talevo.com.tr/icgoruler</loc>\n'
-      + '    <lastmod>' + lastmod + '</lastmod>\n'
-      + '    <changefreq>weekly</changefreq>\n'
-      + '    <priority>0.8</priority>\n'
-      + '  </url>\n';
-    // </urlset>'ten HEMEN ÖNCE ekle ('/' satırı ve XML yapısı korunur)
-    out = out.replace(/([ \t]*)<\/urlset>/, block + '$1</urlset>');
-  }
+  const blocks = entries.map(e => '  <url>\n'
+    + '    <loc>' + e.loc + '</loc>\n'
+    + '    <lastmod>' + e.lastmod + '</lastmod>\n'
+    + '    <changefreq>' + e.changefreq + '</changefreq>\n'
+    + '    <priority>' + e.priority + '</priority>\n'
+    + '  </url>\n').join('');
+  if(blocks) out = out.replace(/([ \t]*)<\/urlset>/, blocks + '$1</urlset>');
   const changed = out !== xml;
   if(changed) fs.writeFileSync(SM, out);
-  return { changed, present: include };
+  return { changed, count: entries.length };
 }
 
-// Yalnız gerçek çıktı (prod/demo) sitemap'i bu çalıştırmanın içerik durumuna göre günceller.
+// Yayında hub (varsa) + yayında her makale. Taslak/önizleme sitemap'e GİRMEZ.
 const newestDate = yayinda.length ? yayinda[0].tarih : null;   // yayinda tarih DESC sıralı → [0] en yeni
-const sm = updateSitemap(hasContent, newestDate);
+const smEntries = [];
+if(hasContent) smEntries.push({ loc: HUB_URL, lastmod: newestDate, changefreq:'weekly', priority:'0.8' });
+if(!DEMO) yayinda.forEach(r => { if(r.slug) smEntries.push({ loc: SITE + '/icgoruler/' + r.slug, lastmod: r.tarih, changefreq:'monthly', priority:'0.7' }); });
+const sm = updateSitemap(smEntries);
 
 // ---- master-v1 nav ↔ partials/nav.html ayrışma uyarısı (bilinçli kopya kontrolü) ----
 try {
@@ -296,7 +454,15 @@ console.log('  öne çıkan: ' + (featured ? featured.slug : '(yok)') + ' | ızg
 console.log('  aktif kategori filtreleri: ' + (activeCats.length ? activeCats.map(c=>c+'('+catCount[c]+')').join(', ') : '(yok — boş durum)'));
 console.log('  çıktı boyutu: ' + Math.round(html.length/1024) + ' KB | ARTICLES_LIVE=' + ARTICLES_LIVE);
 console.log('  robots: ' + (hasContent ? 'index,follow' : 'noindex,follow (içerik yok)')
-  + ' | sitemap /icgoruler: ' + (sm.present ? ('VAR (lastmod ' + newestDate + ')') : 'YOK')
+  + ' | sitemap /icgoruler* blok: ' + sm.count
   + (sm.changed ? ' [sitemap.xml güncellendi]' : ' [sitemap.xml değişmedi]'));
+if(!DEMO){
+  if(articleReports.length){
+    articleReports.forEach(a => console.log('  makale: ' + a.outRel + ' (' + Math.round(a.bytes/1024) + ' KB, H2×' + a.h2
+      + ', içindekiler=' + (a.toc?'var':'yok') + ', ilgili=' + (a.related?'var':'yok') + (a.preview?', ÖNİZLEME/taslak':'') + ')'));
+  } else {
+    console.log('  makale: (yayında makale yok' + (PREVIEW ? '; --onizleme ile taslak da bulunamadı' : '; taslakları görmek için --onizleme') + ')');
+  }
+}
 if(DEMO) console.log('  NOT: DEMO çalıştırması sitemap.xml\'i değiştirebilir → COMMIT ÖNCESİ prod modu (--demo\'suz) SON çalıştırın.');
 console.log('⚠️  master-v1.html nav → partials/nav.html Aşama 3\'te senkronlanacak (şimdilik bilinçli kopya).');
