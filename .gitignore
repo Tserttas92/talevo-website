@@ -19,3 +19,9 @@ _kaynak/
 
 # Yerel yedekler — yayında/git'te olmamalı (eski sürüm ifşası riski)
 index-eski-yedek*.html
+
+# İçgörüler DEMO dosyaları — yalnız yerel test, canlıya/git'e ASLA gitmez.
+# (İçerik/üreteç/partial artık icerik/ ve arac/ altında GIT'TE; yalnız demo dışlanır.)
+icerik/icgoruler.demo.json
+icgoruler/index.demo.html
+images/icgoruler/demo/

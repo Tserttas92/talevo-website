@@ -1,0 +1,227 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<link rel="canonical" href="{{CANONICAL}}">
+<meta name="robots" content="{{ROBOTS}}">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talevo">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:url" content="{{OG_URL}}">
+<meta property="og:title" content="{{OG_TITLE}}">
+<meta property="og:description" content="{{OG_DESC}}">
+<meta property="og:image" content="{{OG_IMAGE}}">
+<meta property="og:image:alt" content="{{OG_IMAGE_ALT}}">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{OG_TITLE}}">
+<meta name="twitter:description" content="{{OG_DESC}}">
+<meta name="twitter:image" content="{{OG_IMAGE}}">
+
+{{JSONLD}}
+
+<link rel="icon" type="image/png" sizes="144x144" href="/favicon.png">
+
+<!-- Fontlar: AYRI dosya (çapraz-sayfa cache). Yalnız gereken 3 ağırlık × 2 alt küme. -->
+<link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-400.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-700.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/manrope-800.woff2" crossorigin>
+
+<style>
+/* ============================================================
+   TALEVO İÇGÖRÜLER — paylaşılan tasarım sistemi (partials/head-base.html)
+   Renk/font index.html'den AYNEN; spacing/gölge/geçiş/okuma-genişliği EKLENDİ.
+   Fontlar base64 DEĞİL → /fonts/*.woff2 (cache-lenebilir, çok-sayfa için).
+   ============================================================ */
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/manrope-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/manrope-400-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/manrope-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/manrope-700-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/manrope-800.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:800;font-display:swap;src:url(/fonts/manrope-800-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+:root{
+  /* Renk — index.html ile AYNEN */
+  --brand-purple:#48218E; --brand-orange:#FF6A35; --brand-orange-on-light:#C2410C;
+  --bg-dark:#12121A; --bg-dark-raised:#1C1C26; --bg-light:#F7F7F9; --bg-white:#FFFFFF;
+  --text-on-dark:#FFFFFF; --text-on-dark-muted:#94939E;
+  --text-on-light:#12121A; --text-on-light-muted:#65646E;
+  --border-dark:rgba(255,255,255,.10); --border-light:rgba(18,18,26,.10);
+  --font:'Manrope', system-ui, sans-serif;
+  --radius:20px; --maxw:1120px;
+  /* Kariyer rehberi vurgusu (turuncu açık zeminde erişilebilir tonu) */
+  --cat-isveren:#9F7BEA; --cat-kariyer:#FF6A35; --cat-arastirma:#3DDC84;
+  /* EKLENEN — boşluk ölçeği */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:72px;
+  /* EKLENEN — gölge */
+  --shadow-card:0 2px 12px rgba(0,0,0,.28);
+  --shadow-card-hover:0 16px 44px rgba(72,33,142,.28);
+  /* EKLENEN — geçiş */
+  --tr-fast:.16s ease; --tr-base:.28s ease;
+  /* EKLENEN — okuma genişliği (makale gövdesi, Faz 2) */
+  --maxw-read:720px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);font-weight:400;line-height:1.6;color:var(--text-on-dark);
+  background:var(--bg-dark);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-weight:800;letter-spacing:-.02em;line-height:1.15}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px;border-radius:4px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.chapter{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--brand-orange)}
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:inherit;font-size:.95rem;font-weight:700;color:#fff;background:var(--brand-purple);
+  border:none;border-radius:99px;padding:13px 26px;cursor:pointer;text-decoration:none;
+  transition:background var(--tr-fast),transform var(--tr-fast)}
+.btn-primary:hover{background:#57279F;transform:translateY(-1px)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.visually-hidden-until-focus{position:absolute;left:-9999px;top:0}
+.visually-hidden-until-focus:focus{left:12px;top:12px;z-index:300;background:var(--brand-purple);color:#fff;padding:10px 16px;border-radius:8px}
+
+/* ---- NAV (hub) ---- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:90;backdrop-filter:blur(16px);
+  background:rgba(18,18,26,.72);border-bottom:1px solid var(--border-dark)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav .brand{display:flex;align-items:center}
+.nav .brand img{height:28px;width:auto;display:block}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:.92rem;font-weight:700;color:var(--text-on-dark-muted);text-decoration:none;transition:color var(--tr-fast)}
+.nav-link:hover,.nav-link[aria-current="page"]{color:#fff}
+.nav-link[aria-current="page"]{position:relative}
+.nav-link[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;background:var(--brand-orange);border-radius:2px}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-cta{font-size:.9rem;font-weight:700;color:#fff;background:var(--brand-purple);border:none;
+  border-radius:99px;padding:9px 20px;cursor:pointer;text-decoration:none;transition:background var(--tr-fast),transform var(--tr-fast);white-space:nowrap}
+.nav-cta:hover{background:#57279F;transform:translateY(-1px)}
+.nav-burger{display:none;width:44px;height:44px;border:1px solid var(--border-dark);border-radius:12px;
+  background:rgba(255,255,255,.04);color:#fff;cursor:pointer;align-items:center;justify-content:center}
+.nav-burger svg{width:22px;height:22px}
+
+/* ---- DRAWER (mobil menü) ---- */
+.drawer{position:fixed;inset:0;z-index:150;display:none}
+.drawer[hidden]{display:none}
+.drawer.open{display:block}
+.drawer-overlay{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(4px)}
+.drawer-panel{position:absolute;top:0;right:0;bottom:0;width:min(84vw,340px);
+  background:var(--bg-dark-raised);border-left:1px solid var(--border-dark);
+  padding:24px 22px;display:flex;flex-direction:column;gap:6px;
+  transform:translateX(100%);transition:transform var(--tr-base);overflow-y:auto;overscroll-behavior:contain}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-x{align-self:flex-end;width:44px;height:44px;border-radius:50%;border:1px solid var(--border-dark);
+  background:rgba(255,255,255,.05);color:var(--text-on-dark-muted);font-size:22px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.drawer-link{display:block;padding:14px 8px;font-size:1.1rem;font-weight:700;color:#fff;text-decoration:none;
+  border-bottom:1px solid var(--border-dark)}
+.drawer-link[aria-current="page"]{color:var(--brand-orange)}
+.drawer-cta{margin-top:18px;width:100%}
+
+/* ---- HERO ---- */
+.ig-hero{padding:120px 0 40px;text-align:center}
+.ig-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);margin:14px auto 0;max-width:16ch}
+.ig-hero .ig-lead{margin:18px auto 0;max-width:56ch;color:var(--text-on-dark-muted);font-size:clamp(1rem,2vw,1.15rem)}
+
+/* ---- ÖNE ÇIKAN ---- */
+.ig-featured{padding:24px 0 8px}
+.ig-featured-card{display:grid;grid-template-columns:1.15fr 1fr;gap:0;background:var(--bg-dark-raised);
+  border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card)}
+.ig-featured-cover{position:relative;aspect-ratio:16/10;background:#0e0e15}
+.ig-featured-cover img{width:100%;height:100%;object-fit:cover}
+.ig-featured-body{padding:32px 34px;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.ig-featured-body h2{font-size:clamp(1.3rem,2.6vw,1.9rem)}
+.ig-featured-ozet{color:var(--text-on-dark-muted);font-size:1rem}
+
+/* ---- KATEGORİ ETİKETİ / ROZET ---- */
+.ig-cat{display:inline-flex;align-items:center;gap:6px;font-size:.68rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:5px 11px;border-radius:99px;border:1px solid var(--border-dark);color:#fff;background:rgba(255,255,255,.05)}
+.ig-cat[data-cat="isveren-rehberi"]{color:var(--cat-isveren);border-color:rgba(159,123,234,.4)}
+.ig-cat[data-cat="kariyer-rehberi"]{color:var(--brand-orange);border-color:rgba(255,106,53,.4)}
+.ig-cat[data-cat="arastirma-trendler"]{color:var(--cat-arastirma);border-color:rgba(61,220,132,.4)}
+.ig-meta{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text-on-dark-muted);flex-wrap:wrap}
+.ig-meta time{white-space:nowrap}
+.ig-read{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#fff;font-size:.9rem}
+.ig-read.is-soon{color:var(--text-on-dark-muted);font-weight:700}
+
+/* ---- KATEGORİ FİLTRELERİ (tablist) ---- */
+.ig-filters{padding:36px 0 8px}
+.ig-filterbar{display:flex;flex-wrap:wrap;gap:10px}
+.ig-filter{font-family:inherit;font-size:.85rem;font-weight:700;color:var(--text-on-dark-muted);
+  background:transparent;border:1px solid var(--border-dark);border-radius:99px;padding:9px 16px;cursor:pointer;
+  transition:color var(--tr-fast),border-color var(--tr-fast),background var(--tr-fast)}
+.ig-filter:hover{color:#fff;border-color:rgba(159,123,234,.5)}
+.ig-filter[aria-pressed="true"]{color:#fff;background:var(--brand-purple);border-color:var(--brand-purple)}
+.ig-filter .ig-count{opacity:.7;font-weight:700;margin-left:4px}
+
+/* ---- KART IZGARASI ---- */
+.ig-grid{padding:22px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.ig-card{display:flex;flex-direction:column;background:var(--bg-dark-raised);border:1px solid var(--border-dark);
+  border-radius:16px;overflow:hidden;box-shadow:var(--shadow-card);transition:transform var(--tr-base),box-shadow var(--tr-base),border-color var(--tr-base)}
+.ig-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover);border-color:rgba(159,123,234,.35)}
+.ig-card[hidden]{display:none}
+.ig-card-cover{position:relative;aspect-ratio:16/9;background:#0e0e15}
+.ig-card-cover img{width:100%;height:100%;object-fit:cover}
+.ig-card-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.ig-card-body h3{font-size:1.12rem;line-height:1.28}
+.ig-card-ozet{color:var(--text-on-dark-muted);font-size:.9rem;flex:1}
+.ig-card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+
+/* ---- BOŞ DURUM ---- */
+.ig-empty{padding:80px 0 60px;text-align:center}
+.ig-empty-icon{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(159,123,234,.12);color:var(--cat-isveren)}
+.ig-empty h2{font-size:clamp(1.4rem,3vw,2rem)}
+.ig-empty p{margin:14px auto 26px;max-width:48ch;color:var(--text-on-dark-muted)}
+
+/* ---- İLETİŞİM CTA ---- */
+.ig-cta{margin:64px 0 0;padding:56px 0;background:linear-gradient(180deg,rgba(72,33,142,.14),rgba(72,33,142,0));border-top:1px solid var(--border-dark)}
+.ig-cta .wrap{text-align:center}
+.ig-cta h2{font-size:clamp(1.4rem,3vw,2rem)}
+.ig-cta p{margin:12px auto 24px;max-width:46ch;color:var(--text-on-dark-muted)}
+
+/* ---- FOOTER (index ile aynı sınıflar) ---- */
+.site-footer{background:var(--bg-dark);border-top:1px solid var(--border-dark);padding:56px 0 40px;margin-top:24px}
+.footer-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:48px;align-items:start}
+.footer-brandcol{display:flex;flex-direction:row;align-items:flex-start;gap:48px}
+.footer-brand img{height:26px;margin-bottom:14px}
+.footer-slogan{font-size:14px;font-weight:500;line-height:1.4}
+.footer-slogan .sl-h{color:#9F7BEA}.footer-slogan .sl-d{color:var(--brand-orange)}.footer-slogan .sl-f{color:#fff}
+.footer-iskur img{height:34px;margin-bottom:8px}
+.footer-iskur .permit{font-size:12px;color:var(--text-on-dark-muted);line-height:1.5}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links a{font-size:.9rem;color:var(--text-on-dark-muted);text-decoration:none;transition:color var(--tr-fast)}
+.footer-links a:hover{color:#fff}
+.footer-head{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-on-dark-muted);margin-bottom:14px}
+.footer-social{display:flex;gap:12px}
+.footer-icon{width:40px;height:40px;border-radius:50%;border:1px solid var(--border-dark);display:flex;align-items:center;justify-content:center;color:var(--text-on-dark-muted);transition:color var(--tr-fast),border-color var(--tr-fast)}
+.footer-icon:hover{color:#fff;border-color:rgba(159,123,234,.5)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border-dark);font-size:.8rem;color:var(--text-on-dark-muted);flex-wrap:wrap}
+.footer-legal-links a{color:var(--text-on-dark-muted);text-decoration:none}
+.footer-legal-links a:hover{color:#fff}.footer-sep{margin:0 8px}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+  .ig-featured-card{grid-template-columns:1fr}
+  .ig-featured-cover{aspect-ratio:16/9}
+  .ig-grid{grid-template-columns:repeat(2,1fr);gap:18px}
+  .footer-grid{grid-template-columns:1fr;gap:34px}
+  .footer-brandcol{flex-direction:column;gap:26px}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:10px}
+}
+@media(max-width:560px){
+  .ig-hero{padding:104px 0 24px}
+  .ig-grid{grid-template-columns:1fr}
+  .ig-featured-body{padding:24px 22px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition-duration:.001s!important}
+  .drawer-panel{transition:none}
+}
+</style>
