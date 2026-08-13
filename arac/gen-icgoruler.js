@@ -73,7 +73,7 @@ const activeCats = Object.keys(KATEGORILER).filter(c => catCount[c] > 0);
 function readAffordance(r){
   if(ARTICLES_LIVE){
     // Faz 2: erişilebilir "stretched link" — başlık <a>, ::after ile tüm kart tıklanır (iç içe <a> YOK)
-    return '<a class="ig-read ig-stretch" href="/icgoruler/'+esc(r.slug)+'">Yazıyı oku'
+    return '<a class="ig-read ig-stretch" href="/icgoruler/'+esc(r.slug)+'/">Yazıyı oku'
       + ' <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
   }
   // Faz 1: makale yok → pasif "Yakında" (ölü href YOK, aria-disabled)
@@ -88,14 +88,15 @@ function metaRow(r){
     + '</div>';
 }
 function coverImg(r, w, h){
-  return '<img src="'+esc(r.kapak)+'" alt="'+esc(r.kapakAlt)+'" width="'+w+'" height="'+h+'" loading="lazy" decoding="async">';
+  // Kart kapağı: kart için özel kırpma-güvenli görsel (kapakKart, 16:9). Yoksa ANA hero'ya düş.
+  return '<img src="'+esc(r.kapakKart || r.kapak)+'" alt="'+esc(r.kapakAlt)+'" width="'+w+'" height="'+h+'" loading="lazy" decoding="async">';
 }
 function featuredHTML(r){
   if(!r) return '';
   return '<section class="ig-featured" aria-labelledby="ig-featured-h">'
     + '<div class="wrap"><p class="chapter">Öne çıkan</p>'
     + '<article class="ig-featured-card" data-cat="'+esc(r.kategori)+'">'
-    + '<div class="ig-featured-cover">'+coverImg(r,1200,750)+'</div>'
+    + '<div class="ig-featured-cover">'+coverImg(r,1200,675)+'</div>'
     + '<div class="ig-featured-body">'
     + metaRow(r)
     + '<h2 id="ig-featured-h">'+esc(r.baslik)+'</h2>'
@@ -148,7 +149,7 @@ const hasContent = yayinda.length > 0;
 const heroHTML = '<section class="ig-hero"><div class="wrap">'
   + '<p class="chapter">Talevo İçgörüler</p>'
   + '<h1>İşin, yeteneğin ve işe alımın geleceğine dair içgörüler</h1>'
-  + '<p class="ig-lead">Yüksek hacimli ve çok lokasyonlu işe alımı; insan uzmanlığı ile teknolojiyi birlikte tasarlama bakış açısıyla ele alıyoruz. Rehberler, çerçeveler ve saha notları bir arada.</p>'
+  + '<p class="ig-lead">İşe alımın, yeteneğin ve çalışma hayatının dönüşümünü; veri, teknoloji ve insan odağında ele alıyoruz. Uygulanabilir rehberler, araştırma özetleri ve saha içgörüleri bir arada.</p>'
   + '</div></section>';
 
 const ctaHTML = '<section class="ig-cta"><div class="wrap">'
@@ -179,7 +180,7 @@ const jsonldTag = '<script type="application/ld+json">' + JSON.stringify(jsonld)
 
 // ---- head-base placeholder doldurma ----
 const TITLE = 'İçgörüler — İşe Alımın Geleceği | Talevo';
-const DESC = 'Yüksek hacimli ve çok lokasyonlu işe alıma dair rehberler, çerçeveler ve saha notları. İnsan uzmanlığı ile teknolojiyi birlikte tasarlama bakışı.';
+const DESC = 'İşe alımın, yeteneğin ve çalışma hayatının dönüşümü üzerine uygulanabilir rehberler, araştırma özetleri ve saha içgörüleri.';
 let head = partial('head-base.html')
   .replace('{{TITLE}}', esc(TITLE))
   .replace(/\{\{DESCRIPTION\}\}/g, esc(DESC))
@@ -250,7 +251,22 @@ const ARTICLE_JS = [
 '  var pb=document.querySelector(".read-progress span");',
 '  if(pb){var el=document.documentElement;',
 '    var upd=function(){var max=el.scrollHeight-el.clientHeight;var p=max>0?el.scrollTop/max:0;pb.style.width=(Math.max(0,Math.min(1,p))*100).toFixed(1)+"%";};',
-'    document.addEventListener("scroll",upd,{passive:true});window.addEventListener("resize",upd,{passive:true});upd();}'
+'    document.addEventListener("scroll",upd,{passive:true});window.addEventListener("resize",upd,{passive:true});upd();}',
+'  /* ---- Paylaş: bağlantıyı kopyala (clipboard → execCommand → seçilebilir metin) ---- */',
+'  [].forEach.call(document.querySelectorAll(".share-copy"),function(btn){',
+'    btn.addEventListener("click",function(){',
+'      var url=btn.getAttribute("data-copy-url");',
+'      var group=btn.closest(".article-share");var status=group?group.querySelector(".share-status"):null;',
+'      var lbl=btn.querySelector(".share-copy-label");',
+'      function done(){ if(lbl){if(!lbl.getAttribute("data-orig"))lbl.setAttribute("data-orig",lbl.textContent);lbl.textContent="Kopyalandı";}',
+'        if(status){status.classList.add("sr-only");status.textContent="Bağlantı kopyalandı.";}',
+'        setTimeout(function(){if(lbl&&lbl.getAttribute("data-orig"))lbl.textContent=lbl.getAttribute("data-orig");if(status)status.textContent="";},2000); }',
+'      function showText(){ if(status){status.classList.remove("sr-only");status.textContent=url;} }',
+'      function legacy(){ try{var ta=document.createElement("textarea");ta.value=url;ta.setAttribute("readonly","");ta.style.position="absolute";ta.style.left="-9999px";',
+'        document.body.appendChild(ta);ta.select();var ok=document.execCommand("copy");document.body.removeChild(ta);ok?done():showText();}catch(e){showText();} }',
+'      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,legacy);}else{legacy();}',
+'    });',
+'  });'
 ].join('\n');
 
 const wrapScript = body => '<script>\n(function(){\n  "use strict";\n' + body + '\n})();\n</' + 'script>';
@@ -306,6 +322,40 @@ function relatedHTML(r){
     + '<div class="ig-grid">' + cands.map(cardHTML).join('') + '</div></div></section>';
 }
 
+// ---- Paylaşım kutusu (saf bağlantı, 3. taraf script YOK; X/Twitter YOK) ----
+const _SHARE_ICONS = {
+  linkedin: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  whatsapp: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+  eposta:   '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  kopya:    '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
+};
+const _svgIcon = n => '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + _SHARE_ICONS[n] + '</svg>';
+function shareBox(r, canonical, variant){
+  const enc = encodeURIComponent;
+  const utm = ch => canonical + '?utm_source=' + ch + '&utm_medium=paylasim';   // canonical sonda '/' → '/?utm...'
+  const li = 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(utm('linkedin'));
+  const wa = 'https://wa.me/?text=' + enc(r.baslik + ' ' + utm('whatsapp'));
+  const ma = 'mailto:?subject=' + enc(r.baslik) + '&body=' + enc((r.ozet || '') + '\n\n' + utm('eposta'));
+  const big = variant === 'end';
+  const cls = 'share-btn' + (big ? ' share-btn-lg' : '');
+  const lbl = (t, txt) => big ? '<span>' + txt + '</span>' : '';   // uç sürümde görünür metin
+  const ext = (href, key, aria, txt) =>
+    '<a class="' + cls + '" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer" aria-label="' + esc(aria) + '"'
+      + (big ? '' : ' title="' + esc(aria) + '"') + '>' + _svgIcon(key) + lbl(key, txt) + '</a>';
+  const copyBtn =
+    '<button class="' + cls + ' share-copy" type="button" data-copy-url="' + esc(canonical) + '" aria-label="Bağlantıyı kopyala"'
+      + (big ? '' : ' title="Bağlantıyı kopyala"') + '>' + _svgIcon('kopya')
+      + (big ? '<span class="share-copy-label">Bağlantıyı kopyala</span>' : '') + '</button>';
+  return '<div class="article-share' + (big ? ' article-share-end-row' : ' article-share-top') + '" role="group" aria-label="Bu yazıyı paylaş">'
+    + (big ? '' : '<span class="share-inline-label" aria-hidden="true">Paylaş</span>')
+    + ext(li, 'linkedin', "LinkedIn'de paylaş", 'LinkedIn')
+    + ext(wa, 'whatsapp', "WhatsApp'ta paylaş", 'WhatsApp')
+    + ext(ma, 'eposta', 'E-posta ile paylaş', 'E-posta')
+    + copyBtn
+    + '<span class="share-status sr-only" role="status" aria-live="polite"></span>'
+    + '</div>';
+}
+
 function buildArticle(r, isPreview){
   const mdPath = P('icerik/makaleler/' + r.slug + '.md');
   let raw;
@@ -317,8 +367,8 @@ function buildArticle(r, isPreview){
   const bodyHtml = parsed.html;
   const toc = tocHTML(parsed.headings);
 
-  const canonical = SITE + '/icgoruler/' + r.slug;
-  const ogImage = SITE + (r.kapakOg || r.kapak);
+  const canonical = SITE + '/icgoruler/' + r.slug + '/';   // sondaki '/' — Netlify 301 sıçramasını önler
+  const ogImage = SITE + (r.kapakOgJpg || r.kapakOg || r.kapak);   // og:image WebP değil JPG (platform uyumu)
   const d = fmtDateTR(r.tarih);
   const seoTitle = (r.seoBaslik || r.baslik) + ' | Talevo';
 
@@ -342,7 +392,9 @@ function buildArticle(r, isPreview){
   };
   const jsonldTags = '<script type="application/ld+json">' + jsonLdSafe(artLd) + '</' + 'script>\n'
     + '<script type="application/ld+json">' + jsonLdSafe(crumbLd) + '</' + 'script>';
-  const extraHead = '<meta property="article:published_time" content="' + esc(r.tarih) + '">\n'
+  const extraHead = '<meta property="og:image:width" content="1200">\n'
+    + '<meta property="og:image:height" content="630">\n'
+    + '<meta property="article:published_time" content="' + esc(r.tarih) + '">\n'
     + '<meta property="article:section" content="' + esc(catLabel(r.kategori)) + '">';
 
   const head = partial('head-base.html')
@@ -365,6 +417,7 @@ function buildArticle(r, isPreview){
     + '<p class="article-sub">' + esc(r.altBaslik || '') + '</p>'
     + '<div class="article-meta ig-meta"><time datetime="' + esc(d.machine) + '">' + esc(d.human) + '</time>'
     + '<span aria-hidden="true">·</span><span>' + esc(r.okumaSuresi) + ' dk okuma</span></div>'
+    + shareBox(r, canonical, 'top')
     + '</div></header>';
   const hero = '<div class="wrap"><figure class="article-hero">'
     + '<img src="' + esc(r.kapak) + '" alt="' + esc(r.kapakAlt || '') + '" width="1600" height="900" decoding="async" fetchpriority="high">'
@@ -373,10 +426,12 @@ function buildArticle(r, isPreview){
   const layout = '<div class="wrap"><div class="article-layout' + (toc ? '' : ' no-toc') + '">'
     + summary + toc + '<div class="article-body">' + bodyHtml + '</div></div></div>';
   const ctaSection = cta.ctaHtml ? '<div class="wrap"><section class="article-cta">' + cta.ctaHtml + '</section></div>' : '';
+  const shareEnd = '<section class="article-share-end" aria-labelledby="share-h"><div class="wrap">'
+    + '<h2 id="share-h" class="share-heading">Bu yazıyı paylaş</h2>' + shareBox(r, canonical, 'end') + '</div></section>';
   const related = relatedHTML(r);
 
   const mainArticle = '<main id="ig-main" class="article"><article>'
-    + header + hero + layout + ctaSection + related + '</article></main>';
+    + header + hero + layout + ctaSection + shareEnd + related + '</article></main>';
 
   const pageHtml = '<!DOCTYPE html>\n<html lang="tr">\n<head>\n' + head + '\n</head>\n<body>\n'
     + '<div class="read-progress" aria-hidden="true"><span></span></div>\n'
@@ -433,7 +488,7 @@ function updateSitemap(entries){
 const newestDate = yayinda.length ? yayinda[0].tarih : null;   // yayinda tarih DESC sıralı → [0] en yeni
 const smEntries = [];
 if(hasContent) smEntries.push({ loc: HUB_URL, lastmod: newestDate, changefreq:'weekly', priority:'0.8' });
-if(!DEMO) yayinda.forEach(r => { if(r.slug) smEntries.push({ loc: SITE + '/icgoruler/' + r.slug, lastmod: r.tarih, changefreq:'monthly', priority:'0.7' }); });
+if(!DEMO) yayinda.forEach(r => { if(r.slug) smEntries.push({ loc: SITE + '/icgoruler/' + r.slug + '/', lastmod: r.tarih, changefreq:'monthly', priority:'0.7' }); });
 const sm = updateSitemap(smEntries);
 
 // ---- master-v1 nav ↔ partials/nav.html ayrışma uyarısı (bilinçli kopya kontrolü) ----

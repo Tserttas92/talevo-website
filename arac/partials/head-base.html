@@ -130,7 +130,7 @@ img{max-width:100%;display:block}
 .ig-featured{padding:24px 0 8px}
 .ig-featured-card{display:grid;grid-template-columns:1.15fr 1fr;gap:0;background:var(--bg-dark-raised);
   border:1px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-card)}
-.ig-featured-cover{position:relative;aspect-ratio:16/10;background:#0e0e15}
+.ig-featured-cover{position:relative;aspect-ratio:16/9;background:#0e0e15}
 .ig-featured-cover img{width:100%;height:100%;object-fit:cover}
 .ig-featured-body{padding:32px 34px;display:flex;flex-direction:column;justify-content:center;gap:14px}
 .ig-featured-body h2{font-size:clamp(1.3rem,2.6vw,1.9rem)}
@@ -146,6 +146,10 @@ img{max-width:100%;display:block}
 .ig-meta time{white-space:nowrap}
 .ig-read{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#fff;font-size:.9rem}
 .ig-read.is-soon{color:var(--text-on-dark-muted);font-weight:700}
+/* Stretched-link: "Yazıyı oku" bağlantısı ::after ile TÜM kartı tıklanır yapar (iç içe <a> yok) */
+.ig-featured-card,.ig-card{position:relative}
+.ig-stretch::after{content:"";position:absolute;inset:0;z-index:1}
+.ig-featured-card:hover,.ig-card:hover{cursor:pointer}
 
 /* ---- KATEGORİ FİLTRELERİ (tablist) ---- */
 .ig-filters{padding:36px 0 8px}
@@ -313,6 +317,20 @@ img{max-width:100%;display:block}
 .md-cta-title{font-size:clamp(1.25rem,2.4vw,1.55rem);margin-bottom:10px;color:#fff}
 .md-cta p{color:#e2e1ec;line-height:1.7;margin:0}
 .article-cta-actions{margin-top:20px}
+
+/* paylaşım kutusu (üstte kompakt ikon, altta metinli) */
+.article-share{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.share-inline-label{font-size:.8rem;font-weight:700;color:var(--text-on-dark-muted);margin-right:2px}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0;
+  border:1px solid var(--border-dark);border-radius:12px;background:rgba(255,255,255,.04);color:var(--text-on-dark-muted);
+  cursor:pointer;text-decoration:none;font-family:inherit;font-size:.9rem;font-weight:700;
+  transition:color var(--tr-fast),border-color var(--tr-fast),background var(--tr-fast)}
+.share-btn:hover{color:#fff;border-color:rgba(159,123,234,.5);background:rgba(159,123,234,.1)}
+.share-btn-lg{padding:0 18px;min-height:46px}
+.article-share-top{margin-top:18px}
+.article-share-end{max-width:var(--maxw-read);margin:38px auto 0;padding-top:24px;border-top:1px solid var(--border-dark)}
+.share-heading{font-size:1.05rem;margin-bottom:14px}
+.share-status:not(.sr-only){display:inline-block;margin-left:8px;font-size:.85rem;color:var(--cat-isveren);word-break:break-all}
 
 /* ilgili içerikler */
 .article-related{max-width:1000px;margin:58px auto 0}
