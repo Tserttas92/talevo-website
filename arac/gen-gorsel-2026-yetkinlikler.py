@@ -171,17 +171,17 @@ def build_og():
     s.append('<polygon points="' + poly([(457,395),(487,425),(457,455),(427,425)]) + '" fill="none" stroke="#9F7BEA" stroke-width="4" stroke-opacity=".55"/>')  # dörtgen (372,336)
     for cx in (840, 865, 890):
         s.append(f'<circle cx="{cx}" cy="421" r="8.5" fill="#9F7BEA" opacity=".5"/>')                                   # üç nokta (780,336)
-    # CV kartı — küçük, sol-alt köşede kısmen kadraj dışı
-    s.append('<rect x="-40" y="392" width="260" height="260" rx="24" fill="#161620" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.4"/>')
-    s.append('<circle cx="12" cy="440" r="17" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".45" stroke-width="2.2"/>')
-    s.append('<rect x="42" y="430" width="86" height="13" rx="6.5" fill="#C4A9F5" opacity=".7"/>')
-    s.append('<rect x="42" y="451" width="58" height="10" rx="5" fill="#9F7BEA" opacity=".38"/>')
-    for y, w, op in [(486,150,.46),(508,120,.4)]:
-        s.append(f'<rect x="8" y="{y}" width="{w}" height="10" rx="5" fill="#7B5BC4" opacity="{op}"/>')
-    s.append('<rect x="8" y="540" width="70" height="28" rx="14" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".42" stroke-width="2.2"/>')
-    s.append('<rect x="90" y="540" width="62" height="28" rx="14" fill="#48218E" stroke="#C4A9F5" stroke-opacity=".6" stroke-width="2.2"/>')
-    s.append('<circle cx="212" cy="416" r="26" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".85" stroke-width="3"/>')
-    s.append('<path d="M212 404 V428 M200 416 H224" stroke="#C4A9F5" stroke-width="4" stroke-linecap="round"/>')
+    # CV kartı — TAM görünür (sol-alt, kenardan ≥%6 boşluk: sol 76≥72, alt 68≥38), küçük
+    s.append('<rect x="76" y="372" width="190" height="190" rx="22" fill="#161620" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.4"/>')
+    s.append('<circle cx="106" cy="406" r="15" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".45" stroke-width="2.2"/>')
+    s.append('<rect x="130" y="398" width="76" height="12" rx="6" fill="#C4A9F5" opacity=".7"/>')
+    s.append('<rect x="130" y="417" width="52" height="9" rx="4.5" fill="#9F7BEA" opacity=".38"/>')
+    for y, w, op in [(444,150,.46),(464,120,.4)]:
+        s.append(f'<rect x="92" y="{y}" width="{w}" height="10" rx="5" fill="#7B5BC4" opacity="{op}"/>')
+    s.append('<rect x="92" y="510" width="70" height="28" rx="14" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".42" stroke-width="2.2"/>')
+    s.append('<rect x="174" y="510" width="62" height="28" rx="14" fill="#48218E" stroke="#C4A9F5" stroke-opacity=".6" stroke-width="2.2"/>')
+    s.append('<circle cx="266" cy="400" r="26" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".85" stroke-width="3"/>')
+    s.append('<path d="M266 388 V412 M254 400 H278" stroke="#C4A9F5" stroke-width="4" stroke-linecap="round"/>')
     # YENİ rozetleri
     for bx, by, base in [(462,100,126),(870,100,126),(666,316,342)]:
         s.append(f'<rect x="{bx}" y="{by}" width="78" height="35" rx="17.5" fill="#FF6A35"/>')
