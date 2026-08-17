@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="t d">
+<title id="t">CV'ye yetkinlik ekleme</title>
+<desc id="d">Bir özgeçmişin yanında açılan yetkinlik penceresinde yeni becerilerin eklenmeye hazır olduğunu gösteren soyut illüstrasyon</desc>
+<rect x="0" y="0" width="1600" height="900" rx="28" fill="#0D0D16"/>
+<ellipse cx="1059" cy="329" rx="471" ry="329" fill="#48218E" opacity=".08"/>
+<circle cx="282" cy="635" r="353" fill="#6B4BA8" opacity=".04"/>
+<rect x="522" y="66" width="984" height="626" rx="52" fill="#9F7BEA" opacity=".05"/>
+<polygon points="541,424 579,391 579,456" fill="#1A1A24" stroke="#9F7BEA" stroke-opacity=".32" stroke-width="2.6"/>
+<rect x="541" y="80" width="951" height="593" rx="42" fill="#1A1A24" stroke="#9F7BEA" stroke-opacity=".32" stroke-width="2.6"/>
+<rect x="565" y="395" width="19" height="56" fill="#1A1A24"/>
+<rect x="602" y="141" width="188" height="188" rx="38" fill="#1C1C26" stroke="#FF6A35" stroke-opacity=".9" stroke-width="4.2"/>
+<rect x="828" y="141" width="188" height="188" rx="38" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.8"/>
+<rect x="1054" y="141" width="188" height="188" rx="38" fill="#1C1C26" stroke="#FF6A35" stroke-opacity=".9" stroke-width="4.2"/>
+<rect x="1280" y="141" width="188" height="188" rx="38" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.8"/>
+<rect x="602" y="367" width="188" height="188" rx="38" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.8"/>
+<rect x="828" y="367" width="188" height="188" rx="38" fill="#1C1C26" stroke="#FF6A35" stroke-opacity=".9" stroke-width="4.2"/>
+<rect x="1054" y="367" width="188" height="188" rx="38" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.8"/>
+<rect x="1280" y="367" width="188" height="188" rx="38" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.8"/>
+<rect x="671" y="209" width="52" height="52" fill="#C4A9F5"/>
+<polygon points="922,186 949,202 949,235 922,252 896,235 896,202" fill="none" stroke="#9F7BEA" stroke-width="4.2" stroke-opacity=".55"/>
+<circle cx="1148" cy="235" r="28" fill="#C4A9F5"/>
+<polygon points="1374,202 1402,264 1346,264" fill="none" stroke="#9F7BEA" stroke-width="4.2" stroke-opacity=".55"/>
+<polygon points="696,428 729,461 696,494 664,461" fill="none" stroke="#9F7BEA" stroke-width="4.2" stroke-opacity=".55"/>
+<circle cx="922" cy="461" r="28" fill="none" stroke="#C4A9F5" stroke-width="8.5"/>
+<rect x="1118" y="433" width="24" height="56" rx="7" fill="none" stroke="#9F7BEA" stroke-width="4" stroke-opacity=".55"/>
+<rect x="1155" y="433" width="24" height="56" rx="7" fill="none" stroke="#9F7BEA" stroke-width="4" stroke-opacity=".55"/>
+<circle cx="1346" cy="461" r="9.4" fill="#9F7BEA" opacity=".5"/>
+<circle cx="1374" cy="461" r="9.4" fill="#9F7BEA" opacity=".5"/>
+<circle cx="1402" cy="461" r="9.4" fill="#9F7BEA" opacity=".5"/>
+<rect x="122" y="461" width="358" height="358" rx="28" fill="#161620" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.6"/>
+<circle cx="184" cy="522" r="21" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".45" stroke-width="2.4"/>
+<rect x="221" y="508" width="104" height="16" rx="8" fill="#C4A9F5" opacity=".7"/>
+<rect x="221" y="534" width="71" height="12" rx="6" fill="#9F7BEA" opacity=".38"/>
+<line x1="160" y1="574" x2="442" y2="574" stroke="#9F7BEA" stroke-opacity=".16" stroke-width="2.4"/>
+<rect x="160" y="598" width="240" height="12" rx="6" fill="#7B5BC4" opacity="0.48"/>
+<rect x="160" y="624" width="188" height="12" rx="6" fill="#7B5BC4" opacity="0.4"/>
+<rect x="160" y="649" width="259" height="12" rx="6" fill="#7B5BC4" opacity="0.48"/>
+<line x1="160" y1="687" x2="442" y2="687" stroke="#9F7BEA" stroke-opacity=".16" stroke-width="2.4"/>
+<rect x="160" y="706" width="71" height="12" rx="6" fill="#9F7BEA" opacity=".5"/>
+<rect x="160" y="739" width="89" height="33" rx="16.5" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".42" stroke-width="2.4"/>
+<rect x="264" y="739" width="71" height="33" rx="16.5" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".42" stroke-width="2.4"/>
+<rect x="348" y="739" width="85" height="33" rx="16.5" fill="#48218E" stroke="#C4A9F5" stroke-opacity=".6" stroke-width="2.4"/>
+<circle cx="471" cy="475" r="31" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".85" stroke-width="3.3"/>
+<path d="M471 461 V490 M456 475 H485" stroke="#C4A9F5" stroke-width="4.5" stroke-linecap="round"/>
+<rect x="706" y="120" width="85" height="38" rx="19" fill="#FF6A35"/>
+<path d="M728.2935000000001 148.0V141.847L723.1275 132.88H726.4665000000001L729.7425000000001 138.571L733.0185 132.88H736.3575000000001L731.1915 141.847V148.0Z M739.0275 148.0V132.88H748.8975V135.547H741.8835V138.781H747.6375V141.448H741.8835V145.333H748.8975V148.0Z M752.6175000000001 148.0V132.88H755.5155000000001L762.0885000000001 142.96V132.88H764.9865000000001V148.0H762.0885000000001L755.5155000000001 137.92V148.0Z M769.3365 130.696V127.84H772.1925V130.696ZM769.3365 148.0V132.88H772.1925V148.0Z" fill="#0D0D16"/>
+<rect x="1158" y="120" width="85" height="38" rx="19" fill="#FF6A35"/>
+<path d="M1180.2935 148.0V141.847L1175.1275 132.88H1178.4665L1181.7425 138.571L1185.0185000000001 132.88H1188.3575L1183.1915000000001 141.847V148.0Z M1191.0275000000001 148.0V132.88H1200.8975V135.547H1193.8835000000001V138.781H1199.6375V141.448H1193.8835000000001V145.333H1200.8975V148.0Z M1204.6175 148.0V132.88H1207.5155L1214.0885 142.96V132.88H1216.9865V148.0H1214.0885L1207.5155 137.92V148.0Z M1221.3365000000001 130.696V127.84H1224.1925V130.696ZM1221.3365000000001 148.0V132.88H1224.1925V148.0Z" fill="#0D0D16"/>
+<rect x="932" y="346" width="85" height="38" rx="19" fill="#FF6A35"/>
+<path d="M954.2935000000001 374.0V367.847L949.1275 358.88H952.4665000000001L955.7425000000001 364.571L959.0185 358.88H962.3575000000001L957.1915 367.847V374.0Z M965.0275 374.0V358.88H974.8975V361.547H967.8835V364.781H973.6375V367.448H967.8835V371.333H974.8975V374.0Z M978.6175000000001 374.0V358.88H981.5155000000001L988.0885000000001 368.96V358.88H990.9865000000001V374.0H988.0885000000001L981.5155000000001 363.92V374.0Z M995.3365 356.696V353.84H998.1925V356.696ZM995.3365 374.0V358.88H998.1925V374.0Z" fill="#0D0D16"/>
+<circle cx="90" cy="120" r="4" fill="#9F7BEA" opacity="0.16"/>
+<circle cx="1520" cy="760" r="4.5" fill="#9F7BEA" opacity="0.12"/>
+<circle cx="120" cy="820" r="3.5" fill="#9F7BEA" opacity="0.14"/>
+<circle cx="1500" cy="120" r="3" fill="#9F7BEA" opacity="0.14"/>
+<circle cx="760" cy="840" r="3" fill="#9F7BEA" opacity="0.1"/>
+</svg>

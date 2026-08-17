@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="t d">
+<title id="t">CV'ye yetkinlik ekleme</title>
+<desc id="d">Bir özgeçmişin yanında açılan yetkinlik penceresinde yeni becerilerin eklenmeye hazır olduğunu gösteren soyut illüstrasyon</desc>
+<rect x="0" y="0" width="1200" height="630" rx="22" fill="#0D0D16"/>
+<ellipse cx="820" cy="250" rx="420" ry="300" fill="#48218E" opacity=".08"/>
+<circle cx="150" cy="520" r="300" fill="#6B4BA8" opacity=".04"/>
+<rect x="300" y="54" width="900" height="536" rx="46" fill="#9F7BEA" opacity=".05"/>
+<polygon points="316,360 352,330 352,392" fill="#1A1A24" stroke="#9F7BEA" stroke-opacity=".32" stroke-width="2.4"/>
+<rect x="316" y="66" width="864" height="512" rx="38" fill="#1A1A24" stroke="#9F7BEA" stroke-opacity=".32" stroke-width="2.4"/>
+<rect x="338" y="332" width="18" height="50" fill="#1A1A24"/>
+<rect x="372" y="120" width="170" height="170" rx="34" fill="#1C1C26" stroke="#FF6A35" stroke-opacity="0.9" stroke-width="4.2"/>
+<rect x="576" y="120" width="170" height="170" rx="34" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.26" stroke-width="2.8"/>
+<rect x="780" y="120" width="170" height="170" rx="34" fill="#1C1C26" stroke="#FF6A35" stroke-opacity="0.9" stroke-width="4.2"/>
+<rect x="984" y="120" width="170" height="170" rx="34" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.26" stroke-width="2.8"/>
+<rect x="372" y="336" width="170" height="170" rx="34" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.26" stroke-width="2.8"/>
+<rect x="576" y="336" width="170" height="170" rx="34" fill="#1C1C26" stroke="#FF6A35" stroke-opacity="0.9" stroke-width="4.2"/>
+<rect x="780" y="336" width="170" height="170" rx="34" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.26" stroke-width="2.8"/>
+<rect x="984" y="336" width="170" height="170" rx="34" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.26" stroke-width="2.8"/>
+<rect x="432" y="180" width="50" height="50" fill="#C4A9F5"/>
+<polygon points="865,163 890,178 890,207 865,222 840,207 840,178" fill="none" stroke="#9F7BEA" stroke-width="4" stroke-opacity=".55"/>
+<circle cx="661" cy="421" r="26" fill="none" stroke="#C4A9F5" stroke-width="8"/>
+<circle cx="1069" cy="205" r="26" fill="#C4A9F5"/>
+<polygon points="457,395 487,425 457,455 427,425" fill="none" stroke="#9F7BEA" stroke-width="4" stroke-opacity=".55"/>
+<circle cx="840" cy="421" r="8.5" fill="#9F7BEA" opacity=".5"/>
+<circle cx="865" cy="421" r="8.5" fill="#9F7BEA" opacity=".5"/>
+<circle cx="890" cy="421" r="8.5" fill="#9F7BEA" opacity=".5"/>
+<rect x="-40" y="392" width="260" height="260" rx="24" fill="#161620" stroke="#9F7BEA" stroke-opacity=".26" stroke-width="2.4"/>
+<circle cx="12" cy="440" r="17" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".45" stroke-width="2.2"/>
+<rect x="42" y="430" width="86" height="13" rx="6.5" fill="#C4A9F5" opacity=".7"/>
+<rect x="42" y="451" width="58" height="10" rx="5" fill="#9F7BEA" opacity=".38"/>
+<rect x="8" y="486" width="150" height="10" rx="5" fill="#7B5BC4" opacity="0.46"/>
+<rect x="8" y="508" width="120" height="10" rx="5" fill="#7B5BC4" opacity="0.4"/>
+<rect x="8" y="540" width="70" height="28" rx="14" fill="#48218E" stroke="#9F7BEA" stroke-opacity=".42" stroke-width="2.2"/>
+<rect x="90" y="540" width="62" height="28" rx="14" fill="#48218E" stroke="#C4A9F5" stroke-opacity=".6" stroke-width="2.2"/>
+<circle cx="212" cy="416" r="26" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity=".85" stroke-width="3"/>
+<path d="M212 404 V428 M200 416 H224" stroke="#C4A9F5" stroke-width="4" stroke-linecap="round"/>
+<rect x="462" y="100" width="78" height="35" rx="17.5" fill="#FF6A35"/>
+<path d="M482.69649999999996 126.0V120.43299999999999L478.0225 112.32H481.0435L484.0075 117.469L486.9715 112.32H489.99249999999995L485.3185 120.43299999999999V126.0Z M492.42249999999996 126.0V112.32H501.35249999999996V114.733H495.00649999999996V117.659H500.2125V120.072H495.00649999999996V123.587H501.35249999999996V126.0Z M504.73249999999996 126.0V112.32H507.3545L513.3014999999999 121.44V112.32H515.9235V126.0H513.3014999999999L507.3545 116.88V126.0Z M519.8734999999999 110.344V107.76H522.4575V110.344ZM519.8734999999999 126.0V112.32H522.4575V126.0Z" fill="#0D0D16"/>
+<rect x="870" y="100" width="78" height="35" rx="17.5" fill="#FF6A35"/>
+<path d="M890.6965 126.0V120.43299999999999L886.0225 112.32H889.0435L892.0075 117.469L894.9715 112.32H897.9925000000001L893.3185000000001 120.43299999999999V126.0Z M900.4225000000001 126.0V112.32H909.3525000000001V114.733H903.0065000000001V117.659H908.2125000000001V120.072H903.0065000000001V123.587H909.3525000000001V126.0Z M912.7325000000001 126.0V112.32H915.3545L921.3015 121.44V112.32H923.9235V126.0H921.3015L915.3545 116.88V126.0Z M927.8735 110.344V107.76H930.4575000000001V110.344ZM927.8735 126.0V112.32H930.4575000000001V126.0Z" fill="#0D0D16"/>
+<rect x="666" y="316" width="78" height="35" rx="17.5" fill="#FF6A35"/>
+<path d="M686.6965 342.0V336.433L682.0225 328.32H685.0435L688.0075 333.469L690.9715 328.32H693.9925000000001L689.3185000000001 336.433V342.0Z M696.4225000000001 342.0V328.32H705.3525000000001V330.733H699.0065000000001V333.659H704.2125000000001V336.072H699.0065000000001V339.587H705.3525000000001V342.0Z M708.7325000000001 342.0V328.32H711.3545L717.3015 337.44V328.32H719.9235V342.0H717.3015L711.3545 332.88V342.0Z M723.8735 326.344V323.76H726.4575000000001V326.344ZM723.8735 342.0V328.32H726.4575000000001V342.0Z" fill="#0D0D16"/>
+<circle cx="70" cy="90" r="3.5" fill="#9F7BEA" opacity="0.15"/>
+<circle cx="1130" cy="560" r="4" fill="#9F7BEA" opacity="0.12"/>
+<circle cx="1120" cy="80" r="2.6" fill="#9F7BEA" opacity="0.14"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="t d">
+<title id="t">CV'ye yetkinlik ekleme</title>
+<desc id="d">Bir özgeçmişin yanında açılan yetkinlik penceresinde yeni becerilerin eklenmeye hazır olduğunu gösteren soyut illüstrasyon</desc>
+<rect x="0" y="0" width="640" height="360" rx="16" fill="#0D0D16"/>
+<ellipse cx="360" cy="150" rx="260" ry="180" fill="#48218E" opacity=".08"/>
+<rect x="70" y="40" width="530" height="300" rx="30" fill="#9F7BEA" opacity=".05"/>
+<rect x="84" y="52" width="502" height="256" rx="26" fill="#1A1A24" stroke="#9F7BEA" stroke-opacity=".34" stroke-width="3"/>
+<rect x="187" y="68" width="104" height="104" rx="24" fill="#1C1C26" stroke="#FF6A35" stroke-opacity="0.9" stroke-width="5"/>
+<rect x="379" y="68" width="104" height="104" rx="24" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.28" stroke-width="3.4"/>
+<rect x="187" y="188" width="104" height="104" rx="24" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.28" stroke-width="3.4"/>
+<rect x="379" y="188" width="104" height="104" rx="24" fill="#1C1C26" stroke="#9F7BEA" stroke-opacity="0.28" stroke-width="3.4"/>
+<rect x="217" y="98" width="44" height="44" fill="#C4A9F5"/>
+<polygon points="431,96 451,108 451,132 431,144 411,132 411,108" fill="none" stroke="#9F7BEA" stroke-width="5" stroke-opacity=".55"/>
+<circle cx="239" cy="240" r="24" fill="none" stroke="#C4A9F5" stroke-width="9"/>
+<circle cx="409" cy="240" r="7.5" fill="#9F7BEA" opacity=".5"/>
+<circle cx="431" cy="240" r="7.5" fill="#9F7BEA" opacity=".5"/>
+<circle cx="453" cy="240" r="7.5" fill="#9F7BEA" opacity=".5"/>
+<rect x="197" y="51" width="80" height="34" rx="17" fill="#FF6A35"/>
+<path d="M218.69650000000001 76.0V70.43299999999999L214.0225 62.32H217.0435L220.0075 67.469L222.97150000000002 62.32H225.9925L221.3185 70.43299999999999V76.0Z M228.4225 76.0V62.32H237.3525V64.733H231.0065V67.659H236.2125V70.072H231.0065V73.587H237.3525V76.0Z M240.73250000000002 76.0V62.32H243.3545L249.3015 71.44V62.32H251.9235V76.0H249.3015L243.3545 66.88V76.0Z M255.8735 60.344V57.760000000000005H258.4575V60.344ZM255.8735 76.0V62.32H258.4575V76.0Z" fill="#0D0D16"/>
+<circle cx="50" cy="50" r="2.6" fill="#9F7BEA" opacity="0.15"/>
+<circle cx="590" cy="310" r="3" fill="#9F7BEA" opacity="0.12"/>
+</svg>
