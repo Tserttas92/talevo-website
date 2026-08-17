@@ -71,6 +71,47 @@ function renderFence(kind, title, buf){
       + (title ? '<h2 class="md-cta-title">' + inline(title) + '</h2>' : '')
       + paragraphs(buf) + '</aside>';
   }
+  if(kind === 'kartlar'){
+    // her satır: "Başlık | Açıklama" → numaralı kart (sıra no CSS counter, başlık gerçek h3)
+    const items = buf.filter(l => l.trim()).map(l => {
+      const i = l.indexOf('|');
+      if(i < 0) throw new Error(':::kartlar satırında "|" ayracı yok → ' + l.trim());
+      return { t: l.slice(0, i).trim(), d: l.slice(i + 1).trim() };
+    });
+    if(!items.length) throw new Error(':::kartlar bloğu boş');
+    return '<ol class="md-cards">' + items.map(it =>
+      '<li class="md-card"><span class="md-card-num" aria-hidden="true"></span>'
+      + '<h3 class="md-card-title">' + inline(it.t) + '</h3>'
+      + '<p class="md-card-desc">' + inline(it.d) + '</p></li>').join('') + '</ol>';
+  }
+  if(kind === 'oncesonra'){
+    // tam 2 satır: "Etiket | metin" (Önce / Sonra). Etiketler görünür metin (renk tek başına anlam taşımaz).
+    const rows = buf.filter(l => l.trim()).map(l => {
+      const i = l.indexOf('|');
+      if(i < 0) throw new Error(':::oncesonra satırında "|" ayracı yok → ' + l.trim());
+      return { label: l.slice(0, i).trim(), text: l.slice(i + 1).trim() };
+    });
+    if(rows.length !== 2) throw new Error(':::oncesonra tam 2 satır olmalı (Önce, Sonra) — bulundu: ' + rows.length);
+    const arrow = '<div class="md-ba-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>';
+    return '<div class="md-beforeafter">'
+      + '<div class="md-ba md-ba-before"><span class="md-ba-label">' + inline(rows[0].label) + '</span><p>' + inline(rows[0].text) + '</p></div>'
+      + arrow
+      + '<div class="md-ba md-ba-after"><span class="md-ba-label">' + inline(rows[1].label) + '</span><p>' + inline(rows[1].text) + '</p></div>'
+      + '</div>';
+  }
+  if(kind === 'adimlar'){
+    // her satır: "Gün aralığı | Adım başlığı | Açıklama" → numaralı adım (masaüstü ızgara, mobil dikey zaman çizelgesi)
+    const items = buf.filter(l => l.trim()).map(l => {
+      const p = l.split('|');
+      if(p.length < 3) throw new Error(':::adimlar satırı "gün | başlık | açıklama" olmalı (2 ayraç) → ' + l.trim());
+      return { day: p[0].trim(), t: p[1].trim(), d: p.slice(2).join('|').trim() };
+    });
+    if(!items.length) throw new Error(':::adimlar bloğu boş');
+    return '<ol class="md-steps">' + items.map(it =>
+      '<li class="md-step"><span class="md-step-day">' + inline(it.day) + '</span>'
+      + '<p class="md-step-title">' + inline(it.t) + '</p>'
+      + '<p class="md-step-desc">' + inline(it.d) + '</p></li>').join('') + '</ol>';
+  }
   // bilinmeyen konteyner → kutu gibi davran (güvenli varsayılan)
   return '<aside class="md-box">' + paragraphs(buf) + '</aside>';
 }

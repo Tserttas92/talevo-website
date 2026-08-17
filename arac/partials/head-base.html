@@ -88,6 +88,7 @@ img{max-width:100%;display:block}
 .nav{position:fixed;inset:0 0 auto 0;z-index:90;backdrop-filter:blur(16px);
   background:rgba(18,18,26,.72);border-bottom:1px solid var(--border-dark)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-left{display:flex;align-items:center;gap:28px}   /* logo + İçgörüler (birbirine yakın, solda) */
 .nav .brand{display:flex;align-items:center}
 .nav .brand img{height:28px;width:auto;display:block}
 .nav-links{display:flex;align-items:center;gap:28px}
@@ -299,6 +300,54 @@ img{max-width:100%;display:block}
 .table-scroll thead th{background:rgba(255,255,255,.03);color:#fff;font-weight:800;font-size:.82rem}
 .table-scroll tbody td{color:#cfced9;line-height:1.55}
 .table-scroll:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px}
+
+/* :::kartlar — numaralı yetkinlik kart ızgarası */
+.md-cards{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:26px 0;padding:0;counter-reset:mdcard}
+.md-card{counter-increment:mdcard;background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:14px;
+  padding:20px 22px;transition:border-color var(--tr-fast)}
+.md-card:hover{border-color:rgba(159,123,234,.45)}
+.md-card-num{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+  border-radius:9px;background:rgba(159,123,234,.14);color:var(--cat-isveren);font-weight:800;font-size:.8rem;letter-spacing:.04em}
+.md-card-num::before{content:counter(mdcard,decimal-leading-zero)}
+.md-card-title{font-size:1.02rem;line-height:1.3;margin:12px 0 6px}
+.md-card-desc{color:var(--text-on-dark-muted);font-size:.92rem;line-height:1.6;margin:0}
+
+/* :::oncesonra — iki sütunlu karşılaştırma (etiketler görünür; renk tek başına anlam taşımaz) */
+.md-beforeafter{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin:26px 0}
+.md-ba{border:1px solid var(--border-dark);border-radius:14px;padding:18px 20px}
+.md-ba-before{background:rgba(255,255,255,.02)}
+.md-ba-after{background:linear-gradient(180deg,rgba(72,33,142,.16),rgba(72,33,142,.04));border-color:rgba(159,123,234,.35)}
+.md-ba-label{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.md-ba-before .md-ba-label{color:var(--text-on-dark-muted)}
+.md-ba-after .md-ba-label{color:var(--cat-isveren)}
+.md-ba p{margin:0;line-height:1.65;font-size:.98rem}
+.md-ba-before p{color:var(--text-on-dark-muted)}
+.md-ba-after p{color:#e2e1ec}
+.md-ba-arrow{display:flex;align-items:center;justify-content:center;color:var(--cat-isveren)}
+
+/* :::adimlar — masaüstü 3×2 ızgara / mobil dikey zaman çizelgesi */
+.md-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px 0;padding:0;counter-reset:mdstep}
+.md-step{counter-increment:mdstep;background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:14px;padding:18px 20px}
+.md-step-day{display:inline-flex;align-items:center;gap:9px;font-size:.8rem;font-weight:800;color:var(--cat-isveren);margin-bottom:10px}
+.md-step-day::before{content:counter(mdstep);display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:rgba(159,123,234,.16);color:var(--cat-isveren);font-size:.8rem;flex:none}
+.md-step-title{font-weight:800;color:#fff;margin:0 0 6px;font-size:1rem;line-height:1.3}
+.md-step-desc{color:var(--text-on-dark-muted);font-size:.92rem;line-height:1.6;margin:0}
+
+@media(max-width:768px){
+  .md-cards{grid-template-columns:1fr}
+  /* dikey zaman çizelgesi: sol bağlantı çizgisi + numara noktası */
+  .md-steps{grid-template-columns:1fr;gap:0}
+  .md-step{position:relative;border:none;border-radius:0;background:transparent;padding:2px 0 24px 34px}
+  .md-step::before{content:"";position:absolute;left:11px;top:4px;bottom:0;width:2px;background:var(--border-dark)}
+  .md-step:last-child::before{display:none}
+  .md-step-day{margin-bottom:6px}
+  .md-step-day::before{position:absolute;left:0;top:0;z-index:1}
+}
+@media(max-width:640px){
+  .md-beforeafter{grid-template-columns:1fr}
+  .md-ba-arrow{transform:rotate(90deg);margin:2px 0}
+}
 
 /* ## Kaynakça */
 .article-refs{margin:46px 0 0;padding-top:24px;border-top:1px solid var(--border-dark)}

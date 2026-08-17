@@ -91,6 +91,7 @@ img{max-width:100%;display:block}
 .nav{position:fixed;inset:0 0 auto 0;z-index:90;backdrop-filter:blur(16px);
   background:rgba(18,18,26,.72);border-bottom:1px solid var(--border-dark)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-left{display:flex;align-items:center;gap:28px}   /* logo + İçgörüler (birbirine yakın, solda) */
 .nav .brand{display:flex;align-items:center}
 .nav .brand img{height:28px;width:auto;display:block}
 .nav-links{display:flex;align-items:center;gap:28px}
@@ -303,6 +304,54 @@ img{max-width:100%;display:block}
 .table-scroll tbody td{color:#cfced9;line-height:1.55}
 .table-scroll:focus-visible{outline:2px solid #9F7BEA;outline-offset:2px}
 
+/* :::kartlar — numaralı yetkinlik kart ızgarası */
+.md-cards{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:26px 0;padding:0;counter-reset:mdcard}
+.md-card{counter-increment:mdcard;background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:14px;
+  padding:20px 22px;transition:border-color var(--tr-fast)}
+.md-card:hover{border-color:rgba(159,123,234,.45)}
+.md-card-num{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;
+  border-radius:9px;background:rgba(159,123,234,.14);color:var(--cat-isveren);font-weight:800;font-size:.8rem;letter-spacing:.04em}
+.md-card-num::before{content:counter(mdcard,decimal-leading-zero)}
+.md-card-title{font-size:1.02rem;line-height:1.3;margin:12px 0 6px}
+.md-card-desc{color:var(--text-on-dark-muted);font-size:.92rem;line-height:1.6;margin:0}
+
+/* :::oncesonra — iki sütunlu karşılaştırma (etiketler görünür; renk tek başına anlam taşımaz) */
+.md-beforeafter{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin:26px 0}
+.md-ba{border:1px solid var(--border-dark);border-radius:14px;padding:18px 20px}
+.md-ba-before{background:rgba(255,255,255,.02)}
+.md-ba-after{background:linear-gradient(180deg,rgba(72,33,142,.16),rgba(72,33,142,.04));border-color:rgba(159,123,234,.35)}
+.md-ba-label{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.md-ba-before .md-ba-label{color:var(--text-on-dark-muted)}
+.md-ba-after .md-ba-label{color:var(--cat-isveren)}
+.md-ba p{margin:0;line-height:1.65;font-size:.98rem}
+.md-ba-before p{color:var(--text-on-dark-muted)}
+.md-ba-after p{color:#e2e1ec}
+.md-ba-arrow{display:flex;align-items:center;justify-content:center;color:var(--cat-isveren)}
+
+/* :::adimlar — masaüstü 3×2 ızgara / mobil dikey zaman çizelgesi */
+.md-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px 0;padding:0;counter-reset:mdstep}
+.md-step{counter-increment:mdstep;background:var(--bg-dark-raised);border:1px solid var(--border-dark);border-radius:14px;padding:18px 20px}
+.md-step-day{display:inline-flex;align-items:center;gap:9px;font-size:.8rem;font-weight:800;color:var(--cat-isveren);margin-bottom:10px}
+.md-step-day::before{content:counter(mdstep);display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:rgba(159,123,234,.16);color:var(--cat-isveren);font-size:.8rem;flex:none}
+.md-step-title{font-weight:800;color:#fff;margin:0 0 6px;font-size:1rem;line-height:1.3}
+.md-step-desc{color:var(--text-on-dark-muted);font-size:.92rem;line-height:1.6;margin:0}
+
+@media(max-width:768px){
+  .md-cards{grid-template-columns:1fr}
+  /* dikey zaman çizelgesi: sol bağlantı çizgisi + numara noktası */
+  .md-steps{grid-template-columns:1fr;gap:0}
+  .md-step{position:relative;border:none;border-radius:0;background:transparent;padding:2px 0 24px 34px}
+  .md-step::before{content:"";position:absolute;left:11px;top:4px;bottom:0;width:2px;background:var(--border-dark)}
+  .md-step:last-child::before{display:none}
+  .md-step-day{margin-bottom:6px}
+  .md-step-day::before{position:absolute;left:0;top:0;z-index:1}
+}
+@media(max-width:640px){
+  .md-beforeafter{grid-template-columns:1fr}
+  .md-ba-arrow{transform:rotate(90deg);margin:2px 0}
+}
+
 /* ## Kaynakça */
 .article-refs{margin:46px 0 0;padding-top:24px;border-top:1px solid var(--border-dark)}
 .article-refs h2{font-size:1.3rem;scroll-margin-top:88px;margin:0 0 4px}
@@ -367,13 +416,15 @@ img{max-width:100%;display:block}
 <a class="visually-hidden-until-focus" href="#ig-main">İçeriğe geç</a>
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="/" aria-label="Talevo ana sayfa">
-      <img src="/images/talevo-logo-white.svg" alt="Talevo" width="112" height="28">
-    </a>
-    <div class="nav-right">
+    <div class="nav-left">
+      <a class="brand" href="/" aria-label="Talevo ana sayfa">
+        <img src="/images/talevo-logo-white.svg" alt="Talevo" width="112" height="28">
+      </a>
       <nav class="nav-links" aria-label="Ana menü">
         <a class="nav-link" href="/icgoruler" aria-current="page">İçgörüler</a>
       </nav>
+    </div>
+    <div class="nav-right">
       <a class="nav-cta" href="/iletisim">İletişime Geç</a>
       <button class="nav-burger" type="button" id="igBurger" aria-label="Menüyü aç" aria-haspopup="dialog" aria-expanded="false" aria-controls="igDrawer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -381,7 +432,7 @@ img{max-width:100%;display:block}
     </div>
   </div>
 </header>
-<main id="ig-main"><section class="ig-hero"><div class="wrap"><p class="chapter">Talevo İçgörüler</p><h1>İşin, yeteneğin ve işe alımın geleceğine dair içgörüler</h1><p class="ig-lead">İşe alımın, yeteneğin ve çalışma hayatının dönüşümünü; veri, teknoloji ve insan odağında ele alıyoruz. Uygulanabilir rehberler, araştırma özetleri ve saha içgörüleri bir arada.</p></div></section><section class="ig-featured" aria-labelledby="ig-featured-h"><div class="wrap"><p class="chapter">Öne çıkan</p><article class="ig-featured-card" data-cat="arastirma-trendler"><div class="ig-featured-cover"><img src="/images/icgoruler/2030-hero-kart.webp" alt="Soldan sağa akan bir yatakta meslekleri temsil eden geometrik işaretlerin 2030'a doğru ilerlediğini gösteren soyut illüstrasyon" width="1200" height="675" loading="lazy" decoding="async"></div><div class="ig-featured-body"><div class="ig-meta"><span class="ig-cat" data-cat="arastirma-trendler">Araştırma &amp; Trendler</span><time datetime="2026-08-11">11 Ağustos 2026</time><span aria-hidden="true">·</span><span>7 dk okuma</span></div><h2 id="ig-featured-h">2030'a Kadar İşlerin ve Yetkinliklerin Geleceği</h2><p class="ig-featured-ozet">2030'a giden süreç 'işler bitecek' veya 'yalnızca teknoloji rolleri büyüyecek' kadar basit değil. WEF, bugünkü resmi istihdamın yüzde 22'sine denk gelen bir iş dönüşümü öngörüyor. Net artış olasılığına rağmen beceri açığı, geçişin kalitesini belirleyecek. Başarılı kurumlar teknolojiyi iş tasarımı, öğrenme ve yönetim kapasitesiyle birlikte ele alacak.</p><div><a class="ig-read ig-stretch" href="/icgoruler/2030-islerin-ve-yetkinliklerin-gelecegi/">Yazıyı oku <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></article></div></section><section class="ig-cta"><div class="wrap"><h2>Kurumunuzun işe alım yaklaşımını birlikte modelleyelim</h2><p>İlk rolünüzü nasıl kurgulayacağınızı 30 dakikalık bir tanışma görüşmesinde konuşalım.</p><a class="btn-primary" href="/iletisim">İletişime Geç</a></div></section></main>
+<main id="ig-main"><section class="ig-hero"><div class="wrap"><p class="chapter">Talevo İçgörüler</p><h1>İşin, yeteneğin ve işe alımın geleceğine dair içgörüler</h1><p class="ig-lead">İşe alımın, yeteneğin ve çalışma hayatının dönüşümünü; veri, teknoloji ve insan odağında ele alıyoruz. Uygulanabilir rehberler, araştırma özetleri ve saha içgörüleri bir arada.</p></div></section><section class="ig-featured" aria-labelledby="ig-featured-h"><div class="wrap"><p class="chapter">Öne çıkan</p><article class="ig-featured-card" data-cat="arastirma-trendler"><div class="ig-featured-cover"><img src="/images/icgoruler/2030-hero-kart.webp" alt="Soldan sağa akan bir yatakta meslekleri temsil eden geometrik işaretlerin 2030'a doğru ilerlediğini gösteren soyut illüstrasyon" width="1200" height="675" loading="lazy" decoding="async"></div><div class="ig-featured-body"><div class="ig-meta"><span class="ig-cat" data-cat="arastirma-trendler">Araştırma &amp; Trendler</span><time datetime="2026-08-11">11 Ağustos 2026</time><span aria-hidden="true">·</span><span>7 dk okuma</span></div><h2 id="ig-featured-h">2030'a Kadar İşlerin ve Yetkinliklerin Geleceği</h2><p class="ig-featured-ozet">2030'a giden süreç 'işler bitecek' veya 'yalnızca teknoloji rolleri büyüyecek' kadar basit değil. WEF, bugünkü resmi istihdamın yüzde 22'sine denk gelen bir iş dönüşümü öngörüyor. Net artış olasılığına rağmen beceri açığı, geçişin kalitesini belirleyecek. Başarılı kurumlar teknolojiyi iş tasarımı, öğrenme ve yönetim kapasitesiyle birlikte ele alacak.</p><div><a class="ig-read ig-stretch" href="/icgoruler/2030-islerin-ve-yetkinliklerin-gelecegi/">Yazıyı oku <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></article></div></section><section class="ig-grid-wrap" aria-label="İçgörüler"><div class="wrap"><div class="ig-grid"><article class="ig-card" data-cat="kariyer-rehberi"><div class="ig-card-cover"><img src="/images/icgoruler/2026-yetkinlikler-hero-kart.webp" alt="Bir özgeçmişin yanında açılan yetkinlik penceresinde yeni becerilerin eklenmeye hazır olduğunu gösteren soyut illüstrasyon" width="1200" height="675" loading="lazy" decoding="async"></div><div class="ig-card-body"><div class="ig-meta"><span class="ig-cat" data-cat="kariyer-rehberi">Kariyer Rehberi</span><time datetime="2026-08-17">17 Ağustos 2026</time><span aria-hidden="true">·</span><span>7 dk okuma</span></div><h3>2026'da Öne Çıkan 8 Yetkinlik</h3><p class="ig-card-ozet">2026'da güçlü bir profil, yalnızca yeni teknolojileri bilen kişiyi değil; teknolojiyi iş sonucuna dönüştürebilen, veriyi yorumlayan, insanlarla güven içinde çalışan ve sürekli öğrenen profesyoneli gösterir. CV'nizde beceri isimlerini sıralamak yerine, bu becerileri nerede ve hangi sonuçla kullandığınızı kanıtlayın.</p><div class="ig-card-foot"><a class="ig-read ig-stretch" href="/icgoruler/2026-isverenlerin-aradigi-yetkinlikler/">Yazıyı oku <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div></article></div></div></section><section class="ig-cta"><div class="wrap"><h2>Kurumunuzun işe alım yaklaşımını birlikte modelleyelim</h2><p>İlk rolünüzü nasıl kurgulayacağınızı 30 dakikalık bir tanışma görüşmesinde konuşalım.</p><a class="btn-primary" href="/iletisim">İletişime Geç</a></div></section></main>
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">

@@ -80,6 +80,16 @@ Artık makale detay sayfaları üretiliyor (`ARTICLES_LIVE = true`). Bir makale 
   :::cta BAŞLIK
   Metin…                        ← makale sonunda iletişim CTA'sına dönüşür
   :::
+  :::kartlar
+  Başlık | Açıklama             ← her satır bir numaralı kart (2 sütun ızgara, başlık h3)
+  :::
+  :::oncesonra
+  Önce | metin                  ← TAM 2 satır: sol düşük kontrast, sağ mor vurgu
+  Sonra | metin                    (etiketler görünür; mobilde alt alta + ok)
+  :::
+  :::adimlar
+  Gün aralığı | Adım başlığı | Açıklama   ← numaralı adım (masaüstü ızgara, mobil dikey timeline)
+  :::
   ```
 - `## Kaynakça` başlığı özel stille (kaynak listesi) render edilir.
 - **H1 yazma** — H1, JSON'daki `baslik`'ten gelir (sayfada tek H1 olmalı).
@@ -120,10 +130,23 @@ node arac/gen-icgoruler.js --onizleme   # TASLAKLARI da → icgoruler/<slug>/ind
 
 ---
 
-# Makale Görselleri (`arac/gen-gorsel-2030.py`)
+# Makale Görselleri
 
-Makale hero görselleri **el yazımı SVG** üreteciyle üretilir. Görseldeki **"2030" yazısı gömülü
-metin değil**, `fonts/manrope-800.woff2`'den `<path>`'e çevrilmiştir (font bağımlılığı yok).
+Her makalenin **kendi** el yazımı SVG üreteci vardır (`arac/gen-gorsel-<konu>.py`). Görseldeki
+yazı (yıl / "YENİ" vb.) **gömülü metin değil**, `fonts/manrope-800*.woff2`'den `<path>`'e çevrilir
+(font bağımlılığı yok, `<text>` içermez). Her üreteç aynı arayüzü paylaşır:
+`[--og] [--kart] [--hepsi]`, bayraksız = yalnız ANA sürüm; üçü de `images/icgoruler/` altına yazar.
+**Bağımlılık:** `fonttools` + `brotli` (ZORUNLU); WebP/JPG önizleme için Chrome headless + PIL (aşağıda).
+
+Mevcut üreteçler:
+- `arac/gen-gorsel-2030.py` — "Mesleklerin 2030'a akışı" (dere yatağı, `2030-hero*`)
+- `arac/gen-gorsel-2026-yetkinlikler.py` — "CV'ye yetkinlik ekleme" (yetkinlik penceresi + "YENİ"
+  rozetleri, `2026-yetkinlikler-hero*`). Türkçe **İ** (U+0130) ana fontta yok → **ext**
+  fonttan (`manrope-800-ext.woff2`, glif "Idotaccent") alınır; Y/E/N ana fonttan.
+
+## gen-gorsel-2030.py
+
+Görseldeki **"2030" yazısı**, `fonts/manrope-800.woff2`'den `<path>`'e çevrilmiştir.
 
 ```
 python3 arac/gen-gorsel-2030.py            # yalnız ANA sürüm (2030-hero.svg, 1600×900)
@@ -146,6 +169,25 @@ SVG değişmediyse WebP'yi yeniden üretmeye gerek yok (dosyalar git'te).
 **Başka bir yıl için** (ör. 2031): `gen-gorsel-2030.py` içindeki `path_2030()` çağrılarındaki
 `"2030"` dizisini değiştir ve scripti **yeniden çalıştır** — "2030" path olduğu için elle
 düzenlenemez. Konum/akıntı geometrisi onaylanmış mockup'tan birebir; değiştirme.
+
+## gen-gorsel-2026-yetkinlikler.py
+```
+python3 arac/gen-gorsel-2026-yetkinlikler.py --hepsi   # 2026-yetkinlikler-hero{,-og,-kart}.svg
+```
+CV kartı + yetkinlik penceresi + 8 hücre; 3 hücre turuncu konturlu, üzerlerinde **"YENİ"** rozeti.
+**Turuncu KURALI:** yalnız 3 rozet dolgusu + 3 hücre konturu (başka yerde turuncu yok). "YENİ"
+metni path (`<text>` yok), İ ext fonttan. Geometri onaylanmış mockup'tan birebir; değiştirme.
+
+## WebP / JPG önizlemeleri
+Bu ortamda SVG rasterize aracı yok → **Chrome headless + PIL**:
+```
+# SVG'yi <w>×<h> boyutunda bir HTML'e sar, Chrome --headless --screenshot ile PNG al,
+# sonra Pillow: im.convert("RGB").save(x,"WEBP",quality=82)  ve gerekiyorsa .save(y,"JPEG",quality=85)
+# (Pillow: pip3 install --user pillow)
+```
+⚠️ **og:image için JPG üret** (`.jpg`, kalite ~85): bazı platformlar WebP og görselini işlemiyor.
+Sitede WebP kalır, yalnız `og:image`/`kapakOgJpg` JPG'yi işaret eder. SVG değişmediyse yeniden
+üretmeye gerek yok (dosyalar git'te).
 
 ---
 

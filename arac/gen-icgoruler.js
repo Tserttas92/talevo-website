@@ -115,7 +115,8 @@ function cardHTML(r){
     + '</div></article>';
 }
 function filtersHTML(){
-  if(!activeCats.length) return '';
+  // Filtre çubuğu YALNIZ ızgarada 2+ FARKLI kategori varken görünür (tek kategori → düşük değerli, gizle).
+  if(activeCats.length < 2) return '';
   let btns = '<button class="ig-filter" type="button" data-filter="all" aria-pressed="true">Tümü'
     + ' <span class="ig-count">'+gridItems.length+'</span></button>';   // ızgara toplamı (öne çıkan hariç)
   activeCats.forEach(c => {
